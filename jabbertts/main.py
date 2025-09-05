@@ -4,11 +4,12 @@ This module contains the main application logic and entry point for JabberTTS.
 It sets up the FastAPI server, configures logging, and handles application lifecycle.
 """
 
+import argparse
 import logging
 import socket
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Dict, Any
 
 import uvicorn
 from fastapi import FastAPI
@@ -17,6 +18,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from jabbertts import __version__
 from jabbertts.config import get_settings
 from jabbertts.api.routes import router as api_router
+from jabbertts.dashboard.routes import router as dashboard_router
+from jabbertts.voice_cloning.routes import router as voice_cloning_router
 
 
 def check_port_availability(host: str, port: int) -> bool:
@@ -102,6 +105,12 @@ def create_app() -> FastAPI:
     
     # Include API routes
     app.include_router(api_router, prefix="/v1")
+
+    # Include dashboard routes
+    app.include_router(dashboard_router, prefix="/dashboard")
+
+    # Include voice cloning studio routes
+    app.include_router(voice_cloning_router, prefix="/studio")
     
     # Health check endpoint
     @app.get("/health")
@@ -128,11 +137,120 @@ def create_app() -> FastAPI:
     return app
 
 
+def parse_cli_args() -> Dict[str, Any]:
+    """Parse command-line arguments.
+
+    Returns:
+        Dictionary of CLI arguments for configuration override
+    """
+    parser = argparse.ArgumentParser(
+        description="JabberTTS - Fast, efficient Text-to-Speech API",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  %(prog)s                                    # Start with default settings
+  %(prog)s --port 8001                        # Use custom port
+  %(prog)s --host 127.0.0.1 --port 8080      # Localhost only on port 8080
+  %(prog)s --config ./custom/config          # Use custom config directory
+  %(prog)s --audio-quality high              # Use high audio quality
+  %(prog)s --debug                           # Enable debug mode
+
+Configuration precedence (highest to lowest):
+  1. Command-line arguments
+  2. override.json file
+  3. settings.json file
+  4. Environment variables (JABBERTTS_*)
+  5. Default values
+        """
+    )
+
+    # Server configuration
+    parser.add_argument(
+        "--host",
+        type=str,
+        help="Server host address (default: 0.0.0.0 for network access, 127.0.0.1 for localhost only)"
+    )
+    parser.add_argument(
+        "--port", "-p",
+        type=int,
+        help="Server port (default: 8000)"
+    )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        help="Number of worker processes (default: 1)"
+    )
+
+    # Configuration
+    parser.add_argument(
+        "--config", "-c",
+        type=str,
+        default="./config",
+        help="Configuration directory path (default: ./config)"
+    )
+
+    # Audio settings
+    parser.add_argument(
+        "--audio-quality",
+        choices=["low", "standard", "high", "ultra"],
+        help="Audio quality preset (default: standard)"
+    )
+
+    # Development options
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Enable debug mode"
+    )
+    parser.add_argument(
+        "--reload",
+        action="store_true",
+        help="Enable auto-reload for development"
+    )
+    parser.add_argument(
+        "--log-level",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+        help="Logging level (default: INFO)"
+    )
+
+    # Version
+    parser.add_argument(
+        "--version", "-v",
+        action="version",
+        version=f"JabberTTS {__version__}"
+    )
+
+    args = parser.parse_args()
+
+    # Convert to dictionary, filtering out None values
+    cli_config = {}
+    if args.host is not None:
+        cli_config["host"] = args.host
+    if args.port is not None:
+        cli_config["port"] = args.port
+    if args.workers is not None:
+        cli_config["workers"] = args.workers
+    if args.audio_quality is not None:
+        cli_config["audio_quality"] = args.audio_quality
+    if args.debug:
+        cli_config["debug"] = True
+    if args.reload:
+        cli_config["reload"] = True
+    if args.log_level is not None:
+        cli_config["log_level"] = args.log_level
+
+    return cli_config, args.config
+
+
 def main() -> None:
     """Main application entry point."""
     logger = None
     try:
-        settings = get_settings()
+        # Parse CLI arguments
+        cli_config, config_dir = parse_cli_args()
+
+        # Get settings with CLI overrides
+        settings = get_settings(config_dir=config_dir, **cli_config)
         setup_logging(settings.log_level)
 
         logger = logging.getLogger(__name__)

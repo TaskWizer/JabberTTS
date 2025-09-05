@@ -1,0 +1,13 @@
+{
+  "server": {
+    "port": 8001,
+    "auto_port": true
+  },
+  "audio": {
+    "audio_quality": "high",
+    "stereo_enhancement": true
+  },
+  "development": {
+    "debug": true
+  }
+}

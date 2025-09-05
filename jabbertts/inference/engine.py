@@ -13,6 +13,7 @@ import numpy as np
 from jabbertts.config import get_settings
 from jabbertts.models.manager import get_model_manager
 from .preprocessing import TextPreprocessor
+from jabbertts.metrics import get_metrics_collector
 
 logger = logging.getLogger(__name__)
 
@@ -77,21 +78,33 @@ class InferenceEngine:
             
             # Generate speech using the model
             audio_data = await self._generate_audio(model, processed_text, voice, speed)
-            
-            # Calculate performance metrics
+
+            # Calculate performance metrics (using raw audio before processing)
             inference_time = time.time() - start_time
-            audio_duration = len(audio_data) / model.get_sample_rate()
-            rtf = inference_time / audio_duration if audio_duration > 0 else 0
+            raw_audio_duration = len(audio_data) / model.get_sample_rate()
+            rtf = inference_time / raw_audio_duration if raw_audio_duration > 0 else 0
             
             # Update performance statistics
-            self._update_performance_stats(inference_time, audio_duration, rtf)
-            
+            self._update_performance_stats(inference_time, raw_audio_duration, rtf)
+
+            # Record metrics
+            metrics_collector = get_metrics_collector()
+            metrics_collector.record_request(
+                duration=inference_time,
+                success=True,
+                rtf=rtf,
+                audio_duration=raw_audio_duration,
+                text_length=len(text),
+                voice=voice,
+                format=response_format
+            )
+
             logger.info(f"TTS generation completed in {inference_time:.2f}s (RTF: {rtf:.3f})")
-            
+
             return {
                 "audio_data": audio_data,
                 "sample_rate": model.get_sample_rate(),
-                "duration": audio_duration,
+                "duration": raw_audio_duration,  # Raw duration for RTF calculation
                 "inference_time": inference_time,
                 "rtf": rtf,
                 "voice": voice,
@@ -103,6 +116,17 @@ class InferenceEngine:
             
         except Exception as e:
             error_time = time.time() - start_time
+
+            # Record failed request metrics
+            metrics_collector = get_metrics_collector()
+            metrics_collector.record_request(
+                duration=error_time,
+                success=False,
+                text_length=len(text),
+                voice=voice,
+                format=response_format
+            )
+
             logger.error(f"TTS generation failed after {error_time:.2f}s: {e}")
             raise RuntimeError(f"Speech generation failed: {e}") from e
     

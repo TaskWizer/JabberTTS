@@ -1,0 +1,59 @@
+{
+  "_comment": "This is an example override configuration file.",
+  "_instructions": [
+    "Copy this file to 'override.json' in the same directory to customize settings.",
+    "Only include the settings you want to override from settings.json.",
+    "Settings in this file take precedence over settings.json but not over CLI arguments or environment variables.",
+    "Remove the '_comment' and '_instructions' fields in your actual override.json file."
+  ],
+  
+  "server": {
+    "_comment": "Server configuration overrides",
+    "host": "127.0.0.1",
+    "port": 8001,
+    "auto_port": true
+  },
+  
+  "logging": {
+    "_comment": "Logging configuration overrides",
+    "log_level": "DEBUG"
+  },
+  
+  "audio": {
+    "_comment": "Audio configuration overrides",
+    "audio_quality": "high",
+    "enable_audio_enhancement": true,
+    "noise_reduction": true,
+    "dynamic_range_compression": true,
+    "stereo_enhancement": true
+  },
+  
+  "development": {
+    "_comment": "Development configuration overrides",
+    "debug": true,
+    "profiling": true
+  },
+  
+  "_examples": {
+    "_comment": "Additional examples of settings you can override",
+    "api": {
+      "enable_docs": false,
+      "cors_origins": ["http://localhost:3000", "https://yourdomain.com"],
+      "rate_limit": 200
+    },
+    "model": {
+      "model_path": "/path/to/custom/model.onnx",
+      "model_name": "custom-model",
+      "max_text_length": 8192
+    },
+    "performance": {
+      "max_concurrent_requests": 50,
+      "request_timeout": 60,
+      "inference_timeout": 30
+    },
+    "voice_cloning": {
+      "enable_voice_cloning": false,
+      "voice_storage_path": "/custom/voices/path"
+    }
+  }
+}

@@ -67,11 +67,12 @@ async def create_speech(request: TTSRequest) -> Response:
         )
 
         # Process audio to the requested format
-        audio_data = await audio_processor.process_audio(
+        audio_data, audio_metadata = await audio_processor.process_audio(
             audio_array=result["audio_data"],
             sample_rate=result["sample_rate"],
             output_format=request.response_format,
-            speed=request.speed
+            speed=request.speed,
+            original_sample_rate=result["sample_rate"]
         )
         
         # Determine content type based on format

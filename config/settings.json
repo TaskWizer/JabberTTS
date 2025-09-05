@@ -1,0 +1,55 @@
+{
+  "server": {
+    "host": "0.0.0.0",
+    "port": 8000,
+    "workers": 1,
+    "reload": false,
+    "auto_port": false
+  },
+  "logging": {
+    "log_level": "INFO",
+    "access_log": true
+  },
+  "api": {
+    "enable_docs": true,
+    "cors_origins": ["*"],
+    "api_key": null,
+    "rate_limit": 100
+  },
+  "model": {
+    "model_path": null,
+    "model_name": "speecht5",
+    "max_text_length": 4096
+  },
+  "performance": {
+    "max_concurrent_requests": 100,
+    "request_timeout": 30,
+    "inference_timeout": 20
+  },
+  "audio": {
+    "default_voice": "alloy",
+    "default_format": "mp3",
+    "default_speed": 1.0,
+    "sample_rate": 24000,
+    "audio_quality": "standard",
+    "enable_audio_enhancement": true,
+    "noise_reduction": true,
+    "dynamic_range_compression": true,
+    "audio_normalization": "peak",
+    "bitrate_quality": "adaptive",
+    "stereo_enhancement": false
+  },
+  "voice_cloning": {
+    "enable_voice_cloning": true,
+    "max_voice_sample_size": 52428800,
+    "voice_storage_path": "./voices"
+  },
+  "cache": {
+    "enable_caching": true,
+    "cache_ttl": 3600
+  },
+  "development": {
+    "debug": false,
+    "profiling": false
+  }
+}

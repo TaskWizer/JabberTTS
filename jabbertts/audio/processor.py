@@ -6,8 +6,9 @@ for the generated TTS audio output.
 
 import io
 import logging
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Tuple
 import numpy as np
+from jabbertts.config import get_settings
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +23,9 @@ class AudioProcessor:
     def __init__(self):
         """Initialize audio processor."""
         self.supported_formats = ["mp3", "wav", "flac", "opus", "aac", "pcm"]
+        self.settings = get_settings()
         self._check_dependencies()
+        self._setup_quality_presets()
     
     def _check_dependencies(self) -> None:
         """Check for required audio processing dependencies."""
@@ -50,6 +53,45 @@ class AudioProcessor:
             logger.info("librosa available for audio processing")
         except ImportError:
             logger.warning("librosa not available, limited audio effects")
+
+    def _setup_quality_presets(self) -> None:
+        """Setup audio quality presets based on configuration."""
+        self.quality_presets = {
+            "low": {
+                "sample_rate": 16000,
+                "bitrates": {"mp3": "64k", "aac": "48k", "opus": "32k"},
+                "enable_enhancement": False,
+                "noise_reduction": False,
+                "compression": False
+            },
+            "standard": {
+                "sample_rate": 24000,
+                "bitrates": {"mp3": "96k", "aac": "64k", "opus": "48k"},
+                "enable_enhancement": True,
+                "noise_reduction": True,
+                "compression": True
+            },
+            "high": {
+                "sample_rate": 44100,
+                "bitrates": {"mp3": "192k", "aac": "128k", "opus": "96k"},
+                "enable_enhancement": True,
+                "noise_reduction": True,
+                "compression": True
+            },
+            "ultra": {
+                "sample_rate": 48000,
+                "bitrates": {"mp3": "320k", "aac": "256k", "opus": "128k"},
+                "enable_enhancement": True,
+                "noise_reduction": True,
+                "compression": True
+            }
+        }
+
+        # Get current quality preset
+        self.current_preset = self.quality_presets.get(
+            self.settings.audio_quality,
+            self.quality_presets["standard"]
+        )
     
     async def process_audio(
         self,
@@ -58,19 +100,19 @@ class AudioProcessor:
         output_format: str = "mp3",
         speed: float = 1.0,
         **kwargs
-    ) -> bytes:
+    ) -> tuple[bytes, dict]:
         """Process audio array to the requested format.
-        
+
         Args:
             audio_array: Input audio as numpy array (float32)
             sample_rate: Sample rate of the input audio
             output_format: Desired output format
             speed: Speed adjustment (already applied in TTS, but can be re-applied)
             **kwargs: Additional processing parameters
-            
+
         Returns:
-            Processed audio data as bytes
-            
+            Tuple of (processed audio data as bytes, metadata dict with duration info)
+
         Raises:
             ValueError: If format is not supported
             RuntimeError: If processing fails
@@ -80,29 +122,56 @@ class AudioProcessor:
         
         try:
             logger.debug(f"Processing audio: {audio_array.shape} samples at {sample_rate}Hz to {output_format}")
-            
+
+            # Store original duration for comparison
+            original_duration = len(audio_array) / sample_rate
+
             # Ensure audio is in the correct format
             audio_array = self._normalize_audio(audio_array)
-            
+
+            # Apply audio enhancements if enabled
+            if self.settings.enable_audio_enhancement and self.current_preset["enable_enhancement"]:
+                audio_array = self._enhance_audio(audio_array, sample_rate)
+
             # Apply speed adjustment if needed (and different from 1.0)
             if speed != 1.0 and self.has_librosa:
                 audio_array = self._adjust_speed(audio_array, speed)
+
+            # Resample if needed for quality preset
+            target_sample_rate = self._get_target_sample_rate(output_format, sample_rate)
+            if target_sample_rate != sample_rate:
+                audio_array, sample_rate = self._resample_audio(audio_array, sample_rate, target_sample_rate)
             
+            # Calculate final processed duration
+            processed_duration = len(audio_array) / sample_rate
+
+            # Create metadata
+            metadata = {
+                "original_duration": original_duration,
+                "processed_duration": processed_duration,
+                "original_sample_rate": kwargs.get("original_sample_rate", sample_rate),
+                "final_sample_rate": sample_rate,
+                "speed_applied": speed,
+                "enhancement_applied": self.settings.enable_audio_enhancement and self.current_preset["enable_enhancement"]
+            }
+
             # Convert to the requested format
             if output_format == "wav":
-                return self._to_wav(audio_array, sample_rate)
+                audio_data = self._to_wav(audio_array, sample_rate)
             elif output_format == "mp3":
-                return self._to_mp3(audio_array, sample_rate)
+                audio_data = self._to_mp3(audio_array, sample_rate)
             elif output_format == "flac":
-                return self._to_flac(audio_array, sample_rate)
+                audio_data = self._to_flac(audio_array, sample_rate)
             elif output_format == "opus":
-                return self._to_opus(audio_array, sample_rate)
+                audio_data = self._to_opus(audio_array, sample_rate)
             elif output_format == "aac":
-                return self._to_aac(audio_array, sample_rate)
+                audio_data = self._to_aac(audio_array, sample_rate)
             elif output_format == "pcm":
-                return self._to_pcm(audio_array)
+                audio_data = self._to_pcm(audio_array)
             else:
                 raise ValueError(f"Format {output_format} not implemented")
+
+            return audio_data, metadata
                 
         except Exception as e:
             logger.error(f"Audio processing failed: {e}")
@@ -152,6 +221,260 @@ class AudioProcessor:
         except Exception as e:
             logger.warning(f"Speed adjustment failed: {e}")
             return audio
+
+    def _enhance_audio(self, audio: np.ndarray, sample_rate: int) -> np.ndarray:
+        """Apply audio enhancements to improve quality.
+
+        Args:
+            audio: Input audio array
+            sample_rate: Sample rate of the audio
+
+        Returns:
+            Enhanced audio array
+        """
+        enhanced_audio = audio.copy()
+
+        try:
+            # Apply noise reduction if enabled
+            if self.settings.noise_reduction and self.current_preset["noise_reduction"]:
+                enhanced_audio = self._reduce_noise(enhanced_audio, sample_rate)
+
+            # Apply dynamic range compression if enabled
+            if self.settings.dynamic_range_compression and self.current_preset["compression"]:
+                enhanced_audio = self._apply_compression(enhanced_audio)
+
+            # Apply advanced normalization
+            enhanced_audio = self._advanced_normalize(enhanced_audio)
+
+            # Apply stereo enhancement if enabled (convert mono to stereo)
+            if self.settings.stereo_enhancement:
+                enhanced_audio = self._enhance_stereo(enhanced_audio)
+
+            logger.debug("Audio enhancement applied successfully")
+            return enhanced_audio
+
+        except Exception as e:
+            logger.warning(f"Audio enhancement failed: {e}, using original audio")
+            return audio
+
+    def _reduce_noise(self, audio: np.ndarray, sample_rate: int) -> np.ndarray:
+        """Apply noise reduction to audio.
+
+        Args:
+            audio: Input audio array
+            sample_rate: Sample rate
+
+        Returns:
+            Noise-reduced audio
+        """
+        if not self.has_librosa:
+            return audio
+
+        try:
+            import librosa
+
+            # Simple spectral gating noise reduction
+            # Estimate noise floor from the first 0.5 seconds
+            noise_sample_length = min(int(0.5 * sample_rate), len(audio) // 4)
+            noise_floor = np.mean(np.abs(audio[:noise_sample_length]))
+
+            # Apply gentle high-pass filter to remove low-frequency noise
+            if sample_rate >= 16000:
+                audio = librosa.effects.preemphasis(audio, coef=0.97)
+
+            # Spectral subtraction (simplified)
+            stft = librosa.stft(audio, n_fft=2048, hop_length=512)
+            magnitude = np.abs(stft)
+            phase = np.angle(stft)
+
+            # Reduce magnitude where it's close to noise floor
+            noise_threshold = noise_floor * 2.0
+            magnitude = np.where(magnitude < noise_threshold,
+                               magnitude * 0.5, magnitude)
+
+            # Reconstruct audio
+            enhanced_stft = magnitude * np.exp(1j * phase)
+            enhanced_audio = librosa.istft(enhanced_stft, hop_length=512)
+
+            return enhanced_audio
+
+        except Exception as e:
+            logger.warning(f"Noise reduction failed: {e}")
+            return audio
+
+    def _apply_compression(self, audio: np.ndarray) -> np.ndarray:
+        """Apply dynamic range compression.
+
+        Args:
+            audio: Input audio array
+
+        Returns:
+            Compressed audio
+        """
+        try:
+            # Simple soft compression
+            threshold = 0.7
+            ratio = 4.0
+
+            # Find peaks above threshold
+            abs_audio = np.abs(audio)
+            above_threshold = abs_audio > threshold
+
+            if np.any(above_threshold):
+                # Apply compression to peaks
+                compressed_magnitude = threshold + (abs_audio - threshold) / ratio
+                compressed_audio = np.where(
+                    above_threshold,
+                    np.sign(audio) * compressed_magnitude,
+                    audio
+                )
+                return compressed_audio
+
+            return audio
+
+        except Exception as e:
+            logger.warning(f"Compression failed: {e}")
+            return audio
+
+    def _advanced_normalize(self, audio: np.ndarray) -> np.ndarray:
+        """Apply advanced audio normalization.
+
+        Args:
+            audio: Input audio array
+
+        Returns:
+            Normalized audio
+        """
+        try:
+            if self.settings.audio_normalization == "peak":
+                # Peak normalization (existing method)
+                max_val = np.abs(audio).max()
+                if max_val > 0:
+                    return audio / max_val * 0.95  # Leave some headroom
+
+            elif self.settings.audio_normalization == "rms":
+                # RMS normalization
+                rms = np.sqrt(np.mean(audio**2))
+                if rms > 0:
+                    target_rms = 0.2  # Target RMS level
+                    return audio * (target_rms / rms)
+
+            elif self.settings.audio_normalization == "lufs":
+                # Simplified LUFS-like normalization
+                # This is a basic approximation, not true LUFS
+                if self.has_librosa:
+                    import librosa
+                    # Apply A-weighting-like filter
+                    audio_filtered = librosa.effects.preemphasis(audio)
+                    rms = np.sqrt(np.mean(audio_filtered**2))
+                    if rms > 0:
+                        target_lufs = 0.25  # Approximate target
+                        return audio * (target_lufs / rms)
+
+            return audio
+
+        except Exception as e:
+            logger.warning(f"Advanced normalization failed: {e}")
+            return self._normalize_audio(audio)  # Fallback to basic normalization
+
+    def _enhance_stereo(self, audio: np.ndarray) -> np.ndarray:
+        """Convert mono audio to enhanced stereo.
+
+        Args:
+            audio: Input mono audio array
+
+        Returns:
+            Stereo audio array (2D: [samples, 2])
+        """
+        try:
+            if len(audio.shape) > 1:
+                return audio  # Already stereo
+
+            # Create stereo effect with slight delay and filtering
+            left_channel = audio
+
+            # Create right channel with slight delay and high-frequency emphasis
+            delay_samples = int(0.001 * 24000)  # 1ms delay
+            right_channel = np.pad(audio, (delay_samples, 0), mode='constant')[:-delay_samples]
+
+            # Apply subtle high-frequency boost to right channel
+            if self.has_librosa:
+                import librosa
+                right_channel = librosa.effects.preemphasis(right_channel, coef=0.95)
+
+            # Combine channels
+            stereo_audio = np.column_stack([left_channel, right_channel])
+            return stereo_audio
+
+        except Exception as e:
+            logger.warning(f"Stereo enhancement failed: {e}")
+            return audio
+
+    def _get_target_sample_rate(self, output_format: str, current_rate: int) -> int:
+        """Get target sample rate based on quality preset and format.
+
+        Args:
+            output_format: Output audio format
+            current_rate: Current sample rate
+
+        Returns:
+            Target sample rate
+        """
+        preset_rate = self.current_preset["sample_rate"]
+
+        # For some formats, respect the original rate if it's higher
+        if output_format in ["flac", "wav"] and current_rate > preset_rate:
+            return current_rate
+
+        return preset_rate
+
+    def _resample_audio(self, audio: np.ndarray, current_rate: int, target_rate: int) -> Tuple[np.ndarray, int]:
+        """Resample audio to target sample rate.
+
+        Args:
+            audio: Input audio array
+            current_rate: Current sample rate
+            target_rate: Target sample rate
+
+        Returns:
+            Tuple of (resampled_audio, target_rate)
+        """
+        if current_rate == target_rate:
+            return audio, current_rate
+
+        if not self.has_librosa:
+            logger.warning("librosa not available, skipping resampling")
+            return audio, current_rate
+
+        try:
+            import librosa
+
+            # Handle stereo audio
+            if len(audio.shape) > 1:
+                resampled_channels = []
+                for channel in range(audio.shape[1]):
+                    resampled_channel = librosa.resample(
+                        audio[:, channel],
+                        orig_sr=current_rate,
+                        target_sr=target_rate,
+                        res_type='kaiser_best'
+                    )
+                    resampled_channels.append(resampled_channel)
+                resampled_audio = np.column_stack(resampled_channels)
+            else:
+                resampled_audio = librosa.resample(
+                    audio,
+                    orig_sr=current_rate,
+                    target_sr=target_rate,
+                    res_type='kaiser_best'
+                )
+
+            logger.debug(f"Resampled audio from {current_rate}Hz to {target_rate}Hz")
+            return resampled_audio, target_rate
+
+        except Exception as e:
+            logger.warning(f"Resampling failed: {e}")
+            return audio, current_rate
     
     def _to_wav(self, audio: np.ndarray, sample_rate: int) -> bytes:
         """Convert audio to WAV format.
@@ -183,7 +506,8 @@ class AudioProcessor:
             MP3 audio data
         """
         if self.has_ffmpeg:
-            return self._ffmpeg_encode(audio, sample_rate, "mp3", {"audio_bitrate": "96k"})
+            bitrate = self._get_bitrate("mp3")
+            return self._ffmpeg_encode(audio, sample_rate, "mp3", {"audio_bitrate": bitrate})
         else:
             logger.warning("ffmpeg not available, returning WAV instead of MP3")
             return self._to_wav(audio, sample_rate)
@@ -218,7 +542,8 @@ class AudioProcessor:
             Opus audio data
         """
         if self.has_ffmpeg:
-            return self._ffmpeg_encode(audio, sample_rate, "opus", {"audio_bitrate": "64k"})
+            bitrate = self._get_bitrate("opus")
+            return self._ffmpeg_encode(audio, sample_rate, "opus", {"audio_bitrate": bitrate})
         else:
             logger.warning("ffmpeg not available, returning WAV instead of Opus")
             return self._to_wav(audio, sample_rate)
@@ -234,7 +559,8 @@ class AudioProcessor:
             AAC audio data
         """
         if self.has_ffmpeg:
-            return self._ffmpeg_encode(audio, sample_rate, "aac", {"audio_bitrate": "128k"})
+            bitrate = self._get_bitrate("aac")
+            return self._ffmpeg_encode(audio, sample_rate, "aac", {"audio_bitrate": bitrate})
         else:
             logger.warning("ffmpeg not available, returning WAV instead of AAC")
             return self._to_wav(audio, sample_rate)
@@ -333,8 +659,39 @@ class AudioProcessor:
                 "format_conversion": True,
                 "speed_adjustment": self.has_librosa,
                 "high_quality_encoding": self.has_ffmpeg
+            },
+            "quality_presets": self.quality_presets,
+            "current_preset": self.current_preset,
+            "audio_enhancement": {
+                "enabled": self.settings.enable_audio_enhancement,
+                "noise_reduction": self.settings.noise_reduction,
+                "compression": self.settings.dynamic_range_compression,
+                "normalization": self.settings.audio_normalization,
+                "stereo_enhancement": self.settings.stereo_enhancement
             }
         }
+
+    def _get_bitrate(self, format: str) -> str:
+        """Get bitrate for a format based on quality settings.
+
+        Args:
+            format: Audio format
+
+        Returns:
+            Bitrate string (e.g., "128k")
+        """
+        if self.settings.bitrate_quality == "adaptive":
+            # Use preset bitrates
+            return self.current_preset["bitrates"].get(format, "96k")
+
+        # Manual bitrate settings
+        bitrate_map = {
+            "low": {"mp3": "64k", "aac": "48k", "opus": "32k"},
+            "medium": {"mp3": "128k", "aac": "96k", "opus": "64k"},
+            "high": {"mp3": "256k", "aac": "192k", "opus": "128k"}
+        }
+
+        return bitrate_map.get(self.settings.bitrate_quality, {}).get(format, "96k")
 
 
 # Global audio processor instance
