@@ -295,10 +295,11 @@ class InferenceEngine:
             }
         }
     
-    async def warmup(self, num_runs: int = 3) -> None:
+    async def warmup(self, num_runs: int = 5) -> None:
         """Warm up the inference engine with test generations.
 
         This helps ensure models are loaded, compiled, and ready for production use.
+        Uses progressive warmup to achieve optimal RTF performance.
 
         Args:
             num_runs: Number of warmup runs to perform
@@ -306,18 +307,27 @@ class InferenceEngine:
         try:
             logger.info(f"Warming up inference engine with {num_runs} runs...")
 
+            # Progressive warmup with different text complexities
             warmup_texts = [
-                "Hello, this is a warmup test.",
-                "Testing model compilation.",
-                "Ready for production use."
+                "Hi",  # Very short - triggers basic compilation
+                "Hello world",  # Short
+                "Testing model compilation and optimization.",  # Medium
+                "This is a comprehensive warmup test for the TTS system.",  # Long
+                "Ready for production use with optimal performance."  # Final
             ]
 
             rtfs = []
+            voices = ["alloy", "echo", "nova"]  # Test multiple voices for cache warming
+
             for i in range(num_runs):
                 text = warmup_texts[i % len(warmup_texts)]
+                voice = voices[i % len(voices)]
+
+                logger.debug(f"Warmup run {i+1}/{num_runs}: '{text[:30]}...' (voice: {voice})")
+
                 result = await self.generate_speech(
                     text=text,
-                    voice="alloy",
+                    voice=voice,
                     speed=1.0
                 )
                 rtfs.append(result['rtf'])
@@ -325,17 +335,43 @@ class InferenceEngine:
 
             avg_rtf = sum(rtfs) / len(rtfs)
             best_rtf = min(rtfs)
+            worst_rtf = max(rtfs)
+            final_rtf = rtfs[-1]  # Last run should be most optimized
 
             logger.info(f"Warmup completed successfully")
-            logger.info(f"Average RTF: {avg_rtf:.3f}, Best RTF: {best_rtf:.3f}")
+            logger.info(f"RTF Performance - Avg: {avg_rtf:.3f}, Best: {best_rtf:.3f}, Final: {final_rtf:.3f}")
 
-            if best_rtf < 0.5:
-                logger.info("✓ Performance target achieved (RTF < 0.5)")
+            if final_rtf < 0.5:
+                logger.info("✓ Performance target achieved (Final RTF < 0.5)")
             else:
-                logger.warning(f"⚠ Performance target not met (RTF {best_rtf:.3f} >= 0.5)")
+                logger.warning(f"⚠ Performance target not met (Final RTF {final_rtf:.3f} >= 0.5)")
+
+            # Additional optimization attempt if performance is poor
+            if final_rtf > 0.6:
+                logger.info("Attempting additional optimization warmup...")
+                await self._additional_warmup()
 
         except Exception as e:
             logger.warning(f"Warmup failed: {e}")
+
+    async def _additional_warmup(self) -> None:
+        """Perform additional warmup for poor-performing models."""
+        try:
+            # Force garbage collection
+            import gc
+            gc.collect()
+
+            # Additional warmup runs with the most common use case
+            for i in range(3):
+                result = await self.generate_speech(
+                    text="Hello, this is a test message.",
+                    voice="alloy",
+                    speed=1.0
+                )
+                logger.debug(f"Additional warmup {i+1}: RTF = {result['rtf']:.3f}")
+
+        except Exception as e:
+            logger.debug(f"Additional warmup failed: {e}")
 
 
 # Global inference engine instance

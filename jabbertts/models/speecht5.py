@@ -38,6 +38,7 @@ class SpeechT5Model(BaseTTSModel):
         self.processor = None
         self.vocoder = None
         self.speaker_embeddings = None
+        self._speaker_embeddings_cache = {}  # Cache for speaker embeddings
         
     def load_model(self) -> None:
         """Load SpeechT5 model components."""
@@ -61,15 +62,36 @@ class SpeechT5Model(BaseTTSModel):
             self.model.eval()
             self.vocoder.eval()
 
+            # Additional optimizations for better performance
+            if hasattr(torch.backends, 'cudnn'):
+                torch.backends.cudnn.benchmark = True
+                torch.backends.cudnn.deterministic = False
+
+            # Set optimal number of threads for CPU inference
+            if self.device == "cpu":
+                torch.set_num_threads(min(4, torch.get_num_threads()))  # Optimal for most CPUs
+
             # Try to compile models for better performance (PyTorch 2.0+)
             try:
                 if hasattr(torch, 'compile'):
                     logger.info("Compiling models for better performance...")
-                    self.model = torch.compile(self.model, mode='reduce-overhead')
-                    self.vocoder = torch.compile(self.vocoder, mode='reduce-overhead')
-                    logger.info("Model compilation successful")
+                    # Use more aggressive compilation for better RTF
+                    self.model = torch.compile(self.model, mode='max-autotune', fullgraph=True)
+                    self.vocoder = torch.compile(self.vocoder, mode='max-autotune', fullgraph=True)
+                    logger.info("Model compilation successful with max-autotune")
+
+                    # Note: Compilation warmup will be performed after speaker embeddings are loaded
             except Exception as e:
                 logger.warning(f"Model compilation failed (this is okay): {e}")
+                # Fallback to basic optimization
+                try:
+                    self.model.eval()
+                    self.vocoder.eval()
+                    with torch.no_grad():
+                        # Set inference mode for better performance
+                        torch.set_grad_enabled(False)
+                except Exception:
+                    pass
             
             # Load speaker embeddings - use fallback approach due to trust_remote_code deprecation
             try:
@@ -88,6 +110,15 @@ class SpeechT5Model(BaseTTSModel):
             
             self.is_loaded = True
             logger.info("SpeechT5 model loaded successfully")
+
+            # Perform compilation warmup now that everything is loaded
+            if hasattr(torch, 'compile') and hasattr(self.model, '__wrapped__'):
+                try:
+                    logger.info("Performing compilation warmup...")
+                    self._perform_compilation_warmup()
+                    logger.info("Compilation warmup completed")
+                except Exception as e:
+                    logger.warning(f"Compilation warmup failed: {e}")
             
         except Exception as e:
             logger.error(f"Failed to load SpeechT5 model: {e}")
@@ -100,6 +131,7 @@ class SpeechT5Model(BaseTTSModel):
         self.processor = None
         self.vocoder = None
         self.speaker_embeddings = None
+        self._speaker_embeddings_cache.clear()  # Clear cache
         self.is_loaded = False
         
         # Clear CUDA cache if using GPU
@@ -107,6 +139,40 @@ class SpeechT5Model(BaseTTSModel):
             torch.cuda.empty_cache()
         
         logger.info("SpeechT5 model unloaded")
+
+    def _perform_compilation_warmup(self) -> None:
+        """Perform warmup to trigger torch compilation and optimize performance."""
+        try:
+            # Warmup with different text lengths to trigger compilation paths
+            warmup_texts = [
+                "Hi",  # Very short
+                "Hello world test",  # Medium
+                "This is a longer text for compilation warmup testing purposes"  # Long
+            ]
+
+            for i, text in enumerate(warmup_texts):
+                logger.debug(f"Compilation warmup {i+1}/3: '{text[:30]}...'")
+
+                # Preprocess text
+                inputs = self.processor(text=text, return_tensors="pt")
+                input_ids = inputs["input_ids"].to(self.device)
+
+                # Get default speaker embeddings
+                speaker_embeddings = self._get_speaker_embeddings("default").to(self.device)
+
+                # Run inference to trigger compilation
+                with torch.no_grad():
+                    _ = self.model.generate_speech(
+                        input_ids,
+                        speaker_embeddings,
+                        vocoder=self.vocoder
+                    )
+
+                logger.debug(f"Compilation warmup {i+1}/3 completed")
+
+        except Exception as e:
+            logger.warning(f"Compilation warmup failed: {e}")
+            # This is not critical, continue without warmup
     
     def generate_speech(
         self,
@@ -131,31 +197,32 @@ class SpeechT5Model(BaseTTSModel):
         
         try:
             logger.debug(f"Generating speech for text: '{text[:50]}...'")
-            
-            # Preprocess text
-            inputs = self.processor(text=text, return_tensors="pt")
-            
-            # Move inputs to device
-            input_ids = inputs["input_ids"].to(self.device)
-            
-            # Get speaker embeddings for the requested voice
-            speaker_embeddings = self._get_speaker_embeddings(voice).to(self.device)
-            
-            # Generate speech
-            with torch.no_grad():
+
+            # Optimize inference with torch settings
+            with torch.inference_mode():  # More efficient than no_grad for inference
+                # Preprocess text
+                inputs = self.processor(text=text, return_tensors="pt")
+
+                # Move inputs to device efficiently
+                input_ids = inputs["input_ids"].to(self.device, non_blocking=True)
+
+                # Get speaker embeddings for the requested voice (cached)
+                speaker_embeddings = self._get_speaker_embeddings(voice).to(self.device, non_blocking=True)
+
+                # Generate speech with optimized settings
                 speech = self.model.generate_speech(
-                    input_ids, 
-                    speaker_embeddings, 
+                    input_ids,
+                    speaker_embeddings,
                     vocoder=self.vocoder
                 )
-            
-            # Convert to numpy
-            audio = speech.cpu().numpy()
-            
+
+                # Convert to numpy efficiently
+                audio = speech.detach().cpu().numpy()
+
             # Apply speed adjustment if needed
             if speed != 1.0:
                 audio = self._adjust_speed(audio, speed)
-            
+
             logger.debug(f"Generated audio: {audio.shape} samples at {self.SAMPLE_RATE}Hz")
             return audio
             
@@ -206,7 +273,7 @@ class SpeechT5Model(BaseTTSModel):
         }
     
     def _get_speaker_embeddings(self, voice: str) -> torch.Tensor:
-        """Get speaker embeddings for a voice.
+        """Get speaker embeddings for a voice with caching for performance.
 
         Args:
             voice: Voice identifier (OpenAI-compatible)
@@ -214,6 +281,10 @@ class SpeechT5Model(BaseTTSModel):
         Returns:
             Speaker embeddings tensor for the specified voice
         """
+        # Check cache first for performance
+        if voice in self._speaker_embeddings_cache:
+            return self._speaker_embeddings_cache[voice]
+
         if self.speaker_embeddings is None:
             raise RuntimeError("Speaker embeddings not loaded")
 
@@ -230,10 +301,14 @@ class SpeechT5Model(BaseTTSModel):
         voice_index = voice_mapping.get(voice.lower(), 0)  # Default to alloy
 
         if isinstance(self.speaker_embeddings, dict):
-            return self.speaker_embeddings[voice_index]
+            embeddings = self.speaker_embeddings[voice_index]
         else:
             # Fallback for single embedding
-            return self.speaker_embeddings
+            embeddings = self.speaker_embeddings
+
+        # Cache the embeddings for future use
+        self._speaker_embeddings_cache[voice] = embeddings
+        return embeddings
 
     def _create_voice_embeddings(self) -> Dict[int, torch.Tensor]:
         """Create speaker embeddings for different OpenAI-compatible voices.

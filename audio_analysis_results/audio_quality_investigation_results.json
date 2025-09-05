@@ -1,0 +1,426 @@
+{
+  "raw_model_analysis": {
+    "model_info": {},
+    "raw_samples": {
+      "sample_1": {
+        "text": "Hello, world!",
+        "audio_file": "audio_analysis_results/raw_sample_1.wav",
+        "analysis_info": {
+          "status": "librosa_available",
+          "label": "raw_sample_1",
+          "sample_rate": 16000,
+          "duration": 0.864,
+          "spectral_shape": [
+            1025,
+            28
+          ],
+          "frequency_bins": 1025,
+          "time_frames": 28,
+          "max_magnitude": 33.3500862121582,
+          "mean_magnitude": 0.23743392527103424,
+          "mel_spectrogram_shape": [
+            128,
+            28
+          ],
+          "mel_energy": 1289.770263671875
+        },
+        "metrics": {
+          "rms_level": 0.03827754035592079,
+          "peak_level": 0.23409733176231384,
+          "dynamic_range": 15.729045867919922,
+          "duration": 0.864,
+          "sample_count": 13824,
+          "zero_crossing_rate": 0.09997106481481481,
+          "spectral_centroid": 1738.9886698204864,
+          "spectral_bandwidth": 1703.4505559943707,
+          "spectral_rolloff": 3574.4977678571427
+        },
+        "sample_rate": 16000,
+        "duration": 0.864,
+        "shape": [
+          13824
+        ]
+      },
+      "sample_2": {
+        "text": "This is a test of audio quality.",
+        "audio_file": "audio_analysis_results/raw_sample_2.wav",
+        "analysis_info": {
+          "status": "librosa_available",
+          "label": "raw_sample_2",
+          "sample_rate": 16000,
+          "duration": 1.824,
+          "spectral_shape": [
+            1025,
+            58
+          ],
+          "frequency_bins": 1025,
+          "time_frames": 58,
+          "max_magnitude": 54.043701171875,
+          "mean_magnitude": 0.3908933401107788,
+          "mel_spectrogram_shape": [
+            128,
+            58
+          ],
+          "mel_energy": 4432.845703125
+        },
+        "metrics": {
+          "rms_level": 0.05032536759972572,
+          "peak_level": 0.39158758521080017,
+          "dynamic_range": 17.820837020874023,
+          "duration": 1.824,
+          "sample_count": 29184,
+          "zero_crossing_rate": 0.14932839912280702,
+          "spectral_centroid": 2094.637033348931,
+          "spectral_bandwidth": 1642.6448492469497,
+          "spectral_rolloff": 3834.8599137931033
+        },
+        "sample_rate": 16000,
+        "duration": 1.824,
+        "shape": [
+          29184
+        ]
+      },
+      "sample_3": {
+        "text": "The quick brown fox jumps over the lazy dog.",
+        "audio_file": "audio_analysis_results/raw_sample_3.wav",
+        "analysis_info": {
+          "status": "librosa_available",
+          "label": "raw_sample_3",
+          "sample_rate": 16000,
+          "duration": 1.984,
+          "spectral_shape": [
+            1025,
+            63
+          ],
+          "frequency_bins": 1025,
+          "time_frames": 63,
+          "max_magnitude": 39.95827102661133,
+          "mean_magnitude": 0.24483941495418549,
+          "mel_spectrogram_shape": [
+            128,
+            63
+          ],
+          "mel_energy": 2211.909912109375
+        },
+        "metrics": {
+          "rms_level": 0.03421411290764809,
+          "peak_level": 0.3348189890384674,
+          "dynamic_range": 19.81209373474121,
+          "duration": 1.984,
+          "sample_count": 31744,
+          "zero_crossing_rate": 0.146484375,
+          "spectral_centroid": 2105.4206706755317,
+          "spectral_bandwidth": 1677.7720487155243,
+          "spectral_rolloff": 3919.2708333333335
+        },
+        "sample_rate": 16000,
+        "duration": 1.984,
+        "shape": [
+          31744
+        ]
+      }
+    },
+    "spectral_analysis": {},
+    "quality_metrics": {}
+  },
+  "pipeline_analysis": {
+    "processor_config": {
+      "supported_formats": [
+        "mp3",
+        "wav",
+        "flac",
+        "opus",
+        "aac",
+        "pcm"
+      ],
+      "dependencies": {
+        "soundfile": true,
+        "ffmpeg": true,
+        "librosa": true
+      },
+      "capabilities": {
+        "format_conversion": true,
+        "speed_adjustment": true,
+        "high_quality_encoding": true
+      },
+      "quality_presets": {
+        "low": {
+          "sample_rate": 16000,
+          "bitrates": {
+            "mp3": "64k",
+            "aac": "48k",
+            "opus": "32k"
+          },
+          "enable_enhancement": false,
+          "noise_reduction": false,
+          "compression": false
+        },
+        "standard": {
+          "sample_rate": 16000,
+          "bitrates": {
+            "mp3": "128k",
+            "aac": "96k",
+            "opus": "64k"
+          },
+          "enable_enhancement": true,
+          "noise_reduction": false,
+          "compression": false
+        },
+        "high": {
+          "sample_rate": 16000,
+          "bitrates": {
+            "mp3": "192k",
+            "aac": "128k",
+            "opus": "96k"
+          },
+          "enable_enhancement": true,
+          "noise_reduction": false,
+          "compression": false
+        },
+        "ultra": {
+          "sample_rate": 16000,
+          "bitrates": {
+            "mp3": "320k",
+            "aac": "256k",
+            "opus": "128k"
+          },
+          "enable_enhancement": true,
+          "noise_reduction": false,
+          "compression": false
+        }
+      },
+      "current_preset": {
+        "sample_rate": 16000,
+        "bitrates": {
+          "mp3": "192k",
+          "aac": "128k",
+          "opus": "96k"
+        },
+        "enable_enhancement": true,
+        "noise_reduction": false,
+        "compression": false
+      },
+      "audio_enhancement": {
+        "enabled": true,
+        "noise_reduction": true,
+        "compression": true,
+        "normalization": "peak",
+        "stereo_enhancement": true
+      }
+    },
+    "processing_steps": {
+      "original": {
+        "metrics": {
+          "rms_level": 0.05257735773921013,
+          "peak_level": 0.45010706782341003,
+          "dynamic_range": 18.650339126586914,
+          "duration": 2.496,
+          "sample_count": 39936,
+          "zero_crossing_rate": 0.1560496794871795,
+          "spectral_centroid": 2188.9567244936643,
+          "spectral_bandwidth": 1674.9909448091728,
+          "spectral_rolloff": 4063.587816455696
+        },
+        "sample_rate": 16000,
+        "shape": [
+          39936
+        ]
+      },
+      "normalized": {
+        "metrics": {
+          "rms_level": 0.05257735773921013,
+          "peak_level": 0.45010706782341003,
+          "dynamic_range": 18.650339126586914,
+          "duration": 2.496,
+          "sample_count": 39936,
+          "zero_crossing_rate": 0.1560496794871795,
+          "spectral_centroid": 2188.9567244936643,
+          "spectral_bandwidth": 1674.9909448091728,
+          "spectral_rolloff": 4063.587816455696
+        },
+        "sample_rate": 16000,
+        "shape": [
+          39936
+        ]
+      },
+      "enhanced": {
+        "metrics": {
+          "rms_level": 0.099289171397686,
+          "peak_level": 0.8500000238418579,
+          "dynamic_range": 18.650341033935547,
+          "duration": 2.496,
+          "sample_count": 39936,
+          "zero_crossing_rate": 0.1560496794871795,
+          "spectral_centroid": 2188.956723430628,
+          "spectral_bandwidth": 1674.9909412355985,
+          "spectral_rolloff": 4063.587816455696
+        },
+        "sample_rate": 16000,
+        "shape": [
+          39936
+        ]
+      },
+      "resampled": {
+        "metrics": {
+          "rms_level": 0.099289171397686,
+          "peak_level": 0.8500000238418579,
+          "dynamic_range": 18.650341033935547,
+          "duration": 2.496,
+          "sample_count": 39936,
+          "zero_crossing_rate": 0.1560496794871795,
+          "spectral_centroid": 2188.956723430628,
+          "spectral_bandwidth": 1674.9909412355985,
+          "spectral_rolloff": 4063.587816455696
+        },
+        "sample_rate": 16000,
+        "shape": [
+          39936
+        ]
+      }
+    },
+    "quality_degradation": {
+      "normalization_impact": {
+        "rms_change": 0.0,
+        "peak_change": 0.0,
+        "correlation": 1.0
+      },
+      "enhancement_impact": {
+        "rms_change": 0.046711813658475876,
+        "peak_change": 0.3998929560184479,
+        "correlation": 0.9999999999999991
+      },
+      "resampling_impact": {
+        "length_change": 0,
+        "rms_change": 0.0,
+        "peak_change": 0.0
+      }
+    }
+  },
+  "format_analysis": {
+    "formats_tested": [
+      "wav",
+      "mp3",
+      "flac",
+      "opus"
+    ],
+    "format_comparison": {
+      "wav": {
+        "file_path": "audio_analysis_results/format_test.wav",
+        "file_size": 82988,
+        "compression_ratio": 1.998939605726129,
+        "metadata": {
+          "original_duration": 2.592,
+          "processed_duration": 2.592,
+          "original_sample_rate": 16000,
+          "final_sample_rate": 16000,
+          "speed_applied": 1.0,
+          "enhancement_applied": true
+        },
+        "success": true
+      },
+      "mp3": {
+        "file_path": "audio_analysis_results/format_test.mp3",
+        "file_size": 20025,
+        "compression_ratio": 8.284044943820225,
+        "metadata": {
+          "original_duration": 2.592,
+          "processed_duration": 2.592,
+          "original_sample_rate": 16000,
+          "final_sample_rate": 16000,
+          "speed_applied": 1.0,
+          "enhancement_applied": true
+        },
+        "success": true
+      },
+      "flac": {
+        "file_path": "audio_analysis_results/format_test.flac",
+        "file_size": 50986,
+        "compression_ratio": 3.253599027183933,
+        "metadata": {
+          "original_duration": 2.592,
+          "processed_duration": 2.592,
+          "original_sample_rate": 16000,
+          "final_sample_rate": 16000,
+          "speed_applied": 1.0,
+          "enhancement_applied": true
+        },
+        "success": true
+      },
+      "opus": {
+        "file_path": "audio_analysis_results/format_test.opus",
+        "file_size": 33975,
+        "compression_ratio": 4.8826490066225166,
+        "metadata": {
+          "original_duration": 2.592,
+          "processed_duration": 2.592,
+          "original_sample_rate": 16000,
+          "final_sample_rate": 16000,
+          "speed_applied": 1.0,
+          "enhancement_applied": true
+        },
+        "success": true
+      }
+    },
+    "encoding_issues": {}
+  },
+  "perceptual_analysis": {
+    "intelligibility_tests": {
+      "stuttering_test": {
+        "text": "Testing for stuttering and robotic artifacts.",
+        "audio_file": "audio_analysis_results/stuttering_test.wav",
+        "artifacts": {
+          "stuttering_indicator": 0.0034361775237819656,
+          "silence_ratio": 0.5801504629629629,
+          "frequency_peaks": 104
+        },
+        "duration": 1.728,
+        "quality_indicators": {
+          "snr_estimate": -2.5885972263495205e-06,
+          "amplitude_variance": 0.0014337493339553475,
+          "amplitude_range": 0.7728322148323059,
+          "harmonic_ratio": 0.0002131029759766534,
+          "spectral_flatness": 0.09377676248550415,
+          "tempo_stability": 0.0
+        }
+      },
+      "clarity_test": {
+        "text": "Clear speech intelligibility validation.",
+        "audio_file": "audio_analysis_results/clarity_test.wav",
+        "artifacts": {
+          "stuttering_indicator": 0.0041993212724920044,
+          "silence_ratio": 0.4658935546875,
+          "frequency_peaks": 206
+        },
+        "duration": 2.56,
+        "quality_indicators": {
+          "snr_estimate": -1.5531583130723448e-06,
+          "amplitude_variance": 0.0018257799092680216,
+          "amplitude_range": 0.7671418190002441,
+          "harmonic_ratio": 0.000159747592988424,
+          "spectral_flatness": 0.054102573543787,
+          "tempo_stability": 0.0
+        }
+      },
+      "naturalness_test": {
+        "text": "Natural human-like voice quality assessment.",
+        "audio_file": "audio_analysis_results/naturalness_test.wav",
+        "artifacts": {
+          "stuttering_indicator": 0.0039271095227211335,
+          "silence_ratio": 0.5201961436170213,
+          "frequency_peaks": 464
+        },
+        "duration": 3.008,
+        "quality_indicators": {
+          "snr_estimate": -5.17719399795169e-07,
+          "amplitude_variance": 0.002056503901258111,
+          "amplitude_range": 0.7148754596710205,
+          "harmonic_ratio": 4.663489744416438e-05,
+          "spectral_flatness": 0.04960155114531517,
+          "tempo_stability": 0.0
+        }
+      }
+    },
+    "artifact_detection": {},
+    "naturalness_assessment": {}
+  }
+}

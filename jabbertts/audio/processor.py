@@ -55,35 +55,40 @@ class AudioProcessor:
             logger.warning("librosa not available, limited audio effects")
 
     def _setup_quality_presets(self) -> None:
-        """Setup audio quality presets based on configuration."""
+        """Setup audio quality presets based on configuration.
+
+        CRITICAL FIX: Use model native sample rate (16kHz) to prevent quality degradation
+        from aggressive upsampling. Quality differences come from bitrates and processing,
+        not sample rate upsampling which introduces artifacts.
+        """
         self.quality_presets = {
             "low": {
-                "sample_rate": 16000,
+                "sample_rate": 16000,  # Match SpeechT5 native rate
                 "bitrates": {"mp3": "64k", "aac": "48k", "opus": "32k"},
                 "enable_enhancement": False,
                 "noise_reduction": False,
                 "compression": False
             },
             "standard": {
-                "sample_rate": 24000,
-                "bitrates": {"mp3": "96k", "aac": "64k", "opus": "48k"},
+                "sample_rate": 16000,  # FIXED: Use native rate, not 24kHz
+                "bitrates": {"mp3": "128k", "aac": "96k", "opus": "64k"},  # Higher bitrates for quality
                 "enable_enhancement": True,
-                "noise_reduction": True,
-                "compression": True
+                "noise_reduction": False,  # FIXED: Disable aggressive noise reduction
+                "compression": False       # FIXED: Disable compression that causes artifacts
             },
             "high": {
-                "sample_rate": 44100,
+                "sample_rate": 16000,  # FIXED: Use native rate, not 44.1kHz
                 "bitrates": {"mp3": "192k", "aac": "128k", "opus": "96k"},
                 "enable_enhancement": True,
-                "noise_reduction": True,
-                "compression": True
+                "noise_reduction": False,  # FIXED: Disable to prevent artifacts
+                "compression": False       # FIXED: Disable to prevent artifacts
             },
             "ultra": {
-                "sample_rate": 48000,
+                "sample_rate": 16000,  # FIXED: Use native rate, not 48kHz
                 "bitrates": {"mp3": "320k", "aac": "256k", "opus": "128k"},
                 "enable_enhancement": True,
-                "noise_reduction": True,
-                "compression": True
+                "noise_reduction": False,  # FIXED: Disable to prevent artifacts
+                "compression": False       # FIXED: Disable to prevent artifacts
             }
         }
 
@@ -246,9 +251,11 @@ class AudioProcessor:
             # Apply advanced normalization
             enhanced_audio = self._advanced_normalize(enhanced_audio)
 
-            # Apply stereo enhancement if enabled (convert mono to stereo)
-            if self.settings.stereo_enhancement:
-                enhanced_audio = self._enhance_stereo(enhanced_audio)
+            # CRITICAL FIX: Disable stereo enhancement for TTS audio
+            # Stereo enhancement corrupts mono TTS audio and causes dimension mismatches
+            # TTS audio should remain mono for optimal quality and compatibility
+            # if self.settings.stereo_enhancement:
+            #     enhanced_audio = self._enhance_stereo(enhanced_audio)
 
             logger.debug("Audio enhancement applied successfully")
             return enhanced_audio
@@ -339,38 +346,58 @@ class AudioProcessor:
     def _advanced_normalize(self, audio: np.ndarray) -> np.ndarray:
         """Apply advanced audio normalization.
 
+        CRITICAL FIX: Conservative normalization to prevent clipping and artifacts.
+
         Args:
             audio: Input audio array
 
         Returns:
-            Normalized audio
+            Normalized audio (guaranteed <1.0 peak to prevent clipping)
         """
         try:
             if self.settings.audio_normalization == "peak":
-                # Peak normalization (existing method)
+                # FIXED: More conservative peak normalization
                 max_val = np.abs(audio).max()
                 if max_val > 0:
-                    return audio / max_val * 0.95  # Leave some headroom
+                    # Use 0.85 instead of 0.95 for more headroom to prevent clipping
+                    normalized = audio / max_val * 0.85
+                    logger.debug(f"Peak normalization: {max_val:.3f} -> {np.abs(normalized).max():.3f}")
+                    return normalized
 
             elif self.settings.audio_normalization == "rms":
-                # RMS normalization
+                # FIXED: More conservative RMS normalization
                 rms = np.sqrt(np.mean(audio**2))
                 if rms > 0:
-                    target_rms = 0.2  # Target RMS level
-                    return audio * (target_rms / rms)
+                    target_rms = 0.15  # FIXED: Lower target to prevent clipping
+                    normalized = audio * (target_rms / rms)
+                    # Ensure no clipping
+                    max_val = np.abs(normalized).max()
+                    if max_val > 0.85:
+                        normalized = normalized / max_val * 0.85
+                    logger.debug(f"RMS normalization: {rms:.3f} -> {np.sqrt(np.mean(normalized**2)):.3f}")
+                    return normalized
 
             elif self.settings.audio_normalization == "lufs":
-                # Simplified LUFS-like normalization
-                # This is a basic approximation, not true LUFS
+                # FIXED: More conservative LUFS-like normalization
                 if self.has_librosa:
                     import librosa
                     # Apply A-weighting-like filter
                     audio_filtered = librosa.effects.preemphasis(audio)
                     rms = np.sqrt(np.mean(audio_filtered**2))
                     if rms > 0:
-                        target_lufs = 0.25  # Approximate target
-                        return audio * (target_lufs / rms)
+                        target_lufs = 0.15  # FIXED: Lower target to prevent clipping
+                        normalized = audio * (target_lufs / rms)
+                        # Ensure no clipping
+                        max_val = np.abs(normalized).max()
+                        if max_val > 0.85:
+                            normalized = normalized / max_val * 0.85
+                        logger.debug(f"LUFS normalization: {rms:.3f} -> peak {np.abs(normalized).max():.3f}")
+                        return normalized
 
+            # Fallback: basic normalization with conservative headroom
+            max_val = np.abs(audio).max()
+            if max_val > 0.85:
+                return audio / max_val * 0.85
             return audio
 
         except Exception as e:
@@ -413,27 +440,31 @@ class AudioProcessor:
     def _get_target_sample_rate(self, output_format: str, current_rate: int) -> int:
         """Get target sample rate based on quality preset and format.
 
+        CRITICAL FIX: Always preserve original sample rate to prevent quality degradation.
+        Upsampling TTS audio introduces artifacts and does not improve quality.
+
         Args:
             output_format: Output audio format
             current_rate: Current sample rate
 
         Returns:
-            Target sample rate
+            Target sample rate (always original rate for TTS audio)
         """
-        preset_rate = self.current_preset["sample_rate"]
+        # CRITICAL FIX: Always use original sample rate for TTS audio
+        # Resampling TTS audio (especially upsampling) introduces artifacts
+        # and does not improve quality. The model's native rate is optimal.
 
-        # For lossless formats, always respect the original rate to avoid quality loss
-        if output_format in ["flac", "wav"]:
-            return current_rate
+        logger.debug(f"Preserving original sample rate {current_rate}Hz for format {output_format}")
+        return current_rate
 
-        # For lossy formats, use original rate if it's reasonable (8kHz-48kHz)
-        # This avoids unnecessary resampling that can degrade quality
-        if 8000 <= current_rate <= 48000:
-            # If current rate is close to preset rate, use current to avoid resampling
-            if abs(current_rate - preset_rate) / preset_rate < 0.5:  # Within 50%
-                return current_rate
-
-        return preset_rate
+        # OLD LOGIC DISABLED - was causing quality degradation:
+        # preset_rate = self.current_preset["sample_rate"]
+        # if output_format in ["flac", "wav"]:
+        #     return current_rate
+        # if 8000 <= current_rate <= 48000:
+        #     if abs(current_rate - preset_rate) / preset_rate < 0.5:
+        #         return current_rate
+        # return preset_rate
 
     def _resample_audio(self, audio: np.ndarray, current_rate: int, target_rate: int) -> Tuple[np.ndarray, int]:
         """Resample audio to target sample rate.

@@ -1,0 +1,414 @@
+{
+  "test_timestamp": 1757094085.208337,
+  "test_cases": {
+    "basic_intelligibility": {
+      "text": "Hello, this is a test of speech intelligibility.",
+      "description": "Basic intelligibility test - should be clearly understandable",
+      "files": {
+        "wav": {
+          "filename": "human_listening_test/basic_intelligibility.wav",
+          "size": 91180,
+          "metadata": {
+            "original_duration": 2.848,
+            "processed_duration": 2.848,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "mp3": {
+          "filename": "human_listening_test/basic_intelligibility.mp3",
+          "size": 18549,
+          "metadata": {
+            "original_duration": 2.848,
+            "processed_duration": 2.848,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "flac": {
+          "filename": "human_listening_test/basic_intelligibility.flac",
+          "size": 67448,
+          "metadata": {
+            "original_duration": 2.848,
+            "processed_duration": 2.848,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "opus": {
+          "filename": "human_listening_test/basic_intelligibility.opus",
+          "size": 32878,
+          "metadata": {
+            "original_duration": 2.848,
+            "processed_duration": 2.848,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        }
+      },
+      "audio_info": {
+        "duration": 2.848,
+        "sample_rate": 16000,
+        "rtf": 3.962786093856512
+      }
+    },
+    "complex_sentence": {
+      "text": "The quick brown fox jumps over the lazy dog near the riverbank.",
+      "description": "Complex sentence with varied phonemes",
+      "files": {
+        "wav": {
+          "filename": "human_listening_test/complex_sentence.wav",
+          "size": 106540,
+          "metadata": {
+            "original_duration": 3.328,
+            "processed_duration": 3.328,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "mp3": {
+          "filename": "human_listening_test/complex_sentence.mp3",
+          "size": 22257,
+          "metadata": {
+            "original_duration": 3.328,
+            "processed_duration": 3.328,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "flac": {
+          "filename": "human_listening_test/complex_sentence.flac",
+          "size": 70239,
+          "metadata": {
+            "original_duration": 3.328,
+            "processed_duration": 3.328,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "opus": {
+          "filename": "human_listening_test/complex_sentence.opus",
+          "size": 52440,
+          "metadata": {
+            "original_duration": 3.328,
+            "processed_duration": 3.328,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        }
+      },
+      "audio_info": {
+        "duration": 3.328,
+        "sample_rate": 16000,
+        "rtf": 0.6535518914461136
+      }
+    },
+    "numbers_and_dates": {
+      "text": "Today is January 15th, 2024. The temperature is 72 degrees Fahrenheit.",
+      "description": "Numbers and dates pronunciation test",
+      "files": {
+        "wav": {
+          "filename": "human_listening_test/numbers_and_dates.wav",
+          "size": 177196,
+          "metadata": {
+            "original_duration": 5.536,
+            "processed_duration": 5.536,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "mp3": {
+          "filename": "human_listening_test/numbers_and_dates.mp3",
+          "size": 40617,
+          "metadata": {
+            "original_duration": 5.536,
+            "processed_duration": 5.536,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "flac": {
+          "filename": "human_listening_test/numbers_and_dates.flac",
+          "size": 120132,
+          "metadata": {
+            "original_duration": 5.536,
+            "processed_duration": 5.536,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "opus": {
+          "filename": "human_listening_test/numbers_and_dates.opus",
+          "size": 90590,
+          "metadata": {
+            "original_duration": 5.536,
+            "processed_duration": 5.536,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        }
+      },
+      "audio_info": {
+        "duration": 5.536,
+        "sample_rate": 16000,
+        "rtf": 0.466231579725453
+      }
+    },
+    "technical_terms": {
+      "text": "Text-to-speech synthesis using neural networks and machine learning algorithms.",
+      "description": "Technical terminology pronunciation",
+      "files": {
+        "wav": {
+          "filename": "human_listening_test/technical_terms.wav",
+          "size": 137260,
+          "metadata": {
+            "original_duration": 4.288,
+            "processed_duration": 4.288,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "mp3": {
+          "filename": "human_listening_test/technical_terms.mp3",
+          "size": 28701,
+          "metadata": {
+            "original_duration": 4.288,
+            "processed_duration": 4.288,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "flac": {
+          "filename": "human_listening_test/technical_terms.flac",
+          "size": 104099,
+          "metadata": {
+            "original_duration": 4.288,
+            "processed_duration": 4.288,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "opus": {
+          "filename": "human_listening_test/technical_terms.opus",
+          "size": 56324,
+          "metadata": {
+            "original_duration": 4.288,
+            "processed_duration": 4.288,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        }
+      },
+      "audio_info": {
+        "duration": 4.288,
+        "sample_rate": 16000,
+        "rtf": 0.45959551387758396
+      }
+    },
+    "natural_conversation": {
+      "text": "How are you doing today? I hope you're having a wonderful time!",
+      "description": "Natural conversational speech with emotion",
+      "files": {
+        "wav": {
+          "filename": "human_listening_test/natural_conversation.wav",
+          "size": 106540,
+          "metadata": {
+            "original_duration": 3.328,
+            "processed_duration": 3.328,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "mp3": {
+          "filename": "human_listening_test/natural_conversation.mp3",
+          "size": 19305,
+          "metadata": {
+            "original_duration": 3.328,
+            "processed_duration": 3.328,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "flac": {
+          "filename": "human_listening_test/natural_conversation.flac",
+          "size": 79182,
+          "metadata": {
+            "original_duration": 3.328,
+            "processed_duration": 3.328,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "opus": {
+          "filename": "human_listening_test/natural_conversation.opus",
+          "size": 43969,
+          "metadata": {
+            "original_duration": 3.328,
+            "processed_duration": 3.328,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        }
+      },
+      "audio_info": {
+        "duration": 3.328,
+        "sample_rate": 16000,
+        "rtf": 0.45007302497441953
+      }
+    },
+    "difficult_words": {
+      "text": "Colonel, yacht, psychology, choir, and schedule are difficult to pronounce.",
+      "description": "Challenging pronunciation words",
+      "files": {
+        "wav": {
+          "filename": "human_listening_test/difficult_words.wav",
+          "size": 151596,
+          "metadata": {
+            "original_duration": 4.736,
+            "processed_duration": 4.736,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "mp3": {
+          "filename": "human_listening_test/difficult_words.mp3",
+          "size": 26901,
+          "metadata": {
+            "original_duration": 4.736,
+            "processed_duration": 4.736,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "flac": {
+          "filename": "human_listening_test/difficult_words.flac",
+          "size": 107250,
+          "metadata": {
+            "original_duration": 4.736,
+            "processed_duration": 4.736,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "opus": {
+          "filename": "human_listening_test/difficult_words.opus",
+          "size": 46992,
+          "metadata": {
+            "original_duration": 4.736,
+            "processed_duration": 4.736,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        }
+      },
+      "audio_info": {
+        "duration": 4.736,
+        "sample_rate": 16000,
+        "rtf": 0.46913995332009084
+      }
+    }
+  },
+  "format_comparison": {
+    "wav": {
+      "filename": "human_listening_test/format_comparison.wav",
+      "size": 127020,
+      "compression_ratio": 1.99930719571721,
+      "metadata": {
+        "original_duration": 3.968,
+        "processed_duration": 3.968,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true
+      }
+    },
+    "mp3": {
+      "filename": "human_listening_test/format_comparison.mp3",
+      "size": 27657,
+      "compression_ratio": 9.182196189029902,
+      "metadata": {
+        "original_duration": 3.968,
+        "processed_duration": 3.968,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true
+      }
+    },
+    "flac": {
+      "filename": "human_listening_test/format_comparison.flac",
+      "size": 87003,
+      "compression_ratio": 2.9188878544418007,
+      "metadata": {
+        "original_duration": 3.968,
+        "processed_duration": 3.968,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true
+      }
+    },
+    "opus": {
+      "filename": "human_listening_test/format_comparison.opus",
+      "size": 59904,
+      "compression_ratio": 4.239316239316239,
+      "metadata": {
+        "original_duration": 3.968,
+        "processed_duration": 3.968,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true
+      }
+    }
+  },
+  "instructions": {}
+}

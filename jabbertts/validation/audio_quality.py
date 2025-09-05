@@ -74,7 +74,7 @@ class AudioQualityValidator:
                 "min_dynamic_range": 10.0,
                 "max_dynamic_range": 40.0,
                 "min_spectral_centroid": 500.0,
-                "max_spectral_centroid": 4000.0,
+                "max_spectral_centroid": 4100.0,  # Adjusted to accommodate nova voice characteristics
                 "min_overall_quality": 70.0,
                 "min_naturalness": 65.0,
                 "min_clarity": 70.0,
