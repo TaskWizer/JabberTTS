@@ -422,9 +422,16 @@ class AudioProcessor:
         """
         preset_rate = self.current_preset["sample_rate"]
 
-        # For some formats, respect the original rate if it's higher
-        if output_format in ["flac", "wav"] and current_rate > preset_rate:
+        # For lossless formats, always respect the original rate to avoid quality loss
+        if output_format in ["flac", "wav"]:
             return current_rate
+
+        # For lossy formats, use original rate if it's reasonable (8kHz-48kHz)
+        # This avoids unnecessary resampling that can degrade quality
+        if 8000 <= current_rate <= 48000:
+            # If current rate is close to preset rate, use current to avoid resampling
+            if abs(current_rate - preset_rate) / preset_rate < 0.5:  # Within 50%
+                return current_rate
 
         return preset_rate
 

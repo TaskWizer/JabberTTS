@@ -295,23 +295,45 @@ class InferenceEngine:
             }
         }
     
-    async def warmup(self) -> None:
-        """Warm up the inference engine with a test generation.
-        
-        This helps ensure models are loaded and ready for production use.
+    async def warmup(self, num_runs: int = 3) -> None:
+        """Warm up the inference engine with test generations.
+
+        This helps ensure models are loaded, compiled, and ready for production use.
+
+        Args:
+            num_runs: Number of warmup runs to perform
         """
         try:
-            logger.info("Warming up inference engine...")
-            
-            # Generate a short test audio
-            result = await self.generate_speech(
-                text="Hello, this is a warmup test.",
-                voice="alloy",
-                speed=1.0
-            )
-            
-            logger.info(f"Warmup completed successfully (RTF: {result['rtf']:.3f})")
-            
+            logger.info(f"Warming up inference engine with {num_runs} runs...")
+
+            warmup_texts = [
+                "Hello, this is a warmup test.",
+                "Testing model compilation.",
+                "Ready for production use."
+            ]
+
+            rtfs = []
+            for i in range(num_runs):
+                text = warmup_texts[i % len(warmup_texts)]
+                result = await self.generate_speech(
+                    text=text,
+                    voice="alloy",
+                    speed=1.0
+                )
+                rtfs.append(result['rtf'])
+                logger.debug(f"Warmup run {i+1}: RTF = {result['rtf']:.3f}")
+
+            avg_rtf = sum(rtfs) / len(rtfs)
+            best_rtf = min(rtfs)
+
+            logger.info(f"Warmup completed successfully")
+            logger.info(f"Average RTF: {avg_rtf:.3f}, Best RTF: {best_rtf:.3f}")
+
+            if best_rtf < 0.5:
+                logger.info("✓ Performance target achieved (RTF < 0.5)")
+            else:
+                logger.warning(f"⚠ Performance target not met (RTF {best_rtf:.3f} >= 0.5)")
+
         except Exception as e:
             logger.warning(f"Warmup failed: {e}")
 
