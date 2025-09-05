@@ -43,8 +43,15 @@ class AudioQualityMetrics:
     inference_time: Optional[float] = None
     
     def to_dict(self) -> Dict[str, Any]:
-        """Convert to dictionary."""
-        return asdict(self)
+        """Convert to dictionary with JSON-serializable types."""
+        data = asdict(self)
+        # Convert numpy types to Python native types
+        for key, value in data.items():
+            if hasattr(value, 'item'):  # numpy scalar
+                data[key] = value.item()
+            elif isinstance(value, (np.floating, np.integer)):
+                data[key] = float(value) if isinstance(value, np.floating) else int(value)
+        return data
 
 
 class AudioQualityValidator:

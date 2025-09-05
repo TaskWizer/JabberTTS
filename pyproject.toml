@@ -64,6 +64,7 @@ dependencies = [
     "faster-whisper>=1.0.0",
     "textdistance>=4.6.0",
     "Levenshtein>=0.25.0",
+    "scipy>=1.11.0",
 ]
 
 [project.optional-dependencies]

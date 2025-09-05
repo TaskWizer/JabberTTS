@@ -1,0 +1,12 @@
+{
+  "perceptual_quality_validation": {
+    "timestamp": "2025-09-05T14:28:28.806477",
+    "test_case": {
+      "text": "The weather today is sunny and warm with a gentle breeze.",
+      "voice": "fable"
+    },
+    "comprehensive_metrics": {
+      "transcription_accuracy": 0.19236464817958873,
+      "word_error_rate": 1.0,
+      "character_error_rate": 1.0,
+      "overall_quality": 

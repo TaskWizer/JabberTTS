@@ -20,6 +20,7 @@ from jabbertts.config import get_settings
 from jabbertts.api.routes import router as api_router
 from jabbertts.dashboard.routes import router as dashboard_router
 from jabbertts.voice_cloning.routes import router as voice_cloning_router
+from jabbertts.inference.engine import get_inference_engine
 
 
 def check_port_availability(host: str, port: int) -> bool:
@@ -79,12 +80,12 @@ def setup_logging(log_level: str = "INFO") -> None:
 
 def create_app() -> FastAPI:
     """Create and configure the FastAPI application.
-    
+
     Returns:
         Configured FastAPI application instance
     """
     settings = get_settings()
-    
+
     app = FastAPI(
         title="JabberTTS API",
         description="Fast, efficient Text-to-Speech API with OpenAI compatibility",
@@ -93,6 +94,34 @@ def create_app() -> FastAPI:
         redoc_url="/redoc" if settings.enable_docs else None,
         openapi_url="/openapi.json" if settings.enable_docs else None,
     )
+
+    # Add startup event for model warmup
+    @app.on_event("startup")
+    async def startup_event():
+        """Startup event handler to warm up the inference engine."""
+        logger = logging.getLogger(__name__)
+        logger.info("🚀 Starting JabberTTS application startup sequence...")
+
+        try:
+            # Get inference engine and perform warmup
+            engine = get_inference_engine()
+            logger.info("🔥 Warming up inference engine to eliminate first-inference penalty...")
+
+            await engine.warmup(num_runs=5)
+
+            # Verify warmup success
+            health_status = engine.get_health_status()
+            if health_status["status"] == "healthy":
+                logger.info("✅ Model warmup completed successfully - ready for production!")
+                logger.info(f"📊 Average RTF: {health_status['performance']['average_rtf']:.3f}")
+            else:
+                logger.warning("⚠️ Model warmup completed but engine status is degraded")
+
+        except Exception as e:
+            logger.error(f"❌ Model warmup failed: {e}")
+            logger.warning("⚠️ Application will start but first inference may be slow")
+
+        logger.info("🎯 JabberTTS startup sequence completed")
     
     # Add CORS middleware
     app.add_middleware(

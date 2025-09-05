@@ -1,0 +1,352 @@
+{
+  "investigation_timestamp": 1757094964.980358,
+  "test_cases": [
+    {
+      "name": "simple_word",
+      "text": "Welcome",
+      "description": "Single word that was reported as intelligible"
+    },
+    {
+      "name": "stuttering_trigger",
+      "text": "Text-to-speech synthesis",
+      "description": "Phrase that commonly triggers T-T-S stuttering"
+    },
+    {
+      "name": "complex_phrase",
+      "text": "The quick brown fox jumps over the lazy dog",
+      "description": "Complex phrase to test syllable fragmentation"
+    },
+    {
+      "name": "technical_terms",
+      "text": "Neural network architecture optimization",
+      "description": "Technical terms that may cause preprocessing issues"
+    }
+  ],
+  "enhancement_analysis": {
+    "enhancement_disabled_samples": {
+      "simple_word": {
+        "audio_file": "stuttering_investigation/simple_word_enhancement_disabled.wav",
+        "duration": 0.576,
+        "rtf": 16.874142405059604,
+        "sample_rate": 16000
+      },
+      "stuttering_trigger": {
+        "audio_file": "stuttering_investigation/stuttering_trigger_enhancement_disabled.wav",
+        "duration": 0.96,
+        "rtf": 1.266926775376002,
+        "sample_rate": 16000
+      },
+      "complex_phrase": {
+        "audio_file": "stuttering_investigation/complex_phrase_enhancement_disabled.wav",
+        "duration": 1.568,
+        "rtf": 0.5057584874484004,
+        "sample_rate": 16000
+      },
+      "technical_terms": {
+        "audio_file": "stuttering_investigation/technical_terms_enhancement_disabled.wav",
+        "duration": 1.408,
+        "rtf": 0.5178632722659545,
+        "sample_rate": 16000
+      }
+    },
+    "enhancement_enabled_samples": {
+      "simple_word": {
+        "audio_file": "stuttering_investigation/simple_word_enhancement_enabled.wav",
+        "duration": 0.576,
+        "rtf": 0.4300694498750899,
+        "sample_rate": 16000
+      },
+      "stuttering_trigger": {
+        "audio_file": "stuttering_investigation/stuttering_trigger_enhancement_enabled.wav",
+        "duration": 0.672,
+        "rtf": 0.4737419741494315,
+        "sample_rate": 16000
+      },
+      "complex_phrase": {
+        "audio_file": "stuttering_investigation/complex_phrase_enhancement_enabled.wav",
+        "duration": 1.664,
+        "rtf": 0.4897948641043443,
+        "sample_rate": 16000
+      },
+      "technical_terms": {
+        "audio_file": "stuttering_investigation/technical_terms_enhancement_enabled.wav",
+        "duration": 1.312,
+        "rtf": 0.438011637548121,
+        "sample_rate": 16000
+      }
+    },
+    "comparison_analysis": {
+      "rtf_differences": {
+        "simple_word": {
+          "disabled_rtf": 16.874142405059604,
+          "enabled_rtf": 0.4300694498750899,
+          "difference": -16.444072955184513,
+          "percentage_change": -97.45131077152615
+        },
+        "stuttering_trigger": {
+          "disabled_rtf": 1.266926775376002,
+          "enabled_rtf": 0.4737419741494315,
+          "difference": -0.7931848012265705,
+          "percentage_change": -62.606996445486516
+        },
+        "complex_phrase": {
+          "disabled_rtf": 0.5057584874484004,
+          "enabled_rtf": 0.4897948641043443,
+          "difference": -0.015963623344056044,
+          "percentage_change": -3.1563728024801008
+        },
+        "technical_terms": {
+          "disabled_rtf": 0.5178632722659545,
+          "enabled_rtf": 0.438011637548121,
+          "difference": -0.07985163471783352,
+          "percentage_change": -15.419443508406369
+        }
+      },
+      "duration_differences": {
+        "simple_word": {
+          "disabled_duration": 0.576,
+          "enabled_duration": 0.576,
+          "difference": 0.0
+        },
+        "stuttering_trigger": {
+          "disabled_duration": 0.96,
+          "enabled_duration": 0.672,
+          "difference": -0.2879999999999999
+        },
+        "complex_phrase": {
+          "disabled_duration": 1.568,
+          "enabled_duration": 1.664,
+          "difference": 0.09599999999999986
+        },
+        "technical_terms": {
+          "disabled_duration": 1.408,
+          "enabled_duration": 1.312,
+          "difference": -0.09599999999999986
+        }
+      },
+      "enhancement_impact": {
+        "average_rtf_increase": -4.333268253618243,
+        "max_rtf_increase": -0.015963623344056044,
+        "enhancement_degrades_performance": false,
+        "significant_impact": true
+      }
+    },
+    "enhancement_settings": {
+      "enable_audio_enhancement": true,
+      "audio_quality": "high",
+      "audio_normalization": "peak"
+    }
+  },
+  "raw_model_analysis": {
+    "raw_model_samples": {
+      "simple_word": {
+        "raw_audio_file": "stuttering_investigation/simple_word_raw_model_output.wav",
+        "tensor_shape": [
+          9728
+        ],
+        "tensor_dtype": "float32",
+        "duration": 0.608,
+        "tensor_analysis": {
+          "min_value": -0.4495658874511719,
+          "max_value": 0.5539785027503967,
+          "mean_value": 4.95138592668809e-05,
+          "std_value": 0.0824449211359024,
+          "zero_crossings": 727,
+          "silence_ratio": 0.4838610197368421,
+          "potential_clipping": false,
+          "dynamic_range": 1.0035443305969238,
+          "envelope_variance": 0.021052243188023567,
+          "envelope_sudden_changes": 5,
+          "potential_stuttering_indicators": false
+        }
+      },
+      "stuttering_trigger": {
+        "raw_audio_file": "stuttering_investigation/stuttering_trigger_raw_model_output.wav",
+        "tensor_shape": [
+          12800
+        ],
+        "tensor_dtype": "float32",
+        "duration": 0.8,
+        "tensor_analysis": {
+          "min_value": -0.20900362730026245,
+          "max_value": 0.21443936228752136,
+          "mean_value": 4.786306089954451e-05,
+          "std_value": 0.04261966049671173,
+          "zero_crossings": 2448,
+          "silence_ratio": 0.52984375,
+          "potential_clipping": false,
+          "dynamic_range": 0.4234429895877838,
+          "envelope_variance": 0.0040251342579722404,
+          "envelope_sudden_changes": 3,
+          "potential_stuttering_indicators": false
+        }
+      },
+      "complex_phrase": {
+        "raw_audio_file": "stuttering_investigation/complex_phrase_raw_model_output.wav",
+        "tensor_shape": [
+          23552
+        ],
+        "tensor_dtype": "float32",
+        "duration": 1.472,
+        "tensor_analysis": {
+          "min_value": -0.13293695449829102,
+          "max_value": 0.1670314073562622,
+          "mean_value": -0.0002750633575487882,
+          "std_value": 0.02996852993965149,
+          "zero_crossings": 1556,
+          "silence_ratio": 0.5318868885869565,
+          "potential_clipping": false,
+          "dynamic_range": 0.2999683618545532,
+          "envelope_variance": 0.0016022395575419068,
+          "envelope_sudden_changes": 0,
+          "potential_stuttering_indicators": false
+        }
+      },
+      "technical_terms": {
+        "raw_audio_file": "stuttering_investigation/technical_terms_raw_model_output.wav",
+        "tensor_shape": [
+          17408
+        ],
+        "tensor_dtype": "float32",
+        "duration": 1.088,
+        "tensor_analysis": {
+          "min_value": -0.1964799165725708,
+          "max_value": 0.14683544635772705,
+          "mean_value": 1.0414564712846186e-05,
+          "std_value": 0.03198811784386635,
+          "zero_crossings": 2110,
+          "silence_ratio": 0.6346507352941176,
+          "potential_clipping": false,
+          "dynamic_range": 0.34331536293029785,
+          "envelope_variance": 0.0030754220206290483,
+          "envelope_sudden_changes": 4,
+          "potential_stuttering_indicators": false
+        }
+      }
+    },
+    "tensor_analysis": {},
+    "model_info": {
+      "model_name": "speecht5",
+      "device": "cpu",
+      "sample_rate": 16000,
+      "is_compiled": true
+    }
+  },
+  "preprocessing_analysis": {
+    "phonemization_analysis": {},
+    "text_normalization_analysis": {},
+    "preprocessing_comparison": {
+      "simple_word": {
+        "original_text": "Welcome",
+        "with_phonemes": "w\u02c8\u025blk\u028cm.",
+        "without_phonemes": "Welcome.",
+        "phoneme_length_change": 1,
+        "contains_phoneme_markers": true,
+        "potential_fragmentation": {
+          "excessive_spaces": false,
+          "phoneme_boundaries": false,
+          "special_characters": 0,
+          "word_boundary_issues": false,
+          "potential_syllable_separation": false,
+          "fragmentation_score": 0
+        }
+      },
+      "stuttering_trigger": {
+        "original_text": "Text-to-speech synthesis",
+        "with_phonemes": "t\u02c8\u025bkstt\u0259sp\u02c8i\u02d0t\u0283 s\u02c8\u026an\u03b8\u0259s\u02cc\u026as.",
+        "without_phonemes": "Text-to-speech synthesis.",
+        "phoneme_length_change": 3,
+        "contains_phoneme_markers": true,
+        "potential_fragmentation": {
+          "excessive_spaces": false,
+          "phoneme_boundaries": false,
+          "special_characters": 0,
+          "word_boundary_issues": false,
+          "potential_syllable_separation": false,
+          "fragmentation_score": 0
+        }
+      },
+      "complex_phrase": {
+        "original_text": "The quick brown fox jumps over the lazy dog",
+        "with_phonemes": "\u00f0\u0259 kw\u02c8\u026ak b\u0279\u02c8a\u028an f\u02c8\u0251\u02d0ks d\u0292\u02c8\u028cmps \u02cco\u028av\u025a \u00f0\u0259 l\u02c8e\u026azi d\u02c8\u0251\u02d0\u0261.",
+        "without_phonemes": "The quick brown fox jumps over the lazy dog.",
+        "phoneme_length_change": 10,
+        "contains_phoneme_markers": true,
+        "potential_fragmentation": {
+          "excessive_spaces": false,
+          "phoneme_boundaries": false,
+          "special_characters": 0,
+          "word_boundary_issues": false,
+          "potential_syllable_separation": false,
+          "fragmentation_score": 0
+        }
+      },
+      "technical_terms": {
+        "original_text": "Neural network architecture optimization",
+        "with_phonemes": "n\u02c8\u028a\u0279\u0279\u0259l n\u02c8\u025btw\u025c\u02d0k \u02c8\u0251\u02d0\u0279k\u026at\u02cc\u025bkt\u0283\u025a\u0279 \u02cc\u0251\u02d0pt\u026am\u1d7bz\u02c8e\u026a\u0283\u0259n.",
+        "without_phonemes": "Neural network architecture optimization.",
+        "phoneme_length_change": 8,
+        "contains_phoneme_markers": true,
+        "potential_fragmentation": {
+          "excessive_spaces": false,
+          "phoneme_boundaries": false,
+          "special_characters": 0,
+          "word_boundary_issues": false,
+          "potential_syllable_separation": false,
+          "fragmentation_score": 0
+        }
+      }
+    }
+  },
+  "timing_analysis": {
+    "timing_measurements": {
+      "simple_word": {
+        "preprocessing_time": 0.00018143653869628906,
+        "model_loading_time": 2.86102294921875e-06,
+        "inference_time": 0.22911667823791504,
+        "postprocessing_time": 0.0005199909210205078,
+        "total_time": 0.22982382774353027,
+        "audio_duration": 0.608,
+        "rtf": 0.37799971668343796
+      },
+      "stuttering_trigger": {
+        "preprocessing_time": 0.00015020370483398438,
+        "model_loading_time": 2.384185791015625e-06,
+        "inference_time": 0.3858985900878906,
+        "postprocessing_time": 0.0005886554718017578,
+        "total_time": 0.386643648147583,
+        "audio_duration": 1.056,
+        "rtf": 0.36613981832157483
+      },
+      "complex_phrase": {
+        "preprocessing_time": 0.00023412704467773438,
+        "model_loading_time": 9.5367431640625e-07,
+        "inference_time": 0.4978635311126709,
+        "postprocessing_time": 0.0006031990051269531,
+        "total_time": 0.4987044334411621,
+        "audio_duration": 1.472,
+        "rtf": 0.3387937727181808
+      },
+      "technical_terms": {
+        "preprocessing_time": 0.0001430511474609375,
+        "model_loading_time": 1.6689300537109375e-06,
+        "inference_time": 0.5428378582000732,
+        "postprocessing_time": 0.000659942626953125,
+        "total_time": 0.5436446666717529,
+        "audio_duration": 1.472,
+        "rtf": 0.36932382246722345
+      }
+    },
+    "async_analysis": {},
+    "memory_analysis": {}
+  },
+  "findings": [
+    "CRITICAL: Audio enhancement has significant impact on performance (>0.1 RTF difference)"
+  ],
+  "recommendations": [
+    "TEST: Disable torch.compile optimization and test if stuttering is resolved",
+    "VALIDATE: Generate new human listening test samples with identified fixes",
+    "MONITOR: Implement real-time stuttering detection in production",
+    "DOCUMENT: Update troubleshooting guide with stuttering investigation findings"
+  ]
+}

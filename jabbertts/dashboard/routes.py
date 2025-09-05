@@ -6,10 +6,12 @@ JabberTTS capabilities.
 
 import logging
 import base64
-from typing import Dict, Any
+import io
+import json
+from typing import Dict, Any, Optional
 from pathlib import Path
 
-from fastapi import APIRouter, Request, HTTPException, Form, status
+from fastapi import APIRouter, Request, HTTPException, Form, status, File, UploadFile
 from fastapi.responses import HTMLResponse, JSONResponse, Response
 from fastapi.templating import Jinja2Templates
 
@@ -505,4 +507,369 @@ async def validate_metrics_consistency():
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Metrics validation failed: {str(e)}"
+        )
+
+
+@router.post("/debug/transcribe")
+async def debug_transcribe_audio(
+    audio_file: UploadFile = File(...),
+    original_text: Optional[str] = Form(None)
+):
+    """Debug endpoint to transcribe uploaded audio and compare with original text.
+
+    This endpoint provides detailed transcription analysis including:
+    - Whisper STT transcription of uploaded audio
+    - Word Error Rate (WER) and Character Error Rate (CER) metrics
+    - Confidence scores per word/phrase
+    - Side-by-side comparison with original text
+    - Audio quality analysis
+    """
+    try:
+        logger.info(f"Debug transcription request: {audio_file.filename}, original_text: {bool(original_text)}")
+
+        # Validate file type
+        if not audio_file.content_type or not audio_file.content_type.startswith('audio/'):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="File must be an audio file"
+            )
+
+        # Read audio data
+        audio_data = await audio_file.read()
+
+        # Get Whisper validator
+        whisper_validator = get_whisper_validator("base")  # Use base model for balance of speed/accuracy
+
+        # Transcribe the audio
+        transcription_result = whisper_validator.transcribe_audio(audio_data, sample_rate=16000)
+
+        if "error" in transcription_result:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Transcription failed: {transcription_result['error']}"
+            )
+
+        # Prepare response data
+        response_data = {
+            "success": True,
+            "filename": audio_file.filename,
+            "transcription": transcription_result["transcription"],
+            "segments": transcription_result["segments"],
+            "transcription_info": {
+                "transcription_time": transcription_result["transcription_time"],
+                "detected_language": transcription_result.get("detected_language", "en"),
+                "language_probability": transcription_result.get("language_probability", 1.0)
+            }
+        }
+
+        # If original text provided, calculate accuracy metrics
+        if original_text:
+            validation_result = whisper_validator.validate_tts_output(
+                original_text=original_text,
+                audio_data=audio_data,
+                sample_rate=16000
+            )
+
+            response_data.update({
+                "original_text": original_text,
+                "accuracy_metrics": validation_result.get("accuracy_metrics", {}),
+                "word_alignment": validation_result.get("word_alignment", []),
+                "quality_assessment": validation_result.get("quality_assessment", {})
+            })
+
+        # Add audio analysis
+        try:
+            from jabbertts.validation.audio_quality import AudioQualityValidator
+            quality_validator = AudioQualityValidator()
+
+            # Convert audio bytes to numpy array for analysis
+            import soundfile as sf
+            with io.BytesIO(audio_data) as audio_buffer:
+                audio_array, sample_rate = sf.read(audio_buffer)
+
+            # Ensure mono audio
+            if len(audio_array.shape) > 1:
+                audio_array = audio_array.mean(axis=1)
+
+            # Analyze audio quality
+            quality_metrics = quality_validator.analyze_audio(
+                audio_array, sample_rate, rtf=0, inference_time=0
+            )
+
+            response_data["audio_analysis"] = {
+                "duration": len(audio_array) / sample_rate,
+                "sample_rate": sample_rate,
+                "quality_metrics": quality_metrics.to_dict(),
+                "quality_validation": quality_validator.validate_against_thresholds(quality_metrics)
+            }
+
+        except Exception as audio_error:
+            logger.warning(f"Audio analysis failed: {audio_error}")
+            response_data["audio_analysis"] = {"error": str(audio_error)}
+
+        return JSONResponse(response_data)
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Debug transcription failed: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Debug transcription failed: {str(e)}"
+        )
+
+
+@router.post("/debug/generate-and-transcribe")
+async def debug_generate_and_transcribe(
+    text: str = Form(...),
+    voice: str = Form("alloy"),
+    format: str = Form("wav"),
+    speed: float = Form(1.0)
+):
+    """Generate TTS audio and immediately transcribe it for debugging.
+
+    This endpoint provides end-to-end testing by:
+    1. Generating TTS audio from input text
+    2. Transcribing the generated audio with Whisper
+    3. Comparing original vs transcribed text
+    4. Providing detailed quality and accuracy metrics
+    """
+    try:
+        logger.info(f"Debug generate-and-transcribe: {len(text)} chars, voice={voice}, format={format}")
+
+        # Generate TTS audio
+        inference_engine = get_inference_engine()
+        audio_processor = get_audio_processor()
+
+        # Generate speech
+        tts_result = await inference_engine.generate_speech(
+            text=text,
+            voice=voice,
+            speed=speed,
+            response_format=format
+        )
+
+        # Process audio
+        audio_data, audio_metadata = await audio_processor.process_audio(
+            audio_array=tts_result["audio_data"],
+            sample_rate=tts_result["sample_rate"],
+            output_format=format,
+            speed=speed
+        )
+
+        # Transcribe the generated audio
+        whisper_validator = get_whisper_validator("base")
+        validation_result = whisper_validator.validate_tts_output(
+            original_text=text,
+            audio_data=audio_data,
+            sample_rate=tts_result["sample_rate"]
+        )
+
+        # Prepare comprehensive response
+        response_data = {
+            "success": True,
+            "original_text": text,
+            "generation_info": {
+                "voice": voice,
+                "format": format,
+                "speed": speed,
+                "rtf": tts_result.get("rtf", 0),
+                "inference_time": tts_result.get("inference_time", 0),
+                "audio_duration": tts_result.get("audio_duration", 0)
+            },
+            "transcription_result": validation_result,
+            "audio_metadata": audio_metadata
+        }
+
+        # Add base64 encoded audio for playback
+        audio_b64 = base64.b64encode(audio_data).decode('utf-8')
+        response_data["audio_data"] = f"data:audio/{format};base64,{audio_b64}"
+
+        return JSONResponse(response_data)
+
+    except Exception as e:
+        logger.error(f"Debug generate-and-transcribe failed: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Debug generate-and-transcribe failed: {str(e)}"
+        )
+
+
+@router.post("/debug/audio-analysis")
+async def debug_audio_analysis(
+    text: str = Form(...),
+    voice: str = Form("alloy"),
+    format: str = Form("wav"),
+    speed: float = Form(1.0),
+    include_waveform: bool = Form(True),
+    include_spectrogram: bool = Form(True),
+    include_phonemes: bool = Form(True)
+):
+    """Generate comprehensive audio analysis with waveform visualization and phoneme alignment.
+
+    This endpoint provides detailed audio analysis including:
+    - Waveform visualization data
+    - Spectrogram analysis
+    - Phoneme alignment markers
+    - Audio quality metrics
+    - Processing pipeline breakdown
+    """
+    try:
+        logger.info(f"Debug audio analysis: {len(text)} chars, voice={voice}, format={format}")
+
+        # Generate TTS audio
+        inference_engine = get_inference_engine()
+        audio_processor = get_audio_processor()
+
+        # Get text preprocessor for phoneme analysis
+        from jabbertts.inference.preprocessing import TextPreprocessor
+        preprocessor = TextPreprocessor(use_phonemizer=True)
+
+        # Generate speech
+        tts_result = await inference_engine.generate_speech(
+            text=text,
+            voice=voice,
+            speed=speed,
+            response_format=format
+        )
+
+        # Process audio
+        audio_data, audio_metadata = await audio_processor.process_audio(
+            audio_array=tts_result["audio_data"],
+            sample_rate=tts_result["sample_rate"],
+            output_format=format,
+            speed=speed
+        )
+
+        # Prepare analysis result
+        analysis_result = {
+            "success": True,
+            "original_text": text,
+            "generation_info": {
+                "voice": voice,
+                "format": format,
+                "speed": speed,
+                "rtf": tts_result.get("rtf", 0),
+                "inference_time": tts_result.get("inference_time", 0),
+                "audio_duration": tts_result.get("audio_duration", 0),
+                "sample_rate": tts_result["sample_rate"]
+            },
+            "audio_metadata": audio_metadata
+        }
+
+        # Add phoneme analysis if requested
+        if include_phonemes:
+            try:
+                phonemized_text = preprocessor.preprocess(text)
+                phoneme_info = {
+                    "original_text": text,
+                    "phonemized_text": phonemized_text,
+                    "phoneme_count": int(len(phonemized_text.split())),
+                    "complexity_score": float(len([c for c in phonemized_text if c in "ˈˌːˑ"]) / len(phonemized_text) if phonemized_text else 0)
+                }
+                analysis_result["phoneme_analysis"] = phoneme_info
+            except Exception as e:
+                analysis_result["phoneme_analysis"] = {"error": str(e)}
+
+        # Add waveform data if requested
+        if include_waveform:
+            try:
+                raw_audio = tts_result["audio_data"]
+                sample_rate = tts_result["sample_rate"]
+
+                # Downsample for visualization (max 1000 points)
+                downsample_factor = max(1, len(raw_audio) // 1000)
+                waveform_data = [float(x) for x in raw_audio[::downsample_factor]]
+
+                # Calculate time axis
+                time_axis = [float(i * downsample_factor / sample_rate) for i in range(len(waveform_data))]
+
+                analysis_result["waveform"] = {
+                    "amplitude": waveform_data,
+                    "time": time_axis,
+                    "sample_rate": int(sample_rate),
+                    "duration": float(len(raw_audio) / sample_rate),
+                    "downsample_factor": int(downsample_factor)
+                }
+            except Exception as e:
+                analysis_result["waveform"] = {"error": str(e)}
+
+        # Add spectrogram data if requested
+        if include_spectrogram:
+            try:
+                import numpy as np
+                from scipy import signal
+
+                raw_audio = tts_result["audio_data"]
+                sample_rate = tts_result["sample_rate"]
+
+                # Compute spectrogram
+                frequencies, times, Sxx = signal.spectrogram(
+                    raw_audio,
+                    fs=sample_rate,
+                    window='hann',
+                    nperseg=512,
+                    noverlap=256
+                )
+
+                # Convert to dB and downsample for visualization
+                Sxx_db = 10 * np.log10(Sxx + 1e-10)
+
+                # Downsample frequency axis (keep up to 100 frequency bins)
+                freq_downsample = max(1, len(frequencies) // 100)
+                frequencies_ds = [float(x) for x in frequencies[::freq_downsample]]
+                Sxx_db_ds = Sxx_db[::freq_downsample, :]
+
+                # Downsample time axis (keep up to 200 time bins)
+                time_downsample = max(1, Sxx_db_ds.shape[1] // 200)
+                times_ds = [float(x) for x in times[::time_downsample]]
+                Sxx_db_ds = Sxx_db_ds[:, ::time_downsample]
+
+                analysis_result["spectrogram"] = {
+                    "frequencies": frequencies_ds,
+                    "times": times_ds,
+                    "magnitude_db": [[float(x) for x in row] for row in Sxx_db_ds.tolist()],
+                    "freq_downsample": int(freq_downsample),
+                    "time_downsample": int(time_downsample)
+                }
+            except Exception as e:
+                analysis_result["spectrogram"] = {"error": str(e)}
+
+        # Add audio quality analysis
+        try:
+            from jabbertts.validation.audio_quality import AudioQualityValidator
+            quality_validator = AudioQualityValidator()
+
+            # Analyze raw audio quality
+            quality_metrics = quality_validator.analyze_audio(
+                tts_result["audio_data"],
+                tts_result["sample_rate"],
+                tts_result.get("rtf", 0),
+                tts_result.get("inference_time", 0)
+            )
+
+            # Convert validation results to JSON-serializable format
+            validation_results = quality_validator.validate_against_thresholds(quality_metrics)
+            validation_json = {k: bool(v) for k, v in validation_results.items()}
+
+            analysis_result["quality_analysis"] = {
+                "metrics": quality_metrics.to_dict(),
+                "validation": validation_json,
+                "overall_score": float(quality_metrics.overall_quality)
+            }
+
+        except Exception as e:
+            analysis_result["quality_analysis"] = {"error": str(e)}
+
+        # Add base64 encoded audio for playback
+        audio_b64 = base64.b64encode(audio_data).decode('utf-8')
+        analysis_result["audio_data"] = f"data:audio/{format};base64,{audio_b64}"
+
+        return JSONResponse(analysis_result)
+
+    except Exception as e:
+        logger.error(f"Debug audio analysis failed: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Debug audio analysis failed: {str(e)}"
         )

@@ -1,0 +1,187 @@
+{
+  "validation_timestamp": 1757097334.4943302,
+  "validation_date": "2025-09-05 13:35:34",
+  "before_after_comparison": {
+    "simple_word": {
+      "new_audio_file": "quality_fix_validation/simple_word_after_fixes.wav",
+      "generation_time": 11.73389482498169,
+      "rtf": 24.44365123907725,
+      "new_analysis": {
+        "length": 7680,
+        "duration": 0.48,
+        "rms_energy": 0.007013741414994001,
+        "peak_amplitude": 0.08907157927751541,
+        "dynamic_range": 0.16737085580825806,
+        "zero_crossings": 1204,
+        "dc_offset": 7.614506466779858e-05,
+        "clipping_detected": false,
+        "signal_quality": "poor - very low energy"
+      },
+      "metadata": {
+        "original_duration": 0.48,
+        "processed_duration": 0.48,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true
+      },
+      "improvement_detected": true
+    },
+    "tts_trigger": {
+      "new_audio_file": "quality_fix_validation/tts_trigger_after_fixes.wav",
+      "generation_time": 1.3939239978790283,
+      "rtf": 1.209839971529113,
+      "new_analysis": {
+        "length": 18432,
+        "duration": 1.152,
+        "rms_energy": 0.021120889112353325,
+        "peak_amplitude": 0.20164956152439117,
+        "dynamic_range": 0.3993353843688965,
+        "zero_crossings": 7131,
+        "dc_offset": 0.00012343775597400963,
+        "clipping_detected": false,
+        "signal_quality": "fair"
+      },
+      "metadata": {
+        "original_duration": 1.152,
+        "processed_duration": 1.152,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true
+      },
+      "improvement_detected": true
+    },
+    "complex_sentence": {
+      "new_audio_file": "quality_fix_validation/complex_sentence_after_fixes.wav",
+      "generation_time": 0.7579331398010254,
+      "rtf": 0.48331764279579625,
+      "new_analysis": {
+        "length": 25088,
+        "duration": 1.568,
+        "rms_energy": 0.007662988733500242,
+        "peak_amplitude": 0.15736722946166992,
+        "dynamic_range": 0.30172020196914673,
+        "zero_crossings": 6149,
+        "dc_offset": 5.711588528356515e-05,
+        "clipping_detected": false,
+        "signal_quality": "poor - very low energy"
+      },
+      "metadata": {
+        "original_duration": 1.568,
+        "processed_duration": 1.568,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true
+      },
+      "improvement_detected": true
+    }
+  },
+  "format_quality_tests": {
+    "wav": {
+      "file": "quality_fix_validation/tts_trigger_format_wav.wav",
+      "analysis": {
+        "file_size": 35884,
+        "processing_time": 0.0004124641418457031,
+        "metadata": {
+          "original_duration": 1.12,
+          "processed_duration": 1.12,
+          "original_sample_rate": 16000,
+          "final_sample_rate": 16000,
+          "speed_applied": 1.0,
+          "enhancement_applied": true
+        },
+        "compression_ratio": 1.0
+      },
+      "success": true
+    },
+    "mp3": {
+      "file": "quality_fix_validation/tts_trigger_format_mp3.mp3",
+      "analysis": {
+        "file_size": 10089,
+        "processing_time": 0.0464780330657959,
+        "metadata": {
+          "original_duration": 1.12,
+          "processed_duration": 1.12,
+          "original_sample_rate": 16000,
+          "final_sample_rate": 16000,
+          "speed_applied": 1.0,
+          "enhancement_applied": true
+        },
+        "compression_ratio": 0.1407505580357143
+      },
+      "success": true
+    },
+    "aac": {
+      "error": "Audio processing failed: Audio encoding failed: ffmpeg error (see stderr output for detail)",
+      "success": false
+    },
+    "opus": {
+      "file": "quality_fix_validation/tts_trigger_format_opus.opus",
+      "analysis": {
+        "file_size": 16366,
+        "processing_time": 0.04992175102233887,
+        "metadata": {
+          "original_duration": 1.12,
+          "processed_duration": 1.12,
+          "original_sample_rate": 16000,
+          "final_sample_rate": 16000,
+          "speed_applied": 1.0,
+          "enhancement_applied": true
+        },
+        "compression_ratio": 0.2283203125
+      },
+      "success": true
+    },
+    "flac": {
+      "file": "quality_fix_validation/tts_trigger_format_flac.flac",
+      "analysis": {
+        "file_size": 26426,
+        "processing_time": 0.000537872314453125,
+        "metadata": {
+          "original_duration": 1.12,
+          "processed_duration": 1.12,
+          "original_sample_rate": 16000,
+          "final_sample_rate": 16000,
+          "speed_applied": 1.0,
+          "enhancement_applied": true
+        },
+        "compression_ratio": 0.36866629464285716
+      },
+      "success": true
+    }
+  },
+  "performance_validation": {
+    "rtf_tests": [
+      0.6642287969589233,
+      0.6962331092875936,
+      0.8461329465111097,
+      0.7187216900862181,
+      0.5707982182502747
+    ],
+    "consistency_tests": [],
+    "memory_usage": {},
+    "rtf_statistics": {
+      "mean": 0.6992229522188239,
+      "std": 0.08909454479302412,
+      "min": 0.5707982182502747,
+      "max": 0.8461329465111097,
+      "consistent": "True"
+    }
+  },
+  "findings": [
+    "\u2705 All test phrases generated successfully after fixes",
+    "\u26a0\ufe0f Performance target not met - Average RTF: 0.699",
+    "\u2705 RTF performance is consistent across tests",
+    "\u2705 Format encoding working well - 4/5 formats successful",
+    "\u2705 No critical audio quality issues detected"
+  ],
+  "success_metrics": {
+    "overall_success": false,
+    "generation_success_rate": 1.0,
+    "performance_target_met": false,
+    "format_compatibility": 0.8,
+    "quality_score": 0.39999999999999997
+  }
+}

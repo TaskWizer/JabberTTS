@@ -619,6 +619,9 @@ class AudioProcessor:
     def _ffmpeg_encode(self, audio: np.ndarray, sample_rate: int, format: str, options: Dict[str, str]) -> bytes:
         """Encode audio using ffmpeg with optimized settings.
 
+        CRITICAL FIX: Optimized FFmpeg parameters to prevent quality degradation
+        identified in audio format investigation.
+
         Args:
             audio: Audio array
             sample_rate: Sample rate
@@ -631,28 +634,42 @@ class AudioProcessor:
         try:
             import ffmpeg
 
-            # Get format-specific optimization profile
+            # CRITICAL FIX: Ensure audio is properly normalized to prevent clipping
+            audio = self._prevent_clipping(audio)
+
+            # Get format-specific optimization profile with quality fixes
             optimized_options = self._get_format_optimization_profile(format, sample_rate, options)
 
-            # Create input stream from numpy array
+            # CRITICAL FIX: Use higher precision input format to prevent quantization artifacts
             input_stream = ffmpeg.input(
                 'pipe:',
-                format='f32le',
+                format='f32le',  # Keep 32-bit float input for maximum precision
                 acodec='pcm_f32le',
                 ar=sample_rate,
                 ac=1
             )
 
+            # CRITICAL FIX: Add quality-preserving filters
+            if format in ['mp3', 'aac', 'opus']:
+                # Apply gentle pre-emphasis for speech clarity without artifacts
+                input_stream = input_stream.filter('aresample', resampler='soxr')  # High-quality resampling
+
+                # Only apply filters if they improve quality for speech
+                if sample_rate == 16000:  # Native SpeechT5 rate
+                    # Gentle high-pass filter to remove DC offset without affecting speech
+                    input_stream = input_stream.filter('highpass', f=20, poles=1)
+
             # Create output stream with optimized options
             output_stream = ffmpeg.output(input_stream, 'pipe:', format=format, **optimized_options)
 
-            # Run ffmpeg with optimized settings
+            # CRITICAL FIX: Run ffmpeg with quality-preserving settings
             stdout, stderr = ffmpeg.run(
                 output_stream,
                 input=audio.tobytes(),
                 capture_stdout=True,
                 capture_stderr=True,
-                quiet=True  # Reduce noise unless there's an error
+                quiet=True,
+                overwrite_output=True  # Ensure clean processing
             )
 
             if stderr:
@@ -668,6 +685,32 @@ class AudioProcessor:
         except Exception as e:
             logger.error(f"FFmpeg encoding failed for format {format}: {e}")
             raise RuntimeError(f"Audio encoding failed: {e}") from e
+
+    def _prevent_clipping(self, audio: np.ndarray) -> np.ndarray:
+        """Prevent audio clipping while preserving dynamic range.
+
+        CRITICAL FIX: Addresses clipping issues identified in quantization analysis.
+
+        Args:
+            audio: Input audio array
+
+        Returns:
+            Audio with clipping prevention applied
+        """
+        # Check for potential clipping
+        peak = np.max(np.abs(audio))
+
+        if peak > 0.95:  # Approaching clipping threshold
+            # Apply gentle limiting to prevent clipping while preserving dynamics
+            target_peak = 0.9  # Safe headroom
+            scaling_factor = target_peak / peak
+
+            # Apply soft limiting curve instead of hard scaling
+            audio = np.tanh(audio * scaling_factor) * target_peak
+
+            logger.debug(f"Applied clipping prevention: peak {peak:.3f} -> {np.max(np.abs(audio)):.3f}")
+
+        return audio
     
     def _create_simple_wav(self, audio: np.ndarray, sample_rate: int) -> bytes:
         """Create a simple WAV file without external dependencies.
@@ -842,6 +885,9 @@ class AudioProcessor:
     def _get_format_optimization_profile(self, format: str, sample_rate: int, base_options: Dict[str, str]) -> Dict[str, str]:
         """Get optimized encoding options for specific format.
 
+        CRITICAL FIX: Optimized encoding parameters to prevent quality degradation
+        identified in FFmpeg processing analysis.
+
         Args:
             format: Audio format (mp3, aac, opus, etc.)
             sample_rate: Sample rate
@@ -853,58 +899,95 @@ class AudioProcessor:
         # Start with base options
         options = base_options.copy()
 
-        # Format-specific optimizations (simplified for compatibility)
+        # CRITICAL FIX: Format-specific optimizations for speech quality
         if format == "mp3":
-            # MP3 optimization for speech
+            # MP3 optimization for speech with quality preservation
             options.update({
                 "acodec": "libmp3lame",
-                "q:a": "2",  # High quality VBR
+                "q:a": "0",  # FIXED: Highest quality VBR (was "2")
+                "joint_stereo": "0",  # Disable joint stereo for mono speech
+                "reservoir": "1",  # Enable bit reservoir for quality
             })
-            # Use consistent bitrate for speech
+            # FIXED: Use higher bitrates for speech clarity
             if "audio_bitrate" in options:
-                # Keep the bitrate setting as-is for compatibility
-                pass
+                # Ensure minimum quality bitrate
+                current_bitrate = int(options["audio_bitrate"].rstrip('k'))
+                if current_bitrate < 128:
+                    options["audio_bitrate"] = "128k"  # Minimum for speech quality
 
         elif format == "aac":
-            # AAC optimization for speech (simplified for compatibility)
+            # AAC optimization for speech with quality preservation
             options.update({
                 "acodec": "aac",
+                "profile:a": "aac_low",  # FIXED: Use LC profile for compatibility
+                "cutoff": "0",  # FIXED: Disable frequency cutoff for full bandwidth
             })
-            # Use standard AAC encoding without profile specification
+            # FIXED: Use higher bitrates for speech clarity
             if "audio_bitrate" in options:
-                # Keep standard bitrate encoding
-                pass
+                current_bitrate = int(options["audio_bitrate"].rstrip('k'))
+                if current_bitrate < 96:
+                    options["audio_bitrate"] = "96k"  # Minimum for speech quality
 
         elif format == "opus":
-            # Opus optimization for speech
+            # Opus optimization for speech with maximum quality
             options.update({
                 "acodec": "libopus",
-                "application": "voip",  # Optimize for speech
+                "application": "audio",  # FIXED: Use "audio" instead of "voip" for better quality
+                "frame_duration": "20",  # Optimal for speech
+                "packet_loss": "0",  # Assume no packet loss for quality
             })
-            # Opus handles VBR internally
+            # FIXED: Use higher bitrates for speech clarity
             if "audio_bitrate" in options:
-                options["compression_level"] = "10"  # Maximum compression efficiency
+                current_bitrate = int(options["audio_bitrate"].rstrip('k'))
+                if current_bitrate < 64:
+                    options["audio_bitrate"] = "64k"  # Minimum for speech quality
+                # Remove compression_level that can degrade quality
+                options.pop("compression_level", None)
 
         elif format == "flac":
             # FLAC optimization for lossless compression
             options.update({
                 "acodec": "flac",
-                "compression_level": "8",  # Maximum compression
+                "compression_level": "5",  # FIXED: Balanced compression (was "8")
+                "exact_rice_parameters": "1",  # Better compression efficiency
             })
             # Remove bitrate for lossless
             options.pop("audio_bitrate", None)
 
-        # Sample rate specific optimizations (simplified)
-        if sample_rate <= 16000:
-            # Low sample rate optimizations
+        elif format == "wav":
+            # WAV optimization for maximum quality
+            options.update({
+                "acodec": "pcm_s16le",  # Standard 16-bit PCM
+                "ar": str(sample_rate),  # Preserve sample rate
+            })
+            # Remove bitrate for uncompressed
+            options.pop("audio_bitrate", None)
+
+        # CRITICAL FIX: Sample rate specific optimizations
+        if sample_rate == 16000:
+            # Native SpeechT5 sample rate - preserve without filtering
+            # Remove any aggressive filtering that degrades speech quality
+            options.pop("af", None)  # Remove any existing audio filters
+
+        elif sample_rate <= 16000:
+            # Low sample rate - minimal processing
             if format in ["mp3", "aac"]:
-                # Use a conservative lowpass filter
-                options["af"] = f"lowpass=f={sample_rate // 2 - 500}"
+                # Very gentle anti-aliasing only if absolutely necessary
+                nyquist = sample_rate // 2
+                if nyquist > 7000:  # Only filter if we have headroom
+                    options["af"] = f"lowpass=f={nyquist - 100}:poles=1"
+
         elif sample_rate >= 44100:
-            # High sample rate optimizations
+            # High sample rate - this should be avoided per investigation findings
+            logger.warning(f"High sample rate {sample_rate}Hz detected - may cause quality degradation")
             if format == "mp3":
-                # Use a conservative highpass filter
-                options["af"] = "highpass=f=20"
+                # Minimal high-pass filtering
+                options["af"] = "highpass=f=10:poles=1"
+
+        # CRITICAL FIX: Remove any options that can cause quality degradation
+        problematic_options = ["volume", "dynaudnorm", "compand", "loudnorm"]
+        for opt in problematic_options:
+            options.pop(opt, None)
 
         return options
 

@@ -1,0 +1,451 @@
+{
+  "test_timestamp": 1757095791.2615476,
+  "model_warmup_analysis": {
+    "cold_start_timing": {
+      "model_loading_time": 3.1113340854644775,
+      "first_inference_time": 7.517385244369507,
+      "total_cold_start_time": 10.628719329833984,
+      "memory_usage": {
+        "before_load": 542.02734375,
+        "after_load": 866.15234375,
+        "load_delta": 324.125,
+        "after_inference": 1619.4375,
+        "inference_delta": 753.28515625
+      },
+      "first_inference_rtf": 7.340867072343826
+    },
+    "warmup_iterations": [
+      {
+        "iteration": 1,
+        "total_time": 1.4263319969177246,
+        "rtf": 1.43767076153909,
+        "duration": 0.992,
+        "memory_before": 1619.4375,
+        "memory_after": 1615.79296875,
+        "memory_delta": -3.64453125,
+        "stuttering_score": 0.005050505050505051
+      },
+      {
+        "iteration": 2,
+        "total_time": 0.40286803245544434,
+        "rtf": 0.4340137900977299,
+        "duration": 0.928,
+        "memory_before": 1615.79296875,
+        "memory_after": 1616.7578125,
+        "memory_delta": 0.96484375,
+        "stuttering_score": 0.005434782608695652
+      },
+      {
+        "iteration": 3,
+        "total_time": 0.3255312442779541,
+        "rtf": 0.42367540299892426,
+        "duration": 0.768,
+        "memory_before": 1616.7578125,
+        "memory_after": 1633.61328125,
+        "memory_delta": 16.85546875,
+        "stuttering_score": 0.0
+      },
+      {
+        "iteration": 4,
+        "total_time": 0.4139852523803711,
+        "rtf": 0.40418305434286594,
+        "duration": 1.024,
+        "memory_before": 1633.61328125,
+        "memory_after": 1633.41015625,
+        "memory_delta": -0.203125,
+        "stuttering_score": 0.00980392156862745
+      },
+      {
+        "iteration": 5,
+        "total_time": 0.41582679748535156,
+        "rtf": 0.43305009603500366,
+        "duration": 0.96,
+        "memory_before": 1633.41015625,
+        "memory_after": 1641.62109375,
+        "memory_delta": 8.2109375,
+        "stuttering_score": 0.0
+      }
+    ],
+    "memory_during_warmup": [],
+    "warmup_conclusions": {
+      "first_iteration_rtf": 1.43767076153909,
+      "last_iteration_rtf": 0.43305009603500366,
+      "rtf_improvement": 1.0046206655040864,
+      "rtf_stabilized": true,
+      "memory_growth_total": 22.18359375,
+      "memory_growth_per_iteration": 4.43671875,
+      "memory_leak_detected": false
+    }
+  },
+  "sequential_inference_analysis": {
+    "sequential_tests": [
+      {
+        "test_name": "sequential_test_1",
+        "text": "Welcome to the system",
+        "audio_file": "inference_timing_stuttering_test/sequential_test_1_sequential.wav",
+        "timing_breakdown": {
+          "preprocessing_time": 0.043202877044677734,
+          "model_loading_time": 1.0251998901367188e-05,
+          "inference_time": 0.6603748798370361,
+          "memory_during_inference": 45.94921875,
+          "postprocessing_time": 0.0005946159362792969,
+          "total_time": 0.7042801380157471,
+          "audio_duration": 1.504,
+          "total_rtf": 0.46827136836153394,
+          "inference_rtf": 0.43907904244483786,
+          "audio_data": "[ 0.00114917  0.0001672   0.00114678 ... -0.00048747 -0.0004973\n -0.00071089]",
+          "sample_rate": 16000
+        },
+        "memory_usage": 1689.4453125,
+        "stuttering_analysis": {
+          "stuttering_score": 0.03,
+          "sudden_changes": 9,
+          "envelope_length": 150
+        }
+      },
+      {
+        "test_name": "sequential_test_2",
+        "text": "Text-to-speech synthesis",
+        "audio_file": "inference_timing_stuttering_test/sequential_test_2_sequential.wav",
+        "timing_breakdown": {
+          "preprocessing_time": 0.04516744613647461,
+          "model_loading_time": 3.0994415283203125e-06,
+          "inference_time": 0.5582835674285889,
+          "memory_during_inference": 13.1171875,
+          "postprocessing_time": 0.0004405975341796875,
+          "total_time": 0.6039884090423584,
+          "audio_duration": 1.28,
+          "total_rtf": 0.4718659445643425,
+          "inference_rtf": 0.43615903705358505,
+          "audio_data": "[-0.00632601  0.05801969  0.04239563 ...  0.00361693 -0.00239695\n -0.00242768]",
+          "sample_rate": 16000
+        },
+        "memory_usage": 1704.4375,
+        "stuttering_analysis": {
+          "stuttering_score": 0.023622047244094488,
+          "sudden_changes": 6,
+          "envelope_length": 127
+        }
+      },
+      {
+        "test_name": "sequential_test_3",
+        "text": "Testing stuttering artifacts",
+        "audio_file": "inference_timing_stuttering_test/sequential_test_3_sequential.wav",
+        "timing_breakdown": {
+          "preprocessing_time": 0.05171084403991699,
+          "model_loading_time": 1.9073486328125e-06,
+          "inference_time": 0.4612908363342285,
+          "memory_during_inference": 0.62109375,
+          "postprocessing_time": 0.0003657341003417969,
+          "total_time": 0.5134479999542236,
+          "audio_duration": 1.088,
+          "total_rtf": 0.47191911760498495,
+          "inference_rtf": 0.42398054810131297,
+          "audio_data": "[ 0.00164127 -0.00520019  0.00354788 ...  0.00855133  0.00661575\n -0.01833494]",
+          "sample_rate": 16000
+        },
+        "memory_usage": 1706.62109375,
+        "stuttering_analysis": {
+          "stuttering_score": 0.06018518518518518,
+          "sudden_changes": 13,
+          "envelope_length": 108
+        }
+      }
+    ],
+    "timing_consistency": {
+      "rtf_variance": 2.9144311103495836e-06,
+      "rtf_std": 0.0017071704983245182,
+      "rtf_range": 0.003647749243451015,
+      "inference_time_variance": 0.006607186925761097,
+      "consistent_performance": "True"
+    },
+    "performance_degradation": {}
+  },
+  "memory_allocation_analysis": {
+    "memory_snapshots": [
+      {
+        "iteration": 1,
+        "memory_before": 1706.62109375,
+        "memory_after_gc": 1706.62109375,
+        "memory_after_inference": 1692.8125,
+        "gc_freed": 0.0,
+        "inference_allocated": -13.80859375,
+        "rtf": 0.43781382627174503,
+        "stuttering_score": 0.05384615384615385
+      },
+      {
+        "iteration": 2,
+        "memory_before": 1692.8125,
+        "memory_after_gc": 1692.8125,
+        "memory_after_inference": 1699.49609375,
+        "gc_freed": 0.0,
+        "inference_allocated": 6.68359375,
+        "rtf": 0.4444089981744874,
+        "stuttering_score": 0.04142011834319527
+      },
+      {
+        "iteration": 3,
+        "memory_before": 1699.49609375,
+        "memory_after_gc": 1699.49609375,
+        "memory_after_inference": 1701.36328125,
+        "gc_freed": 0.0,
+        "inference_allocated": 1.8671875,
+        "rtf": 0.5007467742236156,
+        "stuttering_score": 0.05917159763313609
+      }
+    ],
+    "allocation_patterns": {
+      "average_allocation": -1.7526041666666667,
+      "allocation_variance": 76.53973727756077,
+      "average_gc_freed": 0.0,
+      "memory_leak_detected": false,
+      "gc_effectiveness": false
+    },
+    "fragmentation_analysis": {},
+    "detailed_memory_trace": [
+      {
+        "timestamp": 1757095806.751823,
+        "rss": 1706.62109375,
+        "vms": 10641.40625
+      },
+      {
+        "timestamp": 1757095806.9257963,
+        "rss": 1706.62109375,
+        "vms": 10641.40625
+      },
+      {
+        "timestamp": 1757095807.0260606,
+        "rss": 1708.33984375,
+        "vms": 10724.1328125
+      },
+      {
+        "timestamp": 1757095807.1264179,
+        "rss": 1708.33984375,
+        "vms": 10724.1328125
+      },
+      {
+        "timestamp": 1757095807.226682,
+        "rss": 1708.33984375,
+        "vms": 10724.1328125
+      },
+      {
+        "timestamp": 1757095807.3269532,
+        "rss": 1708.33984375,
+        "vms": 10724.1328125
+      },
+      {
+        "timestamp": 1757095807.4271748,
+        "rss": 1708.33984375,
+        "vms": 10724.1328125
+      },
+      {
+        "timestamp": 1757095807.527414,
+        "rss": 1708.33984375,
+        "vms": 10724.1328125
+      },
+      {
+        "timestamp": 1757095807.6275802,
+        "rss": 1708.49609375,
+        "vms": 10729.3828125
+      },
+      {
+        "timestamp": 1757095807.7285106,
+        "rss": 1709.26953125,
+        "vms": 10812.91796875
+      },
+      {
+        "timestamp": 1757095807.9594378,
+        "rss": 1692.8125,
+        "vms": 10749.34765625
+      },
+      {
+        "timestamp": 1757095808.0597947,
+        "rss": 1695.0,
+        "vms": 10760.0703125
+      },
+      {
+        "timestamp": 1757095808.1599617,
+        "rss": 1695.0,
+        "vms": 10760.0703125
+      },
+      {
+        "timestamp": 1757095808.2604504,
+        "rss": 1695.0,
+        "vms": 10760.0703125
+      },
+      {
+        "timestamp": 1757095808.3606203,
+        "rss": 1695.0,
+        "vms": 10760.0703125
+      },
+      {
+        "timestamp": 1757095808.4608254,
+        "rss": 1695.0,
+        "vms": 10760.0703125
+      },
+      {
+        "timestamp": 1757095808.5610163,
+        "rss": 1695.0,
+        "vms": 10760.0703125
+      },
+      {
+        "timestamp": 1757095808.6611934,
+        "rss": 1697.6484375,
+        "vms": 10801.98828125
+      },
+      {
+        "timestamp": 1757095808.8892574,
+        "rss": 1699.49609375,
+        "vms": 10805.14453125
+      },
+      {
+        "timestamp": 1757095808.9894962,
+        "rss": 1701.37109375,
+        "vms": 10815.6171875
+      },
+      {
+        "timestamp": 1757095809.0897233,
+        "rss": 1701.37109375,
+        "vms": 10815.6171875
+      },
+      {
+        "timestamp": 1757095809.1900027,
+        "rss": 1701.37109375,
+        "vms": 10815.6171875
+      },
+      {
+        "timestamp": 1757095809.290288,
+        "rss": 1701.37109375,
+        "vms": 10815.6171875
+      },
+      {
+        "timestamp": 1757095809.3905077,
+        "rss": 1701.37109375,
+        "vms": 10815.6171875
+      },
+      {
+        "timestamp": 1757095809.4908183,
+        "rss": 1701.37109375,
+        "vms": 10815.6171875
+      },
+      {
+        "timestamp": 1757095809.5910408,
+        "rss": 1701.37109375,
+        "vms": 10815.6171875
+      },
+      {
+        "timestamp": 1757095809.6913435,
+        "rss": 1711.51171875,
+        "vms": 10897.58984375
+      }
+    ]
+  },
+  "async_processing_analysis": {
+    "concurrent_tests": [
+      {
+        "task_id": 1,
+        "rtf": 1.324817297920104,
+        "duration": 0.992,
+        "stuttering_score": 0.0,
+        "success": true
+      },
+      {
+        "task_id": 2,
+        "rtf": 1.5080297185528664,
+        "duration": 0.992,
+        "stuttering_score": 0.005050505050505051,
+        "success": true
+      },
+      {
+        "task_id": 3,
+        "rtf": 1.5470512932346714,
+        "duration": 0.992,
+        "stuttering_score": 0.015151515151515152,
+        "success": true
+      }
+    ],
+    "synchronization_analysis": {
+      "concurrent_execution_time": 1.5356781482696533,
+      "average_rtf": 1.4599661032358806,
+      "rtf_variance": 0.009386380337582116,
+      "synchronization_issues": "False",
+      "successful_tasks": 3,
+      "failed_tasks": 0
+    },
+    "async_performance": {}
+  },
+  "attention_mechanism_analysis": {
+    "attention_analysis": {},
+    "model_behavior": {
+      "rtf_increases_with_complexity": false,
+      "stuttering_increases_with_complexity": true,
+      "attention_degradation": false,
+      "complexity_correlation": -0.9240962940468445
+    },
+    "attention_patterns": {
+      "simple": {
+        "text": "Hello",
+        "complexity": "simple",
+        "generation_time": 0.3169281482696533,
+        "rtf": 0.5210645888981066,
+        "audio_analysis": {
+          "length": 9728,
+          "duration": 0.608,
+          "rms_energy": 0.006239799316972494,
+          "peak_amplitude": 0.11275679618120193,
+          "zero_crossings": 2454,
+          "dynamic_range": 0.19608405232429504,
+          "spectral_centroid_mean": 2673.681444065074,
+          "spectral_centroid_std": 787.5316727264433,
+          "spectral_stability": false
+        },
+        "stuttering_score": 0.0
+      },
+      "medium": {
+        "text": "Text-to-speech",
+        "complexity": "medium",
+        "generation_time": 0.4665818214416504,
+        "rtf": 0.4555110353976488,
+        "audio_analysis": {
+          "length": 16384,
+          "duration": 1.024,
+          "rms_energy": 0.01472735870629549,
+          "peak_amplitude": 0.18084819614887238,
+          "zero_crossings": 5695,
+          "dynamic_range": 0.2992722988128662,
+          "spectral_centroid_mean": 3431.5085362395694,
+          "spectral_centroid_std": 1124.0561062751067,
+          "spectral_stability": false
+        },
+        "stuttering_score": 0.0
+      },
+      "complex": {
+        "text": "Neural network architecture optimization",
+        "complexity": "complex",
+        "generation_time": 0.868135929107666,
+        "rtf": 0.44467471173552214,
+        "audio_analysis": {
+          "length": 31232,
+          "duration": 1.952,
+          "rms_energy": 0.053017839789390564,
+          "peak_amplitude": 0.5052474737167358,
+          "zero_crossings": 5566,
+          "dynamic_range": 0.9558218121528625,
+          "spectral_centroid_mean": 2200.494454518978,
+          "spectral_centroid_std": 1101.1513397836948,
+          "spectral_stability": false
+        },
+        "stuttering_score": 0.05641025641025641
+      }
+    }
+  },
+  "findings": [
+    "No critical timing or memory issues detected in automated analysis"
+  ],
+  "recommendations": [
+    "IMPLEMENT: Model warmup routine during application startup",
+    "MONITOR: Add real-time memory and timing monitoring to production",
+    "OPTIMIZE: Implement tensor caching and memory pool management",
+    "VALIDATE: Test with production-scale concurrent load"
+  ]
+}

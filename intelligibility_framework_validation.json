@@ -1,0 +1,44 @@
+{
+  "framework_validation": {
+    "timestamp": "2025-09-05",
+    "test_case": {
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "alloy"
+    },
+    "generation_metrics": {
+      "rtf": 7.758025974035263,
+      "inference_time": 12.412841558456421,
+      "audio_duration": 0,
+      "sample_rate": 16000
+    },
+    "intelligibility_metrics": {
+      "transcription": "",
+      "accuracy": 0.17521347073978655,
+      "wer": 1.0,
+      "cer": 1.0
+    },
+    "quality_metrics": {
+      "sample_rate": 16000,
+      "duration": 1.6,
+      "rms_level": 0.017720740288496017,
+      "peak_level": 0.14955568313598633,
+      "dynamic_range": 18.526416778564453,
+      "spectral_centroid": 2794.0430194848477,
+      "spectral_bandwidth": 1886.0417078788116,
+      "spectral_rolloff": 4770.680147058823,
+      "zero_crossing_rate": 0.2241498161764706,
+      "overall_quality": 98.92596435546875,
+      "naturalness_score": 100,
+      "clarity_score": 100,
+      "consistency_score": 95.703857421875,
+      "rtf": 7.758025974035263,
+      "inference_time": 12.412841558456421
+    },
+    "status_assessment": {
+      "intelligibility": "\ud83d\udd34 UNINTELLIGIBLE",
+      "performance": "\ud83d\udd34 POOR",
+      "quality": "\ud83d\udfe2 EXCELLENT"
+    },
+    "framework_status": "WORKING"
+  }
+}

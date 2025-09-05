@@ -1,0 +1,170 @@
+{
+  "test_timestamp": 1757095154.000384,
+  "compiled_model_results": {
+    "compilation_status": true,
+    "test_results": {
+      "welcome_word": {
+        "audio_file": "torch_compile_stuttering_test/welcome_word_compiled.wav",
+        "duration": 0.576,
+        "rtf": 6.032764083809323,
+        "generation_time": 3.475277900695801,
+        "sample_rate": 16000,
+        "stuttering_analysis": {
+          "stuttering_score": 0.21764837625979844,
+          "repetitive_patterns": 9,
+          "sudden_amplitude_changes": 3,
+          "silence_gaps": 3,
+          "potential_stuttering": "True"
+        }
+      },
+      "tts_phrase": {
+        "audio_file": "torch_compile_stuttering_test/tts_phrase_compiled.wav",
+        "duration": 1.152,
+        "rtf": 0.9525525901052687,
+        "generation_time": 1.0974457263946533,
+        "sample_rate": 16000,
+        "stuttering_analysis": {
+          "stuttering_score": 0.1738001129305477,
+          "repetitive_patterns": 3,
+          "sudden_amplitude_changes": 31,
+          "silence_gaps": 3,
+          "potential_stuttering": "True"
+        }
+      },
+      "stuttering_test": {
+        "audio_file": "torch_compile_stuttering_test/stuttering_test_compiled.wav",
+        "duration": 1.888,
+        "rtf": 0.354138218750388,
+        "generation_time": 0.6686913967132568,
+        "sample_rate": 16000,
+        "stuttering_analysis": {
+          "stuttering_score": 0.14931070204797195,
+          "repetitive_patterns": 15,
+          "sudden_amplitude_changes": 23,
+          "silence_gaps": 6,
+          "potential_stuttering": "True"
+        }
+      }
+    }
+  },
+  "non_compiled_model_results": {
+    "compilation_status": false,
+    "test_results": {
+      "welcome_word": {
+        "audio_file": "torch_compile_stuttering_test/welcome_word_non_compiled.wav",
+        "duration": 0.416,
+        "rtf": 0.5455320844283471,
+        "generation_time": 0.22704339027404785,
+        "sample_rate": 16000,
+        "stuttering_analysis": {
+          "stuttering_score": 0.2516129032258065,
+          "repetitive_patterns": 4,
+          "sudden_amplitude_changes": 0,
+          "silence_gaps": 4,
+          "potential_stuttering": "True"
+        }
+      },
+      "tts_phrase": {
+        "audio_file": "torch_compile_stuttering_test/tts_phrase_non_compiled.wav",
+        "duration": 0.928,
+        "rtf": 0.3435187812509208,
+        "generation_time": 0.31888246536254883,
+        "sample_rate": 16000,
+        "stuttering_analysis": {
+          "stuttering_score": 0.16284906327324145,
+          "repetitive_patterns": 1,
+          "sudden_amplitude_changes": 21,
+          "silence_gaps": 3,
+          "potential_stuttering": "True"
+        }
+      },
+      "stuttering_test": {
+        "audio_file": "torch_compile_stuttering_test/stuttering_test_non_compiled.wav",
+        "duration": 1.376,
+        "rtf": 0.3192258435626363,
+        "generation_time": 0.4393601417541504,
+        "sample_rate": 16000,
+        "stuttering_analysis": {
+          "stuttering_score": 0.13039741452868645,
+          "repetitive_patterns": 4,
+          "sudden_amplitude_changes": 14,
+          "silence_gaps": 5,
+          "potential_stuttering": "True"
+        }
+      }
+    }
+  },
+  "comparison_analysis": {
+    "performance_differences": {
+      "welcome_word": {
+        "compiled_rtf": 6.032764083809323,
+        "non_compiled_rtf": 0.5455320844283471,
+        "rtf_difference": 5.487231999380976,
+        "rtf_improvement": false,
+        "compiled_duration": 0.576,
+        "non_compiled_duration": 0.416,
+        "duration_difference": 0.15999999999999998
+      },
+      "tts_phrase": {
+        "compiled_rtf": 0.9525525901052687,
+        "non_compiled_rtf": 0.3435187812509208,
+        "rtf_difference": 0.6090338088543479,
+        "rtf_improvement": false,
+        "compiled_duration": 1.152,
+        "non_compiled_duration": 0.928,
+        "duration_difference": 0.22399999999999987
+      },
+      "stuttering_test": {
+        "compiled_rtf": 0.354138218750388,
+        "non_compiled_rtf": 0.3192258435626363,
+        "rtf_difference": 0.0349123751877517,
+        "rtf_improvement": false,
+        "compiled_duration": 1.888,
+        "non_compiled_duration": 1.376,
+        "duration_difference": 0.512
+      }
+    },
+    "stuttering_differences": {
+      "welcome_word": {
+        "compiled_stuttering_score": 0.21764837625979844,
+        "non_compiled_stuttering_score": 0.2516129032258065,
+        "stuttering_difference": -0.033964526966008046,
+        "compilation_increases_stuttering": false,
+        "compiled_potential_stuttering": "True",
+        "non_compiled_potential_stuttering": "True"
+      },
+      "tts_phrase": {
+        "compiled_stuttering_score": 0.1738001129305477,
+        "non_compiled_stuttering_score": 0.16284906327324145,
+        "stuttering_difference": 0.010951049657306255,
+        "compilation_increases_stuttering": false,
+        "compiled_potential_stuttering": "True",
+        "non_compiled_potential_stuttering": "True"
+      },
+      "stuttering_test": {
+        "compiled_stuttering_score": 0.14931070204797195,
+        "non_compiled_stuttering_score": 0.13039741452868645,
+        "stuttering_difference": 0.018913287519285504,
+        "compilation_increases_stuttering": false,
+        "compiled_potential_stuttering": "True",
+        "non_compiled_potential_stuttering": "True"
+      }
+    },
+    "compilation_impact": {
+      "average_rtf_change": 2.043726061141025,
+      "average_stuttering_change": -0.0013667299298054287,
+      "compilation_improves_performance": false,
+      "compilation_increases_stuttering": false,
+      "significant_stuttering_impact": false
+    }
+  },
+  "findings": [
+    "torch.compile does not appear to be causing stuttering artifacts"
+  ],
+  "recommendations": [
+    "CONTINUE: torch.compile can be safely used - stuttering cause is elsewhere",
+    "VALIDATE: Generate human listening test samples with torch.compile disabled",
+    "MONITOR: Implement stuttering detection in production pipeline",
+    "DOCUMENT: Update model configuration guidelines based on findings"
+  ]
+}

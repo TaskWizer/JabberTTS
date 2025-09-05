@@ -1,0 +1,608 @@
+{
+  "test_timestamp": 1757095560.1806223,
+  "phonemized_results": {
+    "phonemization_status": true,
+    "test_results": {
+      "welcome_word": {
+        "audio_file": "phonemization_stuttering_test/welcome_word_phonemized.wav",
+        "duration": 0.448,
+        "rtf": 21.60439799938883,
+        "generation_time": 9.679090023040771,
+        "sample_rate": 16000,
+        "stuttering_analysis": {
+          "stuttering_score": 0.16256684491978612,
+          "repetitive_patterns": 3,
+          "sudden_amplitude_changes": 3,
+          "silence_gaps": 2,
+          "potential_stuttering": "True",
+          "envelope_analysis": {
+            "envelope_length": 44,
+            "envelope_mean": 0.08141081780195236,
+            "envelope_std": 0.06837137043476105,
+            "envelope_max": 0.29270467162132263,
+            "envelope_min": 0.002311874181032181,
+            "dynamic_range": 0.29039278626441956
+          }
+        }
+      },
+      "tts_phrase": {
+        "audio_file": "phonemization_stuttering_test/tts_phrase_phonemized.wav",
+        "duration": 0.96,
+        "rtf": 1.2453541159629822,
+        "generation_time": 1.1956491470336914,
+        "sample_rate": 16000,
+        "stuttering_analysis": {
+          "stuttering_score": 0.07101479188166496,
+          "repetitive_patterns": 5,
+          "sudden_amplitude_changes": 6,
+          "silence_gaps": 1,
+          "potential_stuttering": "False",
+          "envelope_analysis": {
+            "envelope_length": 95,
+            "envelope_mean": 0.13092291355133057,
+            "envelope_std": 0.0851551815867424,
+            "envelope_max": 0.4026702344417572,
+            "envelope_min": 0.0028947805985808372,
+            "dynamic_range": 0.3997754454612732
+          }
+        }
+      },
+      "complex_consonants": {
+        "audio_file": "phonemization_stuttering_test/complex_consonants_phonemized.wav",
+        "duration": 0.416,
+        "rtf": 0.6275566724630502,
+        "generation_time": 0.26114535331726074,
+        "sample_rate": 16000,
+        "stuttering_analysis": {
+          "stuttering_score": 0.06290322580645162,
+          "repetitive_patterns": 1,
+          "sudden_amplitude_changes": 0,
+          "silence_gaps": 1,
+          "potential_stuttering": "False",
+          "envelope_analysis": {
+            "envelope_length": 41,
+            "envelope_mean": 0.07736087590456009,
+            "envelope_std": 0.04035938158631325,
+            "envelope_max": 0.19918155670166016,
+            "envelope_min": 0.009715805761516094,
+            "dynamic_range": 0.1894657462835312
+          }
+        }
+      },
+      "technical_terms": {
+        "audio_file": "phonemization_stuttering_test/technical_terms_phonemized.wav",
+        "duration": 1.248,
+        "rtf": 0.47656740897741073,
+        "generation_time": 0.5948667526245117,
+        "sample_rate": 16000,
+        "stuttering_analysis": {
+          "stuttering_score": 0.1961233729485003,
+          "repetitive_patterns": 11,
+          "sudden_amplitude_changes": 23,
+          "silence_gaps": 5,
+          "potential_stuttering": "True",
+          "envelope_analysis": {
+            "envelope_length": 124,
+            "envelope_mean": 0.1507025510072708,
+            "envelope_std": 0.13314801454544067,
+            "envelope_max": 0.5923646688461304,
+            "envelope_min": 0.003587475512176752,
+            "dynamic_range": 0.5887771844863892
+          }
+        }
+      },
+      "stuttering_test": {
+        "audio_file": "phonemization_stuttering_test/stuttering_test_phonemized.wav",
+        "duration": 1.376,
+        "rtf": 0.4772566432176635,
+        "generation_time": 0.6568217277526855,
+        "sample_rate": 16000,
+        "stuttering_analysis": {
+          "stuttering_score": 0.0633458156304297,
+          "repetitive_patterns": 2,
+          "sudden_amplitude_changes": 9,
+          "silence_gaps": 2,
+          "potential_stuttering": "False",
+          "envelope_analysis": {
+            "envelope_length": 137,
+            "envelope_mean": 0.11031854152679443,
+            "envelope_std": 0.08274829387664795,
+            "envelope_max": 0.3379027545452118,
+            "envelope_min": 0.006788121536374092,
+            "dynamic_range": 0.33111461997032166
+          }
+        }
+      }
+    }
+  },
+  "non_phonemized_results": {
+    "phonemization_status": false,
+    "test_results": {
+      "welcome_word": {
+        "audio_file": "phonemization_stuttering_test/welcome_word_non_phonemized.wav",
+        "duration": 0.32,
+        "rtf": 0.5883395671844482,
+        "generation_time": 0.18835878372192383,
+        "sample_rate": 16000,
+        "stuttering_analysis": {
+          "stuttering_score": 0.20399385560675884,
+          "repetitive_patterns": 1,
+          "sudden_amplitude_changes": 4,
+          "silence_gaps": 2,
+          "potential_stuttering": "True",
+          "envelope_analysis": {
+            "envelope_length": 31,
+            "envelope_mean": 0.11029907315969467,
+            "envelope_std": 0.09511669725179672,
+            "envelope_max": 0.324477881193161,
+            "envelope_min": 0.004090361762791872,
+            "dynamic_range": 0.32038751244544983
+          }
+        }
+      },
+      "tts_phrase": {
+        "audio_file": "phonemization_stuttering_test/tts_phrase_non_phonemized.wav",
+        "duration": 0.928,
+        "rtf": 0.46393378027554216,
+        "generation_time": 0.4306778907775879,
+        "sample_rate": 16000,
+        "stuttering_analysis": {
+          "stuttering_score": 0.07540944974667138,
+          "repetitive_patterns": 1,
+          "sudden_amplitude_changes": 6,
+          "silence_gaps": 2,
+          "potential_stuttering": "False",
+          "envelope_analysis": {
+            "envelope_length": 92,
+            "envelope_mean": 0.1335573047399521,
+            "envelope_std": 0.0799163430929184,
+            "envelope_max": 0.35945388674736023,
+            "envelope_min": 0.007102759554982185,
+            "dynamic_range": 0.3523511290550232
+          }
+        }
+      },
+      "complex_consonants": {
+        "audio_file": "phonemization_stuttering_test/complex_consonants_non_phonemized.wav",
+        "duration": 0.8,
+        "rtf": 0.42715251445770264,
+        "generation_time": 0.34180474281311035,
+        "sample_rate": 16000,
+        "stuttering_analysis": {
+          "stuttering_score": 0.09657467830280159,
+          "repetitive_patterns": 1,
+          "sudden_amplitude_changes": 1,
+          "silence_gaps": 3,
+          "potential_stuttering": "False",
+          "envelope_analysis": {
+            "envelope_length": 79,
+            "envelope_mean": 0.06140588968992233,
+            "envelope_std": 0.042876530438661575,
+            "envelope_max": 0.16670750081539154,
+            "envelope_min": 0.0015883316518738866,
+            "dynamic_range": 0.16511917114257812
+          }
+        }
+      },
+      "technical_terms": {
+        "audio_file": "phonemization_stuttering_test/technical_terms_non_phonemized.wav",
+        "duration": 2.112,
+        "rtf": 0.42337619445540686,
+        "generation_time": 0.8943016529083252,
+        "sample_rate": 16000,
+        "stuttering_analysis": {
+          "stuttering_score": 0.13172862835450372,
+          "repetitive_patterns": 5,
+          "sudden_amplitude_changes": 14,
+          "silence_gaps": 10,
+          "potential_stuttering": "True",
+          "envelope_analysis": {
+            "envelope_length": 211,
+            "envelope_mean": 0.13273274898529053,
+            "envelope_std": 0.10410123318433762,
+            "envelope_max": 0.4256495535373688,
+            "envelope_min": 4.6167519030859694e-05,
+            "dynamic_range": 0.42560338973999023
+          }
+        }
+      },
+      "stuttering_test": {
+        "audio_file": "phonemization_stuttering_test/stuttering_test_non_phonemized.wav",
+        "duration": 2.048,
+        "rtf": 0.4335698904469609,
+        "generation_time": 0.8880620002746582,
+        "sample_rate": 16000,
+        "stuttering_analysis": {
+          "stuttering_score": 0.13552051748534466,
+          "repetitive_patterns": 10,
+          "sudden_amplitude_changes": 28,
+          "silence_gaps": 6,
+          "potential_stuttering": "True",
+          "envelope_analysis": {
+            "envelope_length": 204,
+            "envelope_mean": 0.14685563743114471,
+            "envelope_std": 0.10730601847171783,
+            "envelope_max": 0.52374267578125,
+            "envelope_min": 0.004443030804395676,
+            "dynamic_range": 0.5192996263504028
+          }
+        }
+      }
+    }
+  },
+  "phonemization_analysis": {
+    "phonemization_comparison": {
+      "welcome_word": {
+        "original_text": "Welcome",
+        "phonemized_text": "w\u02c8\u025blk\u028cm.",
+        "non_phonemized_text": "Welcome.",
+        "length_change": 1,
+        "word_count_change": 0,
+        "phoneme_analysis": {
+          "phoneme_markers": {
+            "primary_stress": 1,
+            "secondary_stress": 0,
+            "long_vowels": 0,
+            "total_markers": 1
+          },
+          "syllable_analysis": {
+            "original_word_count": 1,
+            "phonemized_word_count": 1,
+            "syllable_boundary_change": 0,
+            "syllable_fragmentation": false
+          },
+          "consonant_clusters": {
+            "cluster_count": 0,
+            "clusters_found": [],
+            "max_cluster_length": 0,
+            "complex_clusters": 0
+          },
+          "phoneme_density": {
+            "phoneme_char_count": 7,
+            "total_char_count": 8,
+            "phoneme_density_ratio": 0.875,
+            "marker_density": 0.14285714285714285
+          },
+          "complexity_score": 0.3,
+          "high_complexity": false
+        },
+        "fragmentation_analysis": {
+          "excessive_spaces": false,
+          "phoneme_boundaries": false,
+          "special_characters": 0,
+          "word_boundary_issues": false,
+          "potential_syllable_separation": false,
+          "phoneme_marker_density": 0.125,
+          "space_analysis": {
+            "total_spaces": 0,
+            "average_space_interval": 0,
+            "irregular_spacing": false
+          },
+          "fragmentation_score": 1.25,
+          "high_fragmentation": false
+        }
+      },
+      "tts_phrase": {
+        "original_text": "Text-to-speech synthesis",
+        "phonemized_text": "t\u02c8\u025bkstt\u0259sp\u02c8i\u02d0t\u0283 s\u02c8\u026an\u03b8\u0259s\u02cc\u026as.",
+        "non_phonemized_text": "Text-to-speech synthesis.",
+        "length_change": 3,
+        "word_count_change": 0,
+        "phoneme_analysis": {
+          "phoneme_markers": {
+            "primary_stress": 3,
+            "secondary_stress": 1,
+            "long_vowels": 1,
+            "total_markers": 5
+          },
+          "syllable_analysis": {
+            "original_word_count": 2,
+            "phonemized_word_count": 2,
+            "syllable_boundary_change": 0,
+            "syllable_fragmentation": false
+          },
+          "consonant_clusters": {
+            "cluster_count": 1,
+            "clusters_found": [
+              "kstt"
+            ],
+            "max_cluster_length": 4,
+            "complex_clusters": 1
+          },
+          "phoneme_density": {
+            "phoneme_char_count": 25,
+            "total_char_count": 26,
+            "phoneme_density_ratio": 0.9615384615384616,
+            "marker_density": 0.20833333333333334
+          },
+          "complexity_score": 1.9,
+          "high_complexity": false
+        },
+        "fragmentation_analysis": {
+          "excessive_spaces": false,
+          "phoneme_boundaries": false,
+          "special_characters": 0,
+          "word_boundary_issues": false,
+          "potential_syllable_separation": false,
+          "phoneme_marker_density": 0.18518518518518517,
+          "space_analysis": {
+            "total_spaces": 1,
+            "average_space_interval": 0,
+            "irregular_spacing": false
+          },
+          "fragmentation_score": 1.8518518518518516,
+          "high_fragmentation": false
+        }
+      },
+      "complex_consonants": {
+        "original_text": "Strength through struggle",
+        "phonemized_text": "st\u0279\u02c8\u025b\u014b\u03b8 \u03b8\u0279u\u02d0 st\u0279\u02c8\u028c\u0261\u0259l.",
+        "non_phonemized_text": "Strength through struggle.",
+        "length_change": -3,
+        "word_count_change": 0,
+        "phoneme_analysis": {
+          "phoneme_markers": {
+            "primary_stress": 2,
+            "secondary_stress": 0,
+            "long_vowels": 1,
+            "total_markers": 3
+          },
+          "syllable_analysis": {
+            "original_word_count": 3,
+            "phonemized_word_count": 3,
+            "syllable_boundary_change": 0,
+            "syllable_fragmentation": false
+          },
+          "consonant_clusters": {
+            "cluster_count": 0,
+            "clusters_found": [],
+            "max_cluster_length": 0,
+            "complex_clusters": 0
+          },
+          "phoneme_density": {
+            "phoneme_char_count": 19,
+            "total_char_count": 20,
+            "phoneme_density_ratio": 0.95,
+            "marker_density": 0.12
+          },
+          "complexity_score": 0.8999999999999999,
+          "high_complexity": false
+        },
+        "fragmentation_analysis": {
+          "excessive_spaces": false,
+          "phoneme_boundaries": false,
+          "special_characters": 0,
+          "word_boundary_issues": false,
+          "potential_syllable_separation": false,
+          "phoneme_marker_density": 0.13636363636363635,
+          "space_analysis": {
+            "total_spaces": 2,
+            "average_space_interval": 5.0,
+            "irregular_spacing": false
+          },
+          "fragmentation_score": 1.3636363636363635,
+          "high_fragmentation": false
+        }
+      },
+      "technical_terms": {
+        "original_text": "Neural network architecture optimization",
+        "phonemized_text": "n\u02c8\u028a\u0279\u0279\u0259l n\u02c8\u025btw\u025c\u02d0k \u02c8\u0251\u02d0\u0279k\u026at\u02cc\u025bkt\u0283\u025a\u0279 \u02cc\u0251\u02d0pt\u026am\u1d7bz\u02c8e\u026a\u0283\u0259n.",
+        "non_phonemized_text": "Neural network architecture optimization.",
+        "length_change": 8,
+        "word_count_change": 0,
+        "phoneme_analysis": {
+          "phoneme_markers": {
+            "primary_stress": 4,
+            "secondary_stress": 2,
+            "long_vowels": 3,
+            "total_markers": 9
+          },
+          "syllable_analysis": {
+            "original_word_count": 4,
+            "phonemized_word_count": 4,
+            "syllable_boundary_change": 0,
+            "syllable_fragmentation": false
+          },
+          "consonant_clusters": {
+            "cluster_count": 0,
+            "clusters_found": [],
+            "max_cluster_length": 0,
+            "complex_clusters": 0
+          },
+          "phoneme_density": {
+            "phoneme_char_count": 44,
+            "total_char_count": 45,
+            "phoneme_density_ratio": 0.9777777777777777,
+            "marker_density": 0.225
+          },
+          "complexity_score": 2.6999999999999997,
+          "high_complexity": true
+        },
+        "fragmentation_analysis": {
+          "excessive_spaces": false,
+          "phoneme_boundaries": false,
+          "special_characters": 0,
+          "word_boundary_issues": false,
+          "potential_syllable_separation": false,
+          "phoneme_marker_density": 0.1875,
+          "space_analysis": {
+            "total_spaces": 3,
+            "average_space_interval": 12.0,
+            "irregular_spacing": false
+          },
+          "fragmentation_score": 1.875,
+          "high_fragmentation": false
+        }
+      },
+      "stuttering_test": {
+        "original_text": "Testing text-to-speech stuttering artifacts",
+        "phonemized_text": "t\u02c8\u025bst\u026a\u014b t\u02c8\u025bkstt\u0259sp\u02c8i\u02d0t\u0283 st\u02c8\u028c\u027e\u025a\u0279\u026a\u014b \u02c8\u0251\u02d0\u0279\u027e\u026af\u02cc\u00e6kts.",
+        "non_phonemized_text": "Testing text-to-speech stuttering artifacts.",
+        "length_change": 4,
+        "word_count_change": 0,
+        "phoneme_analysis": {
+          "phoneme_markers": {
+            "primary_stress": 5,
+            "secondary_stress": 1,
+            "long_vowels": 2,
+            "total_markers": 8
+          },
+          "syllable_analysis": {
+            "original_word_count": 4,
+            "phonemized_word_count": 4,
+            "syllable_boundary_change": 0,
+            "syllable_fragmentation": false
+          },
+          "consonant_clusters": {
+            "cluster_count": 2,
+            "clusters_found": [
+              "kstt",
+              "kts"
+            ],
+            "max_cluster_length": 4,
+            "complex_clusters": 1
+          },
+          "phoneme_density": {
+            "phoneme_char_count": 43,
+            "total_char_count": 44,
+            "phoneme_density_ratio": 0.9772727272727273,
+            "marker_density": 0.18604651162790697
+          },
+          "complexity_score": 2.8,
+          "high_complexity": true
+        },
+        "fragmentation_analysis": {
+          "excessive_spaces": false,
+          "phoneme_boundaries": false,
+          "special_characters": 0,
+          "word_boundary_issues": false,
+          "potential_syllable_separation": false,
+          "phoneme_marker_density": 0.1702127659574468,
+          "space_analysis": {
+            "total_spaces": 3,
+            "average_space_interval": 13.0,
+            "irregular_spacing": false
+          },
+          "fragmentation_score": 1.702127659574468,
+          "high_fragmentation": false
+        }
+      }
+    },
+    "fragmentation_analysis": {},
+    "phoneme_complexity": {}
+  },
+  "comparison_analysis": {
+    "performance_differences": {
+      "welcome_word": {
+        "phonemized_rtf": 21.60439799938883,
+        "non_phonemized_rtf": 0.5883395671844482,
+        "rtf_difference": 21.01605843220438,
+        "rtf_improvement": false,
+        "phonemized_duration": 0.448,
+        "non_phonemized_duration": 0.32,
+        "duration_difference": 0.128
+      },
+      "tts_phrase": {
+        "phonemized_rtf": 1.2453541159629822,
+        "non_phonemized_rtf": 0.46393378027554216,
+        "rtf_difference": 0.7814203356874401,
+        "rtf_improvement": false,
+        "phonemized_duration": 0.96,
+        "non_phonemized_duration": 0.928,
+        "duration_difference": 0.03199999999999992
+      },
+      "complex_consonants": {
+        "phonemized_rtf": 0.6275566724630502,
+        "non_phonemized_rtf": 0.42715251445770264,
+        "rtf_difference": 0.2004041580053476,
+        "rtf_improvement": false,
+        "phonemized_duration": 0.416,
+        "non_phonemized_duration": 0.8,
+        "duration_difference": -0.38400000000000006
+      },
+      "technical_terms": {
+        "phonemized_rtf": 0.47656740897741073,
+        "non_phonemized_rtf": 0.42337619445540686,
+        "rtf_difference": 0.05319121452200387,
+        "rtf_improvement": false,
+        "phonemized_duration": 1.248,
+        "non_phonemized_duration": 2.112,
+        "duration_difference": -0.8640000000000001
+      },
+      "stuttering_test": {
+        "phonemized_rtf": 0.4772566432176635,
+        "non_phonemized_rtf": 0.4335698904469609,
+        "rtf_difference": 0.04368675277070255,
+        "rtf_improvement": false,
+        "phonemized_duration": 1.376,
+        "non_phonemized_duration": 2.048,
+        "duration_difference": -0.6720000000000002
+      }
+    },
+    "stuttering_differences": {
+      "welcome_word": {
+        "phonemized_stuttering_score": 0.16256684491978612,
+        "non_phonemized_stuttering_score": 0.20399385560675884,
+        "stuttering_difference": -0.041427010686972715,
+        "phonemization_increases_stuttering": false,
+        "phonemized_potential_stuttering": "True",
+        "non_phonemized_potential_stuttering": "True"
+      },
+      "tts_phrase": {
+        "phonemized_stuttering_score": 0.07101479188166496,
+        "non_phonemized_stuttering_score": 0.07540944974667138,
+        "stuttering_difference": -0.004394657865006424,
+        "phonemization_increases_stuttering": false,
+        "phonemized_potential_stuttering": "False",
+        "non_phonemized_potential_stuttering": "False"
+      },
+      "complex_consonants": {
+        "phonemized_stuttering_score": 0.06290322580645162,
+        "non_phonemized_stuttering_score": 0.09657467830280159,
+        "stuttering_difference": -0.033671452496349966,
+        "phonemization_increases_stuttering": false,
+        "phonemized_potential_stuttering": "False",
+        "non_phonemized_potential_stuttering": "False"
+      },
+      "technical_terms": {
+        "phonemized_stuttering_score": 0.1961233729485003,
+        "non_phonemized_stuttering_score": 0.13172862835450372,
+        "stuttering_difference": 0.06439474459399658,
+        "phonemization_increases_stuttering": true,
+        "phonemized_potential_stuttering": "True",
+        "non_phonemized_potential_stuttering": "True"
+      },
+      "stuttering_test": {
+        "phonemized_stuttering_score": 0.0633458156304297,
+        "non_phonemized_stuttering_score": 0.13552051748534466,
+        "stuttering_difference": -0.07217470185491497,
+        "phonemization_increases_stuttering": false,
+        "phonemized_potential_stuttering": "False",
+        "non_phonemized_potential_stuttering": "True"
+      }
+    },
+    "phonemization_impact": {
+      "average_rtf_change": 4.418952178637975,
+      "average_stuttering_change": -0.0174546156618495,
+      "phonemization_improves_performance": false,
+      "phonemization_increases_stuttering": false,
+      "significant_stuttering_impact": true,
+      "stuttering_reduction_cases": 1,
+      "stuttering_increase_cases": 1
+    }
+  },
+  "findings": [
+    "CRITICAL: Phonemization has significant impact on stuttering (>0.05 difference)",
+    "WARNING: Phonemization increases stuttering for 'technical_terms' - score: 0.196 vs 0.132",
+    "WARNING: High phoneme complexity detected in: technical_terms, stuttering_test"
+  ],
+  "recommendations": [
+    "CONTINUE: Phonemization can be safely used - stuttering cause is elsewhere",
+    "INVESTIGATE: Review phoneme complexity for 'technical_terms' - complexity score: 2.70",
+    "INVESTIGATE: Review phoneme complexity for 'stuttering_test' - complexity score: 2.80",
+    "VALIDATE: Generate human listening test samples with phonemization disabled",
+    "MONITOR: Implement phonemization quality checks in production pipeline",
+    "DOCUMENT: Update text preprocessing guidelines based on findings",
+    "TEST: Experiment with alternative phonemization backends if available"
+  ]
+}

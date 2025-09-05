@@ -1,0 +1,1137 @@
+{
+  "investigation_timestamp": 1757097101.5689843,
+  "investigation_date": "2025-09-05 13:31:41",
+  "module_a_sample_rate": {
+    "sample_rate_tests": {
+      "simple_word": {
+        "sr_8000": {
+          "target_sample_rate": 8000,
+          "model_sample_rate": 16000,
+          "conversion_needed": true,
+          "conversion_analysis": {
+            "conversion_ratio": 0.5,
+            "upsampling": false,
+            "downsampling": true,
+            "no_conversion": false,
+            "nyquist_source": 8000.0,
+            "nyquist_target": 4000.0,
+            "potential_aliasing": true,
+            "frequency_range_loss": 4000.0,
+            "quality_impact": "low"
+          },
+          "audio_file": "audio_format_investigation/simple_word_sr_8000.wav",
+          "rtf": 27.08332675198714
+        },
+        "sr_16000": {
+          "target_sample_rate": 16000,
+          "model_sample_rate": 16000,
+          "conversion_needed": false,
+          "conversion_analysis": {
+            "conversion_ratio": 1.0,
+            "upsampling": false,
+            "downsampling": false,
+            "no_conversion": true
+          },
+          "audio_file": "audio_format_investigation/simple_word_sr_16000.wav",
+          "rtf": 0.5085828403631846
+        },
+        "sr_22050": {
+          "target_sample_rate": 22050,
+          "model_sample_rate": 16000,
+          "conversion_needed": true,
+          "conversion_analysis": {
+            "conversion_ratio": 1.378125,
+            "upsampling": true,
+            "downsampling": false,
+            "no_conversion": false,
+            "nyquist_source": 8000.0,
+            "nyquist_target": 11025.0,
+            "potential_aliasing": false,
+            "frequency_range_loss": 0,
+            "quality_impact": "low"
+          },
+          "audio_file": "audio_format_investigation/simple_word_sr_22050.wav",
+          "rtf": 0.46748730043570197
+        },
+        "sr_44100": {
+          "target_sample_rate": 44100,
+          "model_sample_rate": 16000,
+          "conversion_needed": true,
+          "conversion_analysis": {
+            "conversion_ratio": 2.75625,
+            "upsampling": true,
+            "downsampling": false,
+            "no_conversion": false,
+            "nyquist_source": 8000.0,
+            "nyquist_target": 22050.0,
+            "potential_aliasing": false,
+            "frequency_range_loss": 0,
+            "quality_impact": "high"
+          },
+          "audio_file": "audio_format_investigation/simple_word_sr_44100.wav",
+          "rtf": 2.622269771315835
+        },
+        "sr_48000": {
+          "target_sample_rate": 48000,
+          "model_sample_rate": 16000,
+          "conversion_needed": true,
+          "conversion_analysis": {
+            "conversion_ratio": 3.0,
+            "upsampling": true,
+            "downsampling": false,
+            "no_conversion": false,
+            "nyquist_source": 8000.0,
+            "nyquist_target": 24000.0,
+            "potential_aliasing": false,
+            "frequency_range_loss": 0,
+            "quality_impact": "high"
+          },
+          "audio_file": "audio_format_investigation/simple_word_sr_48000.wav",
+          "rtf": 0.49809481088931745
+        }
+      }
+    },
+    "conversion_artifacts": {},
+    "pipeline_consistency": {
+      "model_output_sr": 16000,
+      "audio_processor_expected_sr": "high",
+      "ffmpeg_output_sr": "varies",
+      "potential_mismatches": [
+        "Config sample rate (24000) != Model output (16000)"
+      ]
+    }
+  },
+  "module_b_ffmpeg_analysis": {
+    "ffmpeg_comparison": {
+      "simple_word": {
+        "raw_file": "audio_format_investigation/simple_word_raw_model.wav",
+        "processed_file": "audio_format_investigation/simple_word_ffmpeg_processed.wav",
+        "raw_analysis": {
+          "length": 6144,
+          "duration": 0.384,
+          "rms_energy": 0.055518876761198044,
+          "peak_amplitude": 0.5071969032287598,
+          "zero_crossings": 1095,
+          "dynamic_range": 0.763033390045166,
+          "dc_offset": -9.721121750772e-05,
+          "clipping_detected": false,
+          "spectral_centroid": 2533.0395629548934,
+          "spectral_rolloff": 5125.0
+        },
+        "processed_analysis": {
+          "length": 6144,
+          "duration": 0.384,
+          "rms_energy": 0.09304286225575632,
+          "peak_amplitude": 0.8499755859375,
+          "zero_crossings": 1104,
+          "dynamic_range": 1.27874755859375,
+          "dc_offset": -0.0001782675584157308,
+          "clipping_detected": false,
+          "spectral_centroid": 2533.0983755743982,
+          "spectral_rolloff": 5125.0
+        },
+        "comparison": {
+          "length": {
+            "raw": 6144,
+            "processed": 6144,
+            "difference": 0,
+            "percentage_change": 0.0
+          },
+          "duration": {
+            "raw": 0.384,
+            "processed": 0.384,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "rms_energy": {
+            "raw": 0.055518876761198044,
+            "processed": 0.09304286225575632,
+            "difference": 0.03752398549455828,
+            "percentage_change": 67.58779659026472
+          },
+          "peak_amplitude": {
+            "raw": 0.5071969032287598,
+            "processed": 0.8499755859375,
+            "difference": 0.34277868270874023,
+            "percentage_change": 67.58296048864825
+          },
+          "zero_crossings": {
+            "raw": 1095,
+            "processed": 1104,
+            "difference": 9,
+            "percentage_change": 0.821917808219178
+          },
+          "dynamic_range": {
+            "raw": 0.763033390045166,
+            "processed": 1.27874755859375,
+            "difference": 0.515714168548584,
+            "percentage_change": 67.5873658055852
+          },
+          "dc_offset": {
+            "raw": -9.721121750772e-05,
+            "processed": -0.0001782675584157308,
+            "difference": -8.105634090801081e-05,
+            "percentage_change": 83.38167444675173
+          },
+          "clipping_detected": {
+            "raw": false,
+            "processed": false,
+            "difference": 0,
+            "percentage_change": 0
+          },
+          "spectral_centroid": {
+            "raw": 2533.0395629548934,
+            "processed": 2533.0983755743982,
+            "difference": 0.05881261950480621,
+            "percentage_change": 0.002321820012799125
+          },
+          "spectral_rolloff": {
+            "raw": 5125.0,
+            "processed": 5125.0,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "quality_impact": {
+            "rms_change": 67.58779659026472,
+            "peak_change": 67.58296048864825,
+            "dynamic_range_change": 67.5873658055852,
+            "significant_degradation": true
+          }
+        }
+      },
+      "tts_trigger": {
+        "raw_file": "audio_format_investigation/tts_trigger_raw_model.wav",
+        "processed_file": "audio_format_investigation/tts_trigger_ffmpeg_processed.wav",
+        "raw_analysis": {
+          "length": 10752,
+          "duration": 0.672,
+          "rms_energy": 0.08107849955558777,
+          "peak_amplitude": 0.5950491428375244,
+          "zero_crossings": 4532,
+          "dynamic_range": 1.0889030694961548,
+          "dc_offset": 3.410387580515817e-05,
+          "clipping_detected": false,
+          "spectral_centroid": 3558.317946492988,
+          "spectral_rolloff": 6312.5
+        },
+        "processed_analysis": {
+          "length": 10752,
+          "duration": 0.672,
+          "rms_energy": 0.11581683982513333,
+          "peak_amplitude": 0.850006103515625,
+          "zero_crossings": 4538,
+          "dynamic_range": 1.555450439453125,
+          "dc_offset": 3.335305622645787e-05,
+          "clipping_detected": false,
+          "spectral_centroid": 3558.407007593957,
+          "spectral_rolloff": 6312.5
+        },
+        "comparison": {
+          "length": {
+            "raw": 10752,
+            "processed": 10752,
+            "difference": 0,
+            "percentage_change": 0.0
+          },
+          "duration": {
+            "raw": 0.672,
+            "processed": 0.672,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "rms_energy": {
+            "raw": 0.08107849955558777,
+            "processed": 0.11581683982513333,
+            "difference": 0.03473834026954556,
+            "percentage_change": 42.845317143207374
+          },
+          "peak_amplitude": {
+            "raw": 0.5950491428375244,
+            "processed": 0.850006103515625,
+            "difference": 0.2549569606781006,
+            "percentage_change": 42.84637054719958
+          },
+          "zero_crossings": {
+            "raw": 4532,
+            "processed": 4538,
+            "difference": 6,
+            "percentage_change": 0.1323918799646955
+          },
+          "dynamic_range": {
+            "raw": 1.0889030694961548,
+            "processed": 1.555450439453125,
+            "difference": 0.4665473699569702,
+            "percentage_change": 42.84562905795149
+          },
+          "dc_offset": {
+            "raw": 3.410387580515817e-05,
+            "processed": 3.335305622645787e-05,
+            "difference": -7.508195787003007e-07,
+            "percentage_change": -2.2015667163165666
+          },
+          "clipping_detected": {
+            "raw": false,
+            "processed": false,
+            "difference": 0,
+            "percentage_change": 0
+          },
+          "spectral_centroid": {
+            "raw": 3558.317946492988,
+            "processed": 3558.407007593957,
+            "difference": 0.0890611009690474,
+            "percentage_change": 0.002502898906401109
+          },
+          "spectral_rolloff": {
+            "raw": 6312.5,
+            "processed": 6312.5,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "quality_impact": {
+            "rms_change": 42.845317143207374,
+            "peak_change": 42.84637054719958,
+            "dynamic_range_change": 42.84562905795149,
+            "significant_degradation": true
+          }
+        }
+      },
+      "complex_sentence": {
+        "raw_file": "audio_format_investigation/complex_sentence_raw_model.wav",
+        "processed_file": "audio_format_investigation/complex_sentence_ffmpeg_processed.wav",
+        "raw_analysis": {
+          "length": 25088,
+          "duration": 1.568,
+          "rms_energy": 0.06705992668867111,
+          "peak_amplitude": 0.7793907523155212,
+          "zero_crossings": 7915,
+          "dynamic_range": 1.39616060256958,
+          "dc_offset": 4.9762642447603866e-05,
+          "clipping_detected": false,
+          "spectral_centroid": 2936.795146138267,
+          "spectral_rolloff": 5640.625
+        },
+        "processed_analysis": {
+          "length": 25088,
+          "duration": 1.568,
+          "rms_energy": 0.07313521170468064,
+          "peak_amplitude": 0.850006103515625,
+          "zero_crossings": 7934,
+          "dynamic_range": 1.52264404296875,
+          "dc_offset": 3.898508694707131e-05,
+          "clipping_detected": false,
+          "spectral_centroid": 2936.5846187853417,
+          "spectral_rolloff": 5640.625
+        },
+        "comparison": {
+          "length": {
+            "raw": 25088,
+            "processed": 25088,
+            "difference": 0,
+            "percentage_change": 0.0
+          },
+          "duration": {
+            "raw": 1.568,
+            "processed": 1.568,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "rms_energy": {
+            "raw": 0.06705992668867111,
+            "processed": 0.07313521170468064,
+            "difference": 0.006075285016009527,
+            "percentage_change": 9.059486516014736
+          },
+          "peak_amplitude": {
+            "raw": 0.7793907523155212,
+            "processed": 0.850006103515625,
+            "difference": 0.07061535120010376,
+            "percentage_change": 9.060327055499435
+          },
+          "zero_crossings": {
+            "raw": 7915,
+            "processed": 7934,
+            "difference": 19,
+            "percentage_change": 0.24005053695514847
+          },
+          "dynamic_range": {
+            "raw": 1.39616060256958,
+            "processed": 1.52264404296875,
+            "difference": 0.12648344039916992,
+            "percentage_change": 9.05937613240067
+          },
+          "dc_offset": {
+            "raw": 4.9762642447603866e-05,
+            "processed": 3.898508694707131e-05,
+            "difference": -1.0777555500532558e-05,
+            "percentage_change": -21.65792443976518
+          },
+          "clipping_detected": {
+            "raw": false,
+            "processed": false,
+            "difference": 0,
+            "percentage_change": 0
+          },
+          "spectral_centroid": {
+            "raw": 2936.795146138267,
+            "processed": 2936.5846187853417,
+            "difference": -0.2105273529250553,
+            "percentage_change": -0.007168608719674841
+          },
+          "spectral_rolloff": {
+            "raw": 5640.625,
+            "processed": 5640.625,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "quality_impact": {
+            "rms_change": 9.059486516014736,
+            "peak_change": 9.060327055499435,
+            "dynamic_range_change": 9.05937613240067,
+            "significant_degradation": false
+          }
+        }
+      }
+    },
+    "codec_parameter_tests": {},
+    "bypass_tests": {}
+  },
+  "module_c_quantization": {
+    "bit_depth_tests": {
+      "simple_word": {
+        "bit_16": {
+          "bit_depth": 16,
+          "audio_file": "audio_format_investigation/simple_word_bit_16.wav",
+          "conversion_analysis": {
+            "original_dtype": "float32",
+            "target_bit_depth": 16,
+            "original_range": [
+              -0.43876999616622925,
+              0.2704617381095886
+            ],
+            "target_dtype": "int16",
+            "target_range": [
+              -32768,
+              32767
+            ]
+          },
+          "quantization_analysis": {
+            "snr_db": 68.29533386230469,
+            "noise_rms": 1.7549868061905727e-05,
+            "signal_rms": 0.045607924461364746,
+            "max_error": 3.051676321774721e-05,
+            "clipping_detected": false,
+            "dynamic_range_original": 0.7092317342758179,
+            "dynamic_range_quantized": 0.7092196345329285
+          }
+        },
+        "bit_24": {
+          "bit_depth": 24,
+          "audio_file": "audio_format_investigation/simple_word_bit_24.wav",
+          "conversion_analysis": {
+            "original_dtype": "float32",
+            "target_bit_depth": 24,
+            "original_range": [
+              -0.43876999616622925,
+              0.2704617381095886
+            ],
+            "target_dtype": "int32 (24-bit)",
+            "target_range": [
+              -8388608,
+              8388607
+            ]
+          },
+          "quantization_analysis": {
+            "snr_db": 116.49964904785156,
+            "noise_rms": 6.824289755513746e-08,
+            "signal_rms": 0.045607924461364746,
+            "max_error": 1.1897645890712738e-07,
+            "clipping_detected": false,
+            "dynamic_range_original": 0.7092317342758179,
+            "dynamic_range_quantized": 0.7092317342758179
+          }
+        },
+        "bit_32": {
+          "bit_depth": 32,
+          "audio_file": "audio_format_investigation/simple_word_bit_32.wav",
+          "conversion_analysis": {
+            "original_dtype": "float32",
+            "target_bit_depth": 32,
+            "original_range": [
+              -0.43876999616622925,
+              0.2704617381095886
+            ],
+            "target_dtype": "float32",
+            "target_range": [
+              -1.0,
+              1.0
+            ]
+          },
+          "quantization_analysis": {
+            "snr_db": Infinity,
+            "noise_rms": 0.0,
+            "signal_rms": 0.045607924461364746,
+            "max_error": 0.0,
+            "clipping_detected": false,
+            "dynamic_range_original": 0.7092317342758179,
+            "dynamic_range_quantized": 0.7092317342758179
+          }
+        }
+      }
+    },
+    "quantization_analysis": {},
+    "dynamic_range_tests": {}
+  },
+  "module_d_spectral_analysis": {
+    "spectral_analysis": {
+      "simple_word": {
+        "spectral_features": {
+          "spectral_centroid": {
+            "mean": 2696.6617114242945,
+            "std": 325.8019956233708,
+            "min": 2273.3713510641346,
+            "max": 3535.8449684291063
+          },
+          "spectral_rolloff": {
+            "mean": 4784.375,
+            "std": 531.6083350315342,
+            "min": 4281.25,
+            "max": 5906.25
+          },
+          "spectral_bandwidth": {
+            "mean": 1969.8294747887753,
+            "std": 65.30086061951674,
+            "min": 1897.964901562296,
+            "max": 2106.549316729011
+          },
+          "zero_crossing_rate": 0.21875
+        },
+        "spectrogram_file": null,
+        "audio_duration": 0.384
+      },
+      "tts_trigger": {
+        "spectral_features": {
+          "spectral_centroid": {
+            "mean": 3819.2475139165517,
+            "std": 849.6174240735627,
+            "min": 2939.249273138982,
+            "max": 5562.925200931351
+          },
+          "spectral_rolloff": {
+            "mean": 6046.0526315789475,
+            "std": 494.8458048576142,
+            "min": 5093.75,
+            "max": 6781.25
+          },
+          "spectral_bandwidth": {
+            "mean": 1950.986205708497,
+            "std": 229.18170838801868,
+            "min": 1251.8840998514065,
+            "max": 2274.203884280503
+          },
+          "zero_crossing_rate": 0.4069010416666667
+        },
+        "spectrogram_file": null,
+        "audio_duration": 0.672
+      },
+      "complex_sentence": {
+        "spectral_features": {
+          "spectral_centroid": {
+            "mean": 3533.4783261896287,
+            "std": 891.9136369657424,
+            "min": 2197.1199696278068,
+            "max": 5400.759686362593
+          },
+          "spectral_rolloff": {
+            "mean": 5950.747282608696,
+            "std": 662.2234556579782,
+            "min": 4437.5,
+            "max": 6828.125
+          },
+          "spectral_bandwidth": {
+            "mean": 2073.1630611467035,
+            "std": 161.55580979206042,
+            "min": 1539.1220849516292,
+            "max": 2395.642432178444
+          },
+          "zero_crossing_rate": 0.3214518229166667
+        },
+        "spectrogram_file": null,
+        "audio_duration": 1.536
+      }
+    },
+    "formant_analysis": {},
+    "frequency_response": {}
+  },
+  "module_e_stage_isolation": {
+    "stage_comparison": {
+      "simple_word": {
+        "stage1_raw": {
+          "file": "audio_format_investigation/simple_word_stage1_raw_model.wav",
+          "analysis": {
+            "length": 6144,
+            "duration": 0.384,
+            "rms_energy": 0.05277248099446297,
+            "peak_amplitude": 0.5379347801208496,
+            "zero_crossings": 1382,
+            "dynamic_range": 0.8393085598945618,
+            "dc_offset": 7.15033384039998e-05,
+            "clipping_detected": false,
+            "spectral_centroid": 2509.8270822147388,
+            "spectral_rolloff": 4640.625
+          }
+        },
+        "stage2_processor": {
+          "file": "audio_format_investigation/simple_word_stage2_audio_processor.wav",
+          "analysis": {
+            "length": 6144,
+            "duration": 0.384,
+            "rms_energy": 0.08338647440606631,
+            "peak_amplitude": 0.850006103515625,
+            "zero_crossings": 1386,
+            "dynamic_range": 1.326202392578125,
+            "dc_offset": 9.769201278686523e-05,
+            "clipping_detected": false,
+            "spectral_centroid": 2509.8959296306793,
+            "spectral_rolloff": 4640.625
+          }
+        },
+        "stage3_full": {
+          "file": "audio_format_investigation/simple_word_stage3_full_pipeline.wav",
+          "analysis": {
+            "length": 6144,
+            "duration": 0.384,
+            "rms_energy": 0.08338647440606631,
+            "peak_amplitude": 0.850006103515625,
+            "zero_crossings": 1386,
+            "dynamic_range": 1.326202392578125,
+            "dc_offset": 9.769201278686523e-05,
+            "clipping_detected": false,
+            "spectral_centroid": 2509.8959296306793,
+            "spectral_rolloff": 4640.625
+          }
+        },
+        "stage1_to_2_comparison": {
+          "length": {
+            "raw": 6144,
+            "processed": 6144,
+            "difference": 0,
+            "percentage_change": 0.0
+          },
+          "duration": {
+            "raw": 0.384,
+            "processed": 0.384,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "rms_energy": {
+            "raw": 0.05277248099446297,
+            "processed": 0.08338647440606631,
+            "difference": 0.03061399341160334,
+            "percentage_change": 58.01128321940263
+          },
+          "peak_amplitude": {
+            "raw": 0.5379347801208496,
+            "processed": 0.850006103515625,
+            "difference": 0.3120713233947754,
+            "percentage_change": 58.012854890079254
+          },
+          "zero_crossings": {
+            "raw": 1382,
+            "processed": 1386,
+            "difference": 4,
+            "percentage_change": 0.2894356005788712
+          },
+          "dynamic_range": {
+            "raw": 0.8393085598945618,
+            "processed": 1.326202392578125,
+            "difference": 0.48689383268356323,
+            "percentage_change": 58.01130310701576
+          },
+          "dc_offset": {
+            "raw": 7.15033384039998e-05,
+            "processed": 9.769201278686523e-05,
+            "difference": 2.618867438286543e-05,
+            "percentage_change": 36.62580652514046
+          },
+          "clipping_detected": {
+            "raw": false,
+            "processed": false,
+            "difference": 0,
+            "percentage_change": 0
+          },
+          "spectral_centroid": {
+            "raw": 2509.8270822147388,
+            "processed": 2509.8959296306793,
+            "difference": 0.06884741594058141,
+            "percentage_change": 0.0027431139152354913
+          },
+          "spectral_rolloff": {
+            "raw": 4640.625,
+            "processed": 4640.625,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "quality_impact": {
+            "rms_change": 58.01128321940263,
+            "peak_change": 58.012854890079254,
+            "dynamic_range_change": 58.01130310701576,
+            "significant_degradation": true
+          }
+        },
+        "stage2_to_3_comparison": {
+          "length": {
+            "raw": 6144,
+            "processed": 6144,
+            "difference": 0,
+            "percentage_change": 0.0
+          },
+          "duration": {
+            "raw": 0.384,
+            "processed": 0.384,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "rms_energy": {
+            "raw": 0.08338647440606631,
+            "processed": 0.08338647440606631,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "peak_amplitude": {
+            "raw": 0.850006103515625,
+            "processed": 0.850006103515625,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "zero_crossings": {
+            "raw": 1386,
+            "processed": 1386,
+            "difference": 0,
+            "percentage_change": 0.0
+          },
+          "dynamic_range": {
+            "raw": 1.326202392578125,
+            "processed": 1.326202392578125,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "dc_offset": {
+            "raw": 9.769201278686523e-05,
+            "processed": 9.769201278686523e-05,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "clipping_detected": {
+            "raw": false,
+            "processed": false,
+            "difference": 0,
+            "percentage_change": 0
+          },
+          "spectral_centroid": {
+            "raw": 2509.8959296306793,
+            "processed": 2509.8959296306793,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "spectral_rolloff": {
+            "raw": 4640.625,
+            "processed": 4640.625,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "quality_impact": {
+            "rms_change": 0.0,
+            "peak_change": 0.0,
+            "dynamic_range_change": 0.0,
+            "significant_degradation": false
+          }
+        }
+      },
+      "tts_trigger": {
+        "stage1_raw": {
+          "file": "audio_format_investigation/tts_trigger_stage1_raw_model.wav",
+          "analysis": {
+            "length": 10752,
+            "duration": 0.672,
+            "rms_energy": 0.08486267179250717,
+            "peak_amplitude": 0.7233191132545471,
+            "zero_crossings": 4483,
+            "dynamic_range": 1.3303314447402954,
+            "dc_offset": 1.4310145388662932e-06,
+            "clipping_detected": false,
+            "spectral_centroid": 3647.4753631741123,
+            "spectral_rolloff": 6296.875
+          }
+        },
+        "stage2_processor": {
+          "file": "audio_format_investigation/tts_trigger_stage2_audio_processor.wav",
+          "analysis": {
+            "length": 10752,
+            "duration": 0.672,
+            "rms_energy": 0.09972544164571838,
+            "peak_amplitude": 0.850006103515625,
+            "zero_crossings": 4488,
+            "dynamic_range": 1.563323974609375,
+            "dc_offset": -1.3587020692371187e-05,
+            "clipping_detected": false,
+            "spectral_centroid": 3647.3474392484613,
+            "spectral_rolloff": 6296.875
+          }
+        },
+        "stage3_full": {
+          "file": "audio_format_investigation/tts_trigger_stage3_full_pipeline.wav",
+          "analysis": {
+            "length": 10752,
+            "duration": 0.672,
+            "rms_energy": 0.09972544164571838,
+            "peak_amplitude": 0.850006103515625,
+            "zero_crossings": 4488,
+            "dynamic_range": 1.563323974609375,
+            "dc_offset": -1.3587020692371187e-05,
+            "clipping_detected": false,
+            "spectral_centroid": 3647.3474392484613,
+            "spectral_rolloff": 6296.875
+          }
+        },
+        "stage1_to_2_comparison": {
+          "length": {
+            "raw": 10752,
+            "processed": 10752,
+            "difference": 0,
+            "percentage_change": 0.0
+          },
+          "duration": {
+            "raw": 0.672,
+            "processed": 0.672,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "rms_energy": {
+            "raw": 0.08486267179250717,
+            "processed": 0.09972544164571838,
+            "difference": 0.014862769853211208,
+            "percentage_change": 17.51390751584078
+          },
+          "peak_amplitude": {
+            "raw": 0.7233191132545471,
+            "processed": 0.850006103515625,
+            "difference": 0.12668699026107788,
+            "percentage_change": 17.51467477349721
+          },
+          "zero_crossings": {
+            "raw": 4483,
+            "processed": 4488,
+            "difference": 5,
+            "percentage_change": 0.1115324559446799
+          },
+          "dynamic_range": {
+            "raw": 1.3303314447402954,
+            "processed": 1.563323974609375,
+            "difference": 0.2329925298690796,
+            "percentage_change": 17.513870756814587
+          },
+          "dc_offset": {
+            "raw": 1.4310145388662932e-06,
+            "processed": -1.3587020692371187e-05,
+            "difference": -1.501803523123748e-05,
+            "percentage_change": -1049.4676904635344
+          },
+          "clipping_detected": {
+            "raw": false,
+            "processed": false,
+            "difference": 0,
+            "percentage_change": 0
+          },
+          "spectral_centroid": {
+            "raw": 3647.4753631741123,
+            "processed": 3647.3474392484613,
+            "difference": -0.12792392565097543,
+            "percentage_change": -0.003507190944797863
+          },
+          "spectral_rolloff": {
+            "raw": 6296.875,
+            "processed": 6296.875,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "quality_impact": {
+            "rms_change": 17.51390751584078,
+            "peak_change": 17.51467477349721,
+            "dynamic_range_change": 17.513870756814587,
+            "significant_degradation": true
+          }
+        },
+        "stage2_to_3_comparison": {
+          "length": {
+            "raw": 10752,
+            "processed": 10752,
+            "difference": 0,
+            "percentage_change": 0.0
+          },
+          "duration": {
+            "raw": 0.672,
+            "processed": 0.672,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "rms_energy": {
+            "raw": 0.09972544164571838,
+            "processed": 0.09972544164571838,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "peak_amplitude": {
+            "raw": 0.850006103515625,
+            "processed": 0.850006103515625,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "zero_crossings": {
+            "raw": 4488,
+            "processed": 4488,
+            "difference": 0,
+            "percentage_change": 0.0
+          },
+          "dynamic_range": {
+            "raw": 1.563323974609375,
+            "processed": 1.563323974609375,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "dc_offset": {
+            "raw": -1.3587020692371187e-05,
+            "processed": -1.3587020692371187e-05,
+            "difference": 0.0,
+            "percentage_change": -0.0
+          },
+          "clipping_detected": {
+            "raw": false,
+            "processed": false,
+            "difference": 0,
+            "percentage_change": 0
+          },
+          "spectral_centroid": {
+            "raw": 3647.3474392484613,
+            "processed": 3647.3474392484613,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "spectral_rolloff": {
+            "raw": 6296.875,
+            "processed": 6296.875,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "quality_impact": {
+            "rms_change": 0.0,
+            "peak_change": 0.0,
+            "dynamic_range_change": 0.0,
+            "significant_degradation": false
+          }
+        }
+      },
+      "complex_sentence": {
+        "stage1_raw": {
+          "file": "audio_format_investigation/complex_sentence_stage1_raw_model.wav",
+          "analysis": {
+            "length": 23552,
+            "duration": 1.472,
+            "rms_energy": 0.07901541888713837,
+            "peak_amplitude": 0.8391411900520325,
+            "zero_crossings": 6831,
+            "dynamic_range": 1.4934649467468262,
+            "dc_offset": -0.00022184404951985925,
+            "clipping_detected": false,
+            "spectral_centroid": 3133.177593541076,
+            "spectral_rolloff": 5859.375
+          }
+        },
+        "stage2_processor": {
+          "file": "audio_format_investigation/complex_sentence_stage2_audio_processor.wav",
+          "analysis": {
+            "length": 23552,
+            "duration": 1.472,
+            "rms_energy": 0.08003794733865195,
+            "peak_amplitude": 0.8499755859375,
+            "zero_crossings": 6842,
+            "dynamic_range": 1.512786865234375,
+            "dc_offset": -0.00024001235547273055,
+            "clipping_detected": false,
+            "spectral_centroid": 3132.9313320078104,
+            "spectral_rolloff": 5859.375
+          }
+        },
+        "stage3_full": {
+          "file": "audio_format_investigation/complex_sentence_stage3_full_pipeline.wav",
+          "analysis": {
+            "length": 23552,
+            "duration": 1.472,
+            "rms_energy": 0.08003794733865195,
+            "peak_amplitude": 0.8499755859375,
+            "zero_crossings": 6842,
+            "dynamic_range": 1.512786865234375,
+            "dc_offset": -0.00024001235547273055,
+            "clipping_detected": false,
+            "spectral_centroid": 3132.9313320078104,
+            "spectral_rolloff": 5859.375
+          }
+        },
+        "stage1_to_2_comparison": {
+          "length": {
+            "raw": 23552,
+            "processed": 23552,
+            "difference": 0,
+            "percentage_change": 0.0
+          },
+          "duration": {
+            "raw": 1.472,
+            "processed": 1.472,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "rms_energy": {
+            "raw": 0.07901541888713837,
+            "processed": 0.08003794733865195,
+            "difference": 0.0010225284515135852,
+            "percentage_change": 1.2940872375480452
+          },
+          "peak_amplitude": {
+            "raw": 0.8391411900520325,
+            "processed": 0.8499755859375,
+            "difference": 0.01083439588546753,
+            "percentage_change": 1.2911290750482316
+          },
+          "zero_crossings": {
+            "raw": 6831,
+            "processed": 6842,
+            "difference": 11,
+            "percentage_change": 0.1610305958132045
+          },
+          "dynamic_range": {
+            "raw": 1.4934649467468262,
+            "processed": 1.512786865234375,
+            "difference": 0.019321918487548828,
+            "percentage_change": 1.293764445535681
+          },
+          "dc_offset": {
+            "raw": -0.00022184404951985925,
+            "processed": -0.00024001235547273055,
+            "difference": -1.8168305952871293e-05,
+            "percentage_change": 8.18967468011572
+          },
+          "clipping_detected": {
+            "raw": false,
+            "processed": false,
+            "difference": 0,
+            "percentage_change": 0
+          },
+          "spectral_centroid": {
+            "raw": 3133.177593541076,
+            "processed": 3132.9313320078104,
+            "difference": -0.24626153326562417,
+            "percentage_change": -0.007859801301186463
+          },
+          "spectral_rolloff": {
+            "raw": 5859.375,
+            "processed": 5859.375,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "quality_impact": {
+            "rms_change": 1.2940872375480452,
+            "peak_change": 1.2911290750482316,
+            "dynamic_range_change": 1.293764445535681,
+            "significant_degradation": false
+          }
+        },
+        "stage2_to_3_comparison": {
+          "length": {
+            "raw": 23552,
+            "processed": 23552,
+            "difference": 0,
+            "percentage_change": 0.0
+          },
+          "duration": {
+            "raw": 1.472,
+            "processed": 1.472,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "rms_energy": {
+            "raw": 0.08003794733865195,
+            "processed": 0.08003794733865195,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "peak_amplitude": {
+            "raw": 0.8499755859375,
+            "processed": 0.8499755859375,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "zero_crossings": {
+            "raw": 6842,
+            "processed": 6842,
+            "difference": 0,
+            "percentage_change": 0.0
+          },
+          "dynamic_range": {
+            "raw": 1.512786865234375,
+            "processed": 1.512786865234375,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "dc_offset": {
+            "raw": -0.00024001235547273055,
+            "processed": -0.00024001235547273055,
+            "difference": 0.0,
+            "percentage_change": -0.0
+          },
+          "clipping_detected": {
+            "raw": false,
+            "processed": false,
+            "difference": 0,
+            "percentage_change": 0
+          },
+          "spectral_centroid": {
+            "raw": 3132.9313320078104,
+            "processed": 3132.9313320078104,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "spectral_rolloff": {
+            "raw": 5859.375,
+            "processed": 5859.375,
+            "difference": 0.0,
+            "percentage_change": 0.0
+          },
+          "quality_impact": {
+            "rms_change": 0.0,
+            "peak_change": 0.0,
+            "dynamic_range_change": 0.0,
+            "significant_degradation": false
+          }
+        }
+      }
+    },
+    "degradation_analysis": {},
+    "stage_isolation": {}
+  },
+  "findings": [
+    "WARNING: High quality impact detected in sample rate conversion (16000Hz \u2192 44100Hz)",
+    "WARNING: High quality impact detected in sample rate conversion (16000Hz \u2192 48000Hz)",
+    "CRITICAL: Significant quality degradation detected in FFmpeg processing for 'simple_word'",
+    "CRITICAL: Significant quality degradation detected in FFmpeg processing for 'tts_trigger'",
+    "CRITICAL: Significant degradation detected between raw model and audio processor for 'simple_word'",
+    "CRITICAL: Significant degradation detected between raw model and audio processor for 'tts_trigger'"
+  ],
+  "recommendations": [
+    "IMMEDIATE: Fix sample rate mismatches in pipeline configuration",
+    "CRITICAL: Optimize FFmpeg encoding parameters to reduce quality degradation",
+    "INVESTIGATE: Consider bypassing FFmpeg for raw audio output",
+    "VALIDATE: Conduct manual listening tests on generated samples",
+    "MONITOR: Implement real-time audio quality monitoring",
+    "OPTIMIZE: Focus on stages showing highest quality degradation",
+    "DOCUMENT: Update audio processing guidelines based on findings"
+  ]
+}
