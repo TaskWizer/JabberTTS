@@ -6,8 +6,11 @@ before feeding text to TTS models.
 
 import re
 import logging
-from typing import Optional, Dict, Any
+import hashlib
+import time
+from typing import Optional, Dict, Any, Tuple
 import unicodedata
+from functools import lru_cache
 
 logger = logging.getLogger(__name__)
 
@@ -18,29 +21,58 @@ class TextPreprocessor:
     Handles text normalization, cleaning, and preparation for TTS models.
     """
     
-    def __init__(self, use_phonemizer: bool = True):
+    def __init__(self, use_phonemizer: bool = True, enable_caching: bool = True):
         """Initialize text preprocessor.
-        
+
         Args:
             use_phonemizer: Whether to use phonemizer for phonetic conversion
+            enable_caching: Whether to enable phonemization caching for performance
         """
         self.use_phonemizer = use_phonemizer
+        self.enable_caching = enable_caching
         self.phonemizer = None
-        
+        self.phonemizer_backend = None
+        self.phonemization_cache = {} if enable_caching else None
+        self.cache_hits = 0
+        self.cache_misses = 0
+
         if use_phonemizer:
             self._init_phonemizer()
     
     def _init_phonemizer(self) -> None:
-        """Initialize phonemizer if available."""
+        """Initialize phonemizer with enhanced configuration."""
         try:
             from phonemizer import phonemize
             from phonemizer.backend import EspeakBackend
-            
-            # Test if espeak-ng is available
-            backend = EspeakBackend('en-us')
+
+            # Test basic phonemizer first
+            test_result = phonemize(
+                "Hello world",
+                language='en-us',
+                backend='espeak',
+                strip=True,
+                preserve_punctuation=True,
+                with_stress=True
+            )
+
             self.phonemizer = phonemize
-            logger.info("Phonemizer initialized successfully")
-            
+
+            # Try to create optimized backend for better performance
+            try:
+                self.phonemizer_backend = EspeakBackend(
+                    'en-us',
+                    preserve_punctuation=True,
+                    with_stress=True,
+                    tie=False,
+                    language_switch='remove-flags'
+                )
+                logger.info("Optimized eSpeak backend created successfully")
+            except Exception as backend_error:
+                logger.warning(f"Could not create optimized backend: {backend_error}")
+                self.phonemizer_backend = None
+
+            logger.info(f"Phonemizer initialized successfully. Test: '{test_result}'")
+
         except ImportError:
             logger.warning("Phonemizer not available, install with: pip install phonemizer")
             self.use_phonemizer = False
@@ -210,19 +242,29 @@ class TextPreprocessor:
         return text
     
     def _phonemize(self, text: str, language: str) -> str:
-        """Convert text to phonemes using phonemizer.
-        
+        """Convert text to phonemes using phonemizer with caching.
+
         Args:
             text: Input text
             language: Language code
-            
+
         Returns:
             Phonemized text
         """
         if not self.phonemizer:
             return text
-        
+
+        # Check cache first
+        if self.enable_caching and self.phonemization_cache is not None:
+            cache_key = self._get_cache_key(text, language)
+            if cache_key in self.phonemization_cache:
+                self.cache_hits += 1
+                return self.phonemization_cache[cache_key]
+            self.cache_misses += 1
+
         try:
+            start_time = time.time()
+
             # Map language codes to espeak language codes
             lang_map = {
                 'en': 'en-us',
@@ -237,10 +279,10 @@ class TextPreprocessor:
                 'ko': 'ko',
                 'ar': 'ar'
             }
-            
+
             espeak_lang = lang_map.get(language, 'en-us')
-            
-            # Phonemize the text
+
+            # Use standard phonemization (optimized backend has compatibility issues)
             phonemes = self.phonemizer(
                 text,
                 language=espeak_lang,
@@ -249,26 +291,77 @@ class TextPreprocessor:
                 preserve_punctuation=True,
                 with_stress=True
             )
-            
+
+            # Cache the result
+            if self.enable_caching and self.phonemization_cache is not None:
+                cache_key = self._get_cache_key(text, language)
+                self.phonemization_cache[cache_key] = phonemes
+
+                # Limit cache size to prevent memory issues
+                if len(self.phonemization_cache) > 1000:
+                    # Remove oldest entries (simple FIFO)
+                    oldest_keys = list(self.phonemization_cache.keys())[:100]
+                    for key in oldest_keys:
+                        del self.phonemization_cache[key]
+
+            phonemization_time = time.time() - start_time
+            logger.debug(f"Phonemization took {phonemization_time:.3f}s for {len(text)} chars")
+
             return phonemes
-            
+
         except Exception as e:
             logger.warning(f"Phonemization failed for language {language}: {e}")
             return text
     
+    def _get_cache_key(self, text: str, language: str) -> str:
+        """Generate cache key for phonemization.
+
+        Args:
+            text: Input text
+            language: Language code
+
+        Returns:
+            Cache key string
+        """
+        content = f"{text}|{language}"
+        return hashlib.md5(content.encode('utf-8')).hexdigest()
+
     def get_preprocessing_info(self) -> Dict[str, Any]:
         """Get information about preprocessing capabilities.
-        
+
         Returns:
             Dictionary with preprocessing information
         """
-        return {
+        info = {
             "phonemizer_available": self.use_phonemizer,
+            "caching_enabled": self.enable_caching,
             "supported_features": [
                 "unicode_normalization",
-                "abbreviation_expansion", 
+                "abbreviation_expansion",
                 "number_normalization",
                 "punctuation_handling",
                 "basic_cleaning"
-            ] + (["phonemization"] if self.use_phonemizer else [])
+            ]
         }
+
+        if self.use_phonemizer:
+            info["supported_features"].append("phonemization")
+            info["phonemizer_backend"] = "espeak-ng"
+
+        if self.enable_caching and self.phonemization_cache is not None:
+            info["cache_stats"] = {
+                "cache_size": len(self.phonemization_cache),
+                "cache_hits": self.cache_hits,
+                "cache_misses": self.cache_misses,
+                "hit_rate": self.cache_hits / (self.cache_hits + self.cache_misses) if (self.cache_hits + self.cache_misses) > 0 else 0.0
+            }
+
+        return info
+
+    def clear_cache(self) -> None:
+        """Clear phonemization cache."""
+        if self.phonemization_cache is not None:
+            self.phonemization_cache.clear()
+            self.cache_hits = 0
+            self.cache_misses = 0
+            logger.info("Phonemization cache cleared")

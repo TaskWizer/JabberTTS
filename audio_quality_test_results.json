@@ -1,0 +1,520 @@
+{
+  "test_timestamp": 1757085620.9101894,
+  "categories": {
+    "Basic Speech": {
+      "total_tests": 4,
+      "passed_tests": 1,
+      "failed_tests": 3,
+      "test_cases": {
+        "test_1": {
+          "text": "Hello, world!",
+          "metrics": {
+            "sample_rate": 16000,
+            "duration": 0.8,
+            "rms_level": "0.024092756",
+            "peak_level": "0.10728525",
+            "dynamic_range": "12.973068",
+            "spectral_centroid": 2290.5302550570555,
+            "spectral_bandwidth": 2046.9554731354776,
+            "spectral_rolloff": 4676.0817307692305,
+            "zero_crossing_rate": 0.12665264423076922,
+            "overall_quality": "98.17758",
+            "naturalness_score": 100,
+            "clarity_score": 100,
+            "consistency_score": "92.71034",
+            "rtf": 0.4731801152229309,
+            "inference_time": 0.3785440921783447
+          },
+          "validation": {
+            "rms_level_ok": "True",
+            "dynamic_range_ok": "True",
+            "spectral_centroid_ok": true,
+            "overall_quality_ok": "True",
+            "naturalness_ok": true,
+            "clarity_ok": true,
+            "consistency_ok": "True",
+            "rtf_ok": true,
+            "inference_time_ok": true
+          },
+          "passed": true
+        },
+        "test_2": {
+          "text": "This is a simple test.",
+          "metrics": {
+            "sample_rate": 16000,
+            "duration": 1.248,
+            "rms_level": "0.027069062",
+            "peak_level": "0.17649063",
+            "dynamic_range": "16.284966",
+            "spectral_centroid": 3098.704928753063,
+            "spectral_bandwidth": 2230.5931407592407,
+            "spectral_rolloff": 5688.8671875,
+            "zero_crossing_rate": 0.2483154296875,
+            "overall_quality": "97.54855",
+            "naturalness_score": 100,
+            "clarity_score": 100,
+            "consistency_score": "90.19422",
+            "rtf": 0.554680633239257,
+            "inference_time": 0.6922414302825928
+          },
+          "validation": {
+            "rms_level_ok": "True",
+            "dynamic_range_ok": "True",
+            "spectral_centroid_ok": true,
+            "overall_quality_ok": "True",
+            "naturalness_ok": true,
+            "clarity_ok": true,
+            "consistency_ok": "True",
+            "rtf_ok": false,
+            "inference_time_ok": true
+          },
+          "passed": false
+        },
+        "test_3": {
+          "text": "The quick brown fox jumps over the lazy dog.",
+          "metrics": {
+            "sample_rate": 16000,
+            "duration": 2.08,
+            "rms_level": "0.021162491",
+            "peak_level": "0.1789519",
+            "dynamic_range": "18.543386",
+            "spectral_centroid": 2680.473715975326,
+            "spectral_bandwidth": 1992.639693387009,
+            "spectral_rolloff": 4910.15625,
+            "zero_crossing_rate": 0.20115707859848486,
+            "overall_quality": "96.46015",
+            "naturalness_score": 100,
+            "clarity_score": 100,
+            "consistency_score": "85.8406",
+            "rtf": 0.5498199508740351,
+            "inference_time": 1.1436254978179932
+          },
+          "validation": {
+            "rms_level_ok": "True",
+            "dynamic_range_ok": "True",
+            "spectral_centroid_ok": true,
+            "overall_quality_ok": "True",
+            "naturalness_ok": true,
+            "clarity_ok": true,
+            "consistency_ok": "True",
+            "rtf_ok": false,
+            "inference_time_ok": true
+          },
+          "passed": false
+        },
+        "test_4": {
+          "text": "Testing basic speech synthesis quality.",
+          "metrics": {
+            "sample_rate": 16000,
+            "duration": 1.952,
+            "rms_level": "0.030185234",
+            "peak_level": "0.15174486",
+            "dynamic_range": "14.026386",
+            "spectral_centroid": 2995.503329541999,
+            "spectral_bandwidth": 2103.7140920270635,
+            "spectral_rolloff": 5437.121975806452,
+            "zero_crossing_rate": 0.23941532258064516,
+            "overall_quality": "94.62537",
+            "naturalness_score": 100,
+            "clarity_score": 100,
+            "consistency_score": "78.50146",
+            "rtf": 0.5182577449767316,
+            "inference_time": 1.01163911819458
+          },
+          "validation": {
+            "rms_level_ok": "True",
+            "dynamic_range_ok": "True",
+            "spectral_centroid_ok": true,
+            "overall_quality_ok": "True",
+            "naturalness_ok": true,
+            "clarity_ok": true,
+            "consistency_ok": "True",
+            "rtf_ok": false,
+            "inference_time_ok": true
+          },
+          "passed": false
+        }
+      },
+      "average_quality": "96.70291",
+      "pass_rate": 0.25
+    },
+    "Complex Pronunciation": {
+      "total_tests": 4,
+      "passed_tests": 0,
+      "failed_tests": 4,
+      "test_cases": {
+        "test_1": {
+          "text": "The schedule is often either this or that.",
+          "metrics": {
+            "sample_rate": 16000,
+            "duration": 1.024,
+            "rms_level": "0.01588021",
+            "peak_level": "0.07381863",
+            "dynamic_range": "13.34619",
+            "spectral_centroid": 2768.3299610373083,
+            "spectral_bandwidth": 2071.9406182699436,
+            "spectral_rolloff": 5194.36553030303,
+            "zero_crossing_rate": 0.21278705018939395,
+            "overall_quality": 100,
+            "naturalness_score": 100,
+            "clarity_score": 100,
+            "consistency_score": 100,
+            "rtf": 0.5835751071572304,
+            "inference_time": 0.5975809097290039
+          },
+          "validation": {
+            "rms_level_ok": "True",
+            "dynamic_range_ok": "True",
+            "spectral_centroid_ok": true,
+            "overall_quality_ok": true,
+            "naturalness_ok": true,
+            "clarity_ok": true,
+            "consistency_ok": true,
+            "rtf_ok": false,
+            "inference_time_ok": true
+          },
+          "passed": false
+        },
+        "test_2": {
+          "text": "Difficult words: colonel, yacht, psychology, choir.",
+          "metrics": {
+            "sample_rate": 16000,
+            "duration": 3.52,
+            "rms_level": "0.04560151",
+            "peak_level": "0.23779774",
+            "dynamic_range": "14.344568",
+            "spectral_centroid": 2388.683917634616,
+            "spectral_bandwidth": 2239.4922523230516,
+            "spectral_rolloff": 5171.4527027027025,
+            "zero_crossing_rate": 0.15732333896396397,
+            "overall_quality": "95.21051",
+            "naturalness_score": 100,
+            "clarity_score": 100,
+            "consistency_score": "80.84206",
+            "rtf": 0.5313710055568002,
+            "inference_time": 1.8704259395599365
+          },
+          "validation": {
+            "rms_level_ok": "True",
+            "dynamic_range_ok": "True",
+            "spectral_centroid_ok": true,
+            "overall_quality_ok": "True",
+            "naturalness_ok": true,
+            "clarity_ok": true,
+            "consistency_ok": "True",
+            "rtf_ok": false,
+            "inference_time_ok": true
+          },
+          "passed": false
+        },
+        "test_3": {
+          "text": "Pronunciation test: through, though, thought, tough.",
+          "metrics": {
+            "sample_rate": 16000,
+            "duration": 2.144,
+            "rms_level": "0.056099974",
+            "peak_level": "0.36842212",
+            "dynamic_range": "16.34766",
+            "spectral_centroid": 2855.990549107469,
+            "spectral_bandwidth": 2212.662065653851,
+            "spectral_rolloff": 5494.025735294118,
+            "zero_crossing_rate": 0.19518324908088236,
+            "overall_quality": "97.62154",
+            "naturalness_score": 100,
+            "clarity_score": 100,
+            "consistency_score": "90.486145",
+            "rtf": 0.5322008657811292,
+            "inference_time": 1.1410386562347412
+          },
+          "validation": {
+            "rms_level_ok": "True",
+            "dynamic_range_ok": "True",
+            "spectral_centroid_ok": true,
+            "overall_quality_ok": "True",
+            "naturalness_ok": true,
+            "clarity_ok": true,
+            "consistency_ok": "True",
+            "rtf_ok": false,
+            "inference_time_ok": true
+          },
+          "passed": false
+        },
+        "test_4": {
+          "text": "Foreign words: caf\u00e9, na\u00efve, r\u00e9sum\u00e9, jalape\u00f1o.",
+          "metrics": {
+            "sample_rate": 16000,
+            "duration": 3.68,
+            "rms_level": "0.03248575",
+            "peak_level": "0.19008069",
+            "dynamic_range": "15.344898",
+            "spectral_centroid": 2752.339620004509,
+            "spectral_bandwidth": 2240.1546206124094,
+            "spectral_rolloff": 5658.741918103448,
+            "zero_crossing_rate": 0.17835735452586207,
+            "overall_quality": "96.49997",
+            "naturalness_score": 100,
+            "clarity_score": 100,
+            "consistency_score": "85.99986",
+            "rtf": 0.5559601213621056,
+            "inference_time": 2.045933246612549
+          },
+          "validation": {
+            "rms_level_ok": "True",
+            "dynamic_range_ok": "True",
+            "spectral_centroid_ok": true,
+            "overall_quality_ok": "True",
+            "naturalness_ok": true,
+            "clarity_ok": true,
+            "consistency_ok": "True",
+            "rtf_ok": false,
+            "inference_time_ok": true
+          },
+          "passed": false
+        }
+      },
+      "average_quality": "97.333",
+      "pass_rate": 0.0
+    },
+    "Numbers and Dates": {
+      "total_tests": 4,
+      "passed_tests": 2,
+      "failed_tests": 2,
+      "test_cases": {
+        "test_1": {
+          "text": "Numbers: 123, 456, 789, 1000, 2024.",
+          "metrics": {
+            "sample_rate": 16000,
+            "duration": 8.32,
+            "rms_level": "0.03747832",
+            "peak_level": "0.27342868",
+            "dynamic_range": "17.261276",
+            "spectral_centroid": 2960.6183962446885,
+            "spectral_bandwidth": 2232.1671396301504,
+            "spectral_rolloff": 5758.590756704981,
+            "zero_crossing_rate": 0.2109936242816092,
+            "overall_quality": "97.03615",
+            "naturalness_score": 100,
+            "clarity_score": 100,
+            "consistency_score": "88.14461",
+            "rtf": 0.5812712586843051,
+            "inference_time": 4.836176872253418
+          },
+          "validation": {
+            "rms_level_ok": "True",
+            "dynamic_range_ok": "True",
+            "spectral_centroid_ok": true,
+            "overall_quality_ok": "True",
+            "naturalness_ok": true,
+            "clarity_ok": true,
+            "consistency_ok": "True",
+            "rtf_ok": false,
+            "inference_time_ok": true
+          },
+          "passed": false
+        },
+        "test_2": {
+          "text": "Dates: January 15th, 2024, December 31st, 1999.",
+          "metrics": {
+            "sample_rate": 16000,
+            "duration": 6.848,
+            "rms_level": "0.053957768",
+            "peak_level": "0.39746675",
+            "dynamic_range": "17.344934",
+            "spectral_centroid": 3781.1786344176758,
+            "spectral_bandwidth": 2407.597965226058,
+            "spectral_rolloff": 6564.571220930233,
+            "zero_crossing_rate": 0.2789494004360465,
+            "overall_quality": "97.4858",
+            "naturalness_score": 100,
+            "clarity_score": 100,
+            "consistency_score": "89.943214",
+            "rtf": 0.47454568688000476,
+            "inference_time": 3.2496888637542725
+          },
+          "validation": {
+            "rms_level_ok": "True",
+            "dynamic_range_ok": "True",
+            "spectral_centroid_ok": true,
+            "overall_quality_ok": "True",
+            "naturalness_ok": true,
+            "clarity_ok": true,
+            "consistency_ok": "True",
+            "rtf_ok": true,
+            "inference_time_ok": true
+          },
+          "passed": true
+        },
+        "test_3": {
+          "text": "Currency: $99.99, \u20ac50.00, \u00a325.50.",
+          "metrics": {
+            "sample_rate": 16000,
+            "duration": 5.088,
+            "rms_level": "0.047604598",
+            "peak_level": "0.38155574",
+            "dynamic_range": "18.078178",
+            "spectral_centroid": 3184.667318107974,
+            "spectral_bandwidth": 2352.435489039551,
+            "spectral_rolloff": 6102.197265625,
+            "zero_crossing_rate": 0.2132110595703125,
+            "overall_quality": "96.329834",
+            "naturalness_score": 100,
+            "clarity_score": 100,
+            "consistency_score": "85.31932",
+            "rtf": 0.5402223868939862,
+            "inference_time": 2.7486515045166016
+          },
+          "validation": {
+            "rms_level_ok": "True",
+            "dynamic_range_ok": "True",
+            "spectral_centroid_ok": true,
+            "overall_quality_ok": "True",
+            "naturalness_ok": true,
+            "clarity_ok": true,
+            "consistency_ok": "True",
+            "rtf_ok": false,
+            "inference_time_ok": true
+          },
+          "passed": false
+        },
+        "test_4": {
+          "text": "Time: 3:30 PM, 12:00 AM, 11:59 PM.",
+          "metrics": {
+            "sample_rate": 16000,
+            "duration": 3.584,
+            "rms_level": "0.040921956",
+            "peak_level": "0.24832144",
+            "dynamic_range": "15.661154",
+            "spectral_centroid": 2209.138214060336,
+            "spectral_bandwidth": 2231.907606902401,
+            "spectral_rolloff": 5196.971792035398,
+            "zero_crossing_rate": 0.11984063882743363,
+            "overall_quality": "96.863235",
+            "naturalness_score": 100,
+            "clarity_score": 100,
+            "consistency_score": "87.45293",
+            "rtf": 0.46622147783637047,
+            "inference_time": 1.6709377765655518
+          },
+          "validation": {
+            "rms_level_ok": "True",
+            "dynamic_range_ok": "True",
+            "spectral_centroid_ok": true,
+            "overall_quality_ok": "True",
+            "naturalness_ok": true,
+            "clarity_ok": true,
+            "consistency_ok": "True",
+            "rtf_ok": true,
+            "inference_time_ok": true
+          },
+          "passed": true
+        }
+      },
+      "average_quality": "96.92876",
+      "pass_rate": 0.5
+    },
+    "Voice Consistency": {
+      "error": "name 'np' is not defined"
+    },
+    "Performance Validation": {
+      "total_tests": 5,
+      "passed_tests": 3,
+      "failed_tests": 2,
+      "performance_metrics": {
+        "average_rtf": 0.4765820629909479,
+        "best_rtf": 0.42076597009042294,
+        "worst_rtf": 0.551885971338442,
+        "rtf_consistency": 0.7248742479440482
+      },
+      "rtf_target_met": true,
+      "pass_rate": 0.6
+    },
+    "Format Quality": {
+      "total_tests": 4,
+      "passed_tests": 4,
+      "failed_tests": 0,
+      "format_results": {
+        "wav": {
+          "success": true,
+          "compressed_size": 167980,
+          "compression_ratio": 0.9997380640552447,
+          "metadata": {
+            "original_duration": 2.624,
+            "processed_duration": 2.624,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "mp3": {
+          "success": true,
+          "compressed_size": 42615,
+          "compression_ratio": 3.9407720286284174,
+          "metadata": {
+            "original_duration": 2.624,
+            "processed_duration": 2.624013605442177,
+            "original_sample_rate": 44100,
+            "final_sample_rate": 44100,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "opus": {
+          "success": true,
+          "compressed_size": 81289,
+          "compression_ratio": 2.065912977155581,
+          "metadata": {
+            "original_duration": 2.624,
+            "processed_duration": 2.624013605442177,
+            "original_sample_rate": 44100,
+            "final_sample_rate": 44100,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        },
+        "flac": {
+          "success": true,
+          "compressed_size": 123989,
+          "compression_ratio": 1.354442732823073,
+          "metadata": {
+            "original_duration": 2.624,
+            "processed_duration": 2.624,
+            "original_sample_rate": 16000,
+            "final_sample_rate": 16000,
+            "speed_applied": 1.0,
+            "enhancement_applied": true
+          }
+        }
+      },
+      "pass_rate": 1.0
+    }
+  },
+  "summary": {
+    "total_tests": 21,
+    "total_passed": 10,
+    "overall_pass_rate": 0.47619047619047616,
+    "overall_status": "FAIL",
+    "categories": {
+      "Basic Speech": {
+        "pass_rate": 0.25,
+        "status": "FAIL"
+      },
+      "Complex Pronunciation": {
+        "pass_rate": 0.0,
+        "status": "FAIL"
+      },
+      "Numbers and Dates": {
+        "pass_rate": 0.5,
+        "status": "FAIL"
+      },
+      "Performance Validation": {
+        "pass_rate": 0.6,
+        "status": "FAIL"
+      },
+      "Format Quality": {
+        "pass_rate": 1.0,
+        "status": "PASS"
+      }
+    }
+  }
+}

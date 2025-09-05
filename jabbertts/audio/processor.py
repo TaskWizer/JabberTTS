@@ -513,7 +513,7 @@ class AudioProcessor:
             MP3 audio data
         """
         if self.has_ffmpeg:
-            bitrate = self._get_bitrate("mp3")
+            bitrate = self._get_bitrate("mp3", audio)
             return self._ffmpeg_encode(audio, sample_rate, "mp3", {"audio_bitrate": bitrate})
         else:
             logger.warning("ffmpeg not available, returning WAV instead of MP3")
@@ -549,7 +549,7 @@ class AudioProcessor:
             Opus audio data
         """
         if self.has_ffmpeg:
-            bitrate = self._get_bitrate("opus")
+            bitrate = self._get_bitrate("opus", audio)
             return self._ffmpeg_encode(audio, sample_rate, "opus", {"audio_bitrate": bitrate})
         else:
             logger.warning("ffmpeg not available, returning WAV instead of Opus")
@@ -566,7 +566,7 @@ class AudioProcessor:
             AAC audio data
         """
         if self.has_ffmpeg:
-            bitrate = self._get_bitrate("aac")
+            bitrate = self._get_bitrate("aac", audio)
             return self._ffmpeg_encode(audio, sample_rate, "aac", {"audio_bitrate": bitrate})
         else:
             logger.warning("ffmpeg not available, returning WAV instead of AAC")
@@ -586,36 +586,56 @@ class AudioProcessor:
         return pcm_data.tobytes()
     
     def _ffmpeg_encode(self, audio: np.ndarray, sample_rate: int, format: str, options: Dict[str, str]) -> bytes:
-        """Encode audio using ffmpeg.
-        
+        """Encode audio using ffmpeg with optimized settings.
+
         Args:
             audio: Audio array
             sample_rate: Sample rate
             format: Output format
             options: Encoding options
-            
+
         Returns:
             Encoded audio data
         """
         try:
             import ffmpeg
-            
+
+            # Get format-specific optimization profile
+            optimized_options = self._get_format_optimization_profile(format, sample_rate, options)
+
             # Create input stream from numpy array
-            input_stream = ffmpeg.input('pipe:', format='f32le', acodec='pcm_f32le', ar=sample_rate, ac=1)
-            
-            # Create output stream with specified format and options
-            output_stream = ffmpeg.output(input_stream, 'pipe:', format=format, **options)
-            
-            # Run ffmpeg
-            stdout, stderr = ffmpeg.run(output_stream, input=audio.tobytes(), capture_stdout=True, capture_stderr=True)
+            input_stream = ffmpeg.input(
+                'pipe:',
+                format='f32le',
+                acodec='pcm_f32le',
+                ar=sample_rate,
+                ac=1
+            )
+
+            # Create output stream with optimized options
+            output_stream = ffmpeg.output(input_stream, 'pipe:', format=format, **optimized_options)
+
+            # Run ffmpeg with optimized settings
+            stdout, stderr = ffmpeg.run(
+                output_stream,
+                input=audio.tobytes(),
+                capture_stdout=True,
+                capture_stderr=True,
+                quiet=True  # Reduce noise unless there's an error
+            )
 
             if stderr:
-                logger.warning(f"FFmpeg stderr: {stderr.decode()}")
+                stderr_text = stderr.decode()
+                # Only log actual errors, not informational messages
+                if any(level in stderr_text.lower() for level in ['error', 'fatal']):
+                    logger.warning(f"FFmpeg error: {stderr_text}")
+                else:
+                    logger.debug(f"FFmpeg info: {stderr_text}")
 
             return stdout
-            
+
         except Exception as e:
-            logger.error(f"FFmpeg encoding failed: {e}")
+            logger.error(f"FFmpeg encoding failed for format {format}: {e}")
             raise RuntimeError(f"Audio encoding failed: {e}") from e
     
     def _create_simple_wav(self, audio: np.ndarray, sample_rate: int) -> bytes:
@@ -678,18 +698,26 @@ class AudioProcessor:
             }
         }
 
-    def _get_bitrate(self, format: str) -> str:
-        """Get bitrate for a format based on quality settings.
+    def _get_bitrate(self, format: str, audio: Optional[np.ndarray] = None) -> str:
+        """Get bitrate for a format based on quality settings and content analysis.
 
         Args:
             format: Audio format
+            audio: Optional audio array for content-based adaptation
 
         Returns:
             Bitrate string (e.g., "128k")
         """
         if self.settings.bitrate_quality == "adaptive":
-            # Use preset bitrates
-            return self.current_preset["bitrates"].get(format, "96k")
+            # Use adaptive bitrate based on content and preset
+            base_bitrate = self.current_preset["bitrates"].get(format, "96k")
+
+            if audio is not None:
+                # Analyze audio content for adaptive bitrate selection
+                adapted_bitrate = self._analyze_content_for_bitrate(audio, format, base_bitrate)
+                return adapted_bitrate
+
+            return base_bitrate
 
         # Manual bitrate settings
         bitrate_map = {
@@ -699,6 +727,155 @@ class AudioProcessor:
         }
 
         return bitrate_map.get(self.settings.bitrate_quality, {}).get(format, "96k")
+
+    def _analyze_content_for_bitrate(self, audio: np.ndarray, format: str, base_bitrate: str) -> str:
+        """Analyze audio content to determine optimal bitrate.
+
+        Args:
+            audio: Audio array
+            format: Output format
+            base_bitrate: Base bitrate from preset
+
+        Returns:
+            Optimized bitrate string
+        """
+        try:
+            # Calculate audio characteristics
+            rms = np.sqrt(np.mean(audio**2))
+            peak = np.max(np.abs(audio))
+            dynamic_range = 20 * np.log10(peak / (rms + 1e-8))
+
+            # Calculate spectral characteristics if possible
+            spectral_complexity = 1.0  # Default complexity
+
+            try:
+                # Simple spectral analysis using FFT
+                fft = np.fft.rfft(audio)
+                magnitude = np.abs(fft)
+
+                # Calculate spectral centroid (brightness)
+                freqs = np.fft.rfftfreq(len(audio))
+                spectral_centroid = np.sum(freqs * magnitude) / (np.sum(magnitude) + 1e-8)
+
+                # Calculate spectral spread (complexity)
+                spectral_spread = np.sqrt(np.sum(((freqs - spectral_centroid) ** 2) * magnitude) / (np.sum(magnitude) + 1e-8))
+
+                # Normalize complexity measure (0.5 to 1.5 range)
+                spectral_complexity = 0.5 + min(1.0, spectral_spread * 1000)
+
+            except Exception:
+                pass  # Use default complexity if analysis fails
+
+            # Extract base bitrate number
+            base_num = int(base_bitrate.rstrip('k'))
+
+            # Adaptation factors
+            dynamic_factor = min(1.2, max(0.8, dynamic_range / 20))  # 0.8-1.2 based on dynamic range
+            complexity_factor = min(1.3, max(0.7, spectral_complexity))  # 0.7-1.3 based on complexity
+
+            # Format-specific adjustments
+            format_factors = {
+                "mp3": 1.0,    # MP3 baseline
+                "aac": 0.85,   # AAC is more efficient
+                "opus": 0.7,   # Opus is very efficient for speech
+                "flac": 1.0    # Lossless, no bitrate adaptation
+            }
+
+            format_factor = format_factors.get(format, 1.0)
+
+            # Calculate adapted bitrate
+            if format != "flac":  # Don't adapt lossless formats
+                adapted_num = int(base_num * dynamic_factor * complexity_factor * format_factor)
+
+                # Clamp to reasonable ranges per format
+                format_ranges = {
+                    "mp3": (64, 320),
+                    "aac": (48, 256),
+                    "opus": (32, 128)
+                }
+
+                min_br, max_br = format_ranges.get(format, (64, 256))
+                adapted_num = max(min_br, min(max_br, adapted_num))
+
+                logger.debug(f"Adaptive bitrate for {format}: {base_bitrate} -> {adapted_num}k "
+                           f"(dynamic: {dynamic_factor:.2f}, complexity: {complexity_factor:.2f})")
+
+                return f"{adapted_num}k"
+
+            return base_bitrate
+
+        except Exception as e:
+            logger.warning(f"Content analysis failed, using base bitrate: {e}")
+            return base_bitrate
+
+    def _get_format_optimization_profile(self, format: str, sample_rate: int, base_options: Dict[str, str]) -> Dict[str, str]:
+        """Get optimized encoding options for specific format.
+
+        Args:
+            format: Audio format (mp3, aac, opus, etc.)
+            sample_rate: Sample rate
+            base_options: Base encoding options
+
+        Returns:
+            Optimized encoding options
+        """
+        # Start with base options
+        options = base_options.copy()
+
+        # Format-specific optimizations (simplified for compatibility)
+        if format == "mp3":
+            # MP3 optimization for speech
+            options.update({
+                "acodec": "libmp3lame",
+                "q:a": "2",  # High quality VBR
+            })
+            # Use consistent bitrate for speech
+            if "audio_bitrate" in options:
+                # Keep the bitrate setting as-is for compatibility
+                pass
+
+        elif format == "aac":
+            # AAC optimization for speech (simplified for compatibility)
+            options.update({
+                "acodec": "aac",
+            })
+            # Use standard AAC encoding without profile specification
+            if "audio_bitrate" in options:
+                # Keep standard bitrate encoding
+                pass
+
+        elif format == "opus":
+            # Opus optimization for speech
+            options.update({
+                "acodec": "libopus",
+                "application": "voip",  # Optimize for speech
+            })
+            # Opus handles VBR internally
+            if "audio_bitrate" in options:
+                options["compression_level"] = "10"  # Maximum compression efficiency
+
+        elif format == "flac":
+            # FLAC optimization for lossless compression
+            options.update({
+                "acodec": "flac",
+                "compression_level": "8",  # Maximum compression
+            })
+            # Remove bitrate for lossless
+            options.pop("audio_bitrate", None)
+
+        # Sample rate specific optimizations (simplified)
+        if sample_rate <= 16000:
+            # Low sample rate optimizations
+            if format in ["mp3", "aac"]:
+                # Use a conservative lowpass filter
+                options["af"] = f"lowpass=f={sample_rate // 2 - 500}"
+        elif sample_rate >= 44100:
+            # High sample rate optimizations
+            if format == "mp3":
+                # Use a conservative highpass filter
+                options["af"] = "highpass=f=20"
+
+        return options
 
 
 # Global audio processor instance
