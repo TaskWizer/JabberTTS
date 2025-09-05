@@ -69,12 +69,13 @@ class InferenceEngine:
             # Validate input parameters
             self._validate_input(text, voice, speed, response_format)
             
-            # Preprocess text
-            processed_text = await self._preprocess_text(text)
-            logger.debug(f"Preprocessed text: '{processed_text[:100]}...'")
-            
-            # Load model if needed
+            # Load model if needed (before preprocessing to know model type)
             model = await self._ensure_model_loaded()
+
+            # Preprocess text based on model requirements
+            processed_text = await self._preprocess_text(text, model)
+            logger.debug(f"Preprocessed text: '{processed_text[:100]}...'")
+            logger.debug(f"Model type: {type(model).__name__}")
             
             # Generate speech using the model
             audio_data = await self._generate_audio(model, processed_text, voice, speed)
@@ -161,20 +162,44 @@ class InferenceEngine:
             self.generate_speech(text, voice, speed, response_format, **kwargs)
         )
     
-    async def _preprocess_text(self, text: str) -> str:
-        """Preprocess text asynchronously.
-        
+    async def _preprocess_text(self, text: str, model=None) -> str:
+        """Preprocess text asynchronously based on model requirements.
+
         Args:
             text: Input text
-            
+            model: TTS model instance (to determine preprocessing requirements)
+
         Returns:
             Preprocessed text
         """
-        # Run preprocessing in thread pool to avoid blocking
+        # CRITICAL FIX: SpeechT5 requires raw text, not phonemes
+        # Disable phonemization for SpeechT5 models
+        if model and hasattr(model, '__class__'):
+            model_name = model.__class__.__name__
+            if 'SpeechT5' in model_name:
+                logger.debug("Disabling phonemization for SpeechT5 model")
+                # Save original setting
+                original_use_phonemizer = self.preprocessor.use_phonemizer
+                # Temporarily disable phonemization
+                self.preprocessor.use_phonemizer = False
+                try:
+                    # Run preprocessing without phonemization
+                    loop = asyncio.get_event_loop()
+                    result = await loop.run_in_executor(
+                        None,
+                        self.preprocessor.preprocess,
+                        text
+                    )
+                finally:
+                    # Restore original setting
+                    self.preprocessor.use_phonemizer = original_use_phonemizer
+                return result
+
+        # For other models, use normal preprocessing
         loop = asyncio.get_event_loop()
         return await loop.run_in_executor(
-            None, 
-            self.preprocessor.preprocess, 
+            None,
+            self.preprocessor.preprocess,
             text
         )
     

@@ -200,7 +200,9 @@ class SpeechT5Model(BaseTTSModel):
 
             # Optimize inference with torch settings
             with torch.inference_mode():  # More efficient than no_grad for inference
-                # Preprocess text
+                # CRITICAL FIX: SpeechT5 expects raw text, not phonemes
+                # The processor has its own tokenization that conflicts with eSpeak phonemization
+                # Use raw text directly without any phoneme preprocessing
                 inputs = self.processor(text=text, return_tensors="pt")
 
                 # Move inputs to device efficiently

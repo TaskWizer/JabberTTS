@@ -5,13 +5,88 @@ ensuring consistent interface and functionality across different model implement
 """
 
 import abc
-from typing import Dict, List, Optional, Union, Any
+from typing import Dict, List, Optional, Union, Any, Tuple
 from pathlib import Path
+from enum import Enum
 import torch
 import numpy as np
 
 
-class BaseTTSModel(abc.ABC):
+class ModelCapability(Enum):
+    """Model capability flags."""
+    FAST_INFERENCE = "fast_inference"
+    HIGH_QUALITY = "high_quality"
+    LONG_TEXT = "long_text"
+    VOICE_CLONING = "voice_cloning"
+    EMOTION_CONTROL = "emotion_control"
+    MULTILINGUAL = "multilingual"
+
+
+class ModelError(Exception):
+    """Base exception for model-related errors."""
+    pass
+
+
+class ModelLoadError(ModelError):
+    """Exception raised when model loading fails."""
+    pass
+
+
+class InferenceError(ModelError):
+    """Exception raised during inference."""
+    pass
+
+
+class UnsupportedInputError(ModelError):
+    """Exception raised for unsupported input parameters."""
+    pass
+
+
+class TTSModelInterface(abc.ABC):
+    """Enhanced abstract interface for TTS models with standardized methods."""
+
+    @abc.abstractmethod
+    def generate_speech(self, text: str, voice: str, **kwargs) -> np.ndarray:
+        """Generate speech audio from text."""
+        pass
+
+    @abc.abstractmethod
+    def get_sample_rate(self) -> int:
+        """Get the sample rate of generated audio."""
+        pass
+
+    @abc.abstractmethod
+    def get_supported_voices(self) -> List[str]:
+        """Get list of supported voice identifiers."""
+        pass
+
+    @abc.abstractmethod
+    def validate_input(self, text: str) -> bool:
+        """Validate if the input text is supported by this model."""
+        pass
+
+    @abc.abstractmethod
+    def get_model_info(self) -> Dict[str, Any]:
+        """Get comprehensive model information."""
+        pass
+
+    @abc.abstractmethod
+    def get_capabilities(self) -> List[ModelCapability]:
+        """Get list of model capabilities."""
+        pass
+
+    @abc.abstractmethod
+    def get_max_text_length(self) -> int:
+        """Get maximum supported text length."""
+        pass
+
+    @abc.abstractmethod
+    def estimate_inference_time(self, text: str) -> float:
+        """Estimate inference time for given text."""
+        pass
+
+
+class BaseTTSModel(TTSModelInterface):
     """Abstract base class for TTS models.
     
     This class defines the interface that all TTS models must implement
@@ -57,30 +132,38 @@ class BaseTTSModel(abc.ABC):
         **kwargs
     ) -> np.ndarray:
         """Generate speech audio from text.
-        
+
         Args:
             text: Input text to convert to speech
             voice: Voice identifier to use
             speed: Speech speed multiplier (0.25-4.0)
             **kwargs: Additional model-specific parameters
-            
+
         Returns:
             Audio data as numpy array (float32, sample_rate defined by model)
-            
+
         Raises:
-            RuntimeError: If model is not loaded
-            ValueError: If parameters are invalid
+            ModelLoadError: If model is not loaded
+            InferenceError: If inference fails
+            UnsupportedInputError: If parameters are invalid
         """
         pass
     
-    @abc.abstractmethod
     def get_available_voices(self) -> List[str]:
         """Get list of available voice identifiers.
-        
+
         Returns:
             List of voice identifiers supported by this model
         """
-        pass
+        return self.get_supported_voices()
+
+    def get_supported_voices(self) -> List[str]:
+        """Get list of supported voice identifiers.
+
+        Returns:
+            List of voice identifiers supported by this model
+        """
+        return ["default"]
     
     @abc.abstractmethod
     def get_sample_rate(self) -> int:
@@ -91,14 +174,64 @@ class BaseTTSModel(abc.ABC):
         """
         pass
     
-    @abc.abstractmethod
     def get_model_info(self) -> Dict[str, Any]:
         """Get model information and metadata.
-        
+
         Returns:
             Dictionary containing model information
         """
-        pass
+        return {
+            "name": self.__class__.__name__,
+            "device": self.device,
+            "is_loaded": self.is_loaded,
+            "sample_rate": self.get_sample_rate(),
+            "voices": len(self.get_supported_voices()),
+            "capabilities": [cap.value for cap in self.get_capabilities()],
+            "max_text_length": self.get_max_text_length()
+        }
+
+    def get_capabilities(self) -> List[ModelCapability]:
+        """Get list of model capabilities.
+
+        Returns:
+            List of ModelCapability enums
+        """
+        return []
+
+    def get_max_text_length(self) -> int:
+        """Get maximum supported text length.
+
+        Returns:
+            Maximum text length in characters
+        """
+        return 4096
+
+    def validate_input(self, text: str) -> bool:
+        """Validate if the input text is supported by this model.
+
+        Args:
+            text: Input text to validate
+
+        Returns:
+            True if text is valid, False otherwise
+        """
+        if not text or not text.strip():
+            return False
+        if len(text) > self.get_max_text_length():
+            return False
+        return True
+
+    def estimate_inference_time(self, text: str) -> float:
+        """Estimate inference time for given text.
+
+        Args:
+            text: Input text
+
+        Returns:
+            Estimated inference time in seconds
+        """
+        # Basic estimation: ~0.1 seconds per 10 characters
+        return len(text) * 0.01
     
     def validate_parameters(self, text: str, voice: str, speed: float) -> None:
         """Validate input parameters.

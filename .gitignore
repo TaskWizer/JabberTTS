@@ -307,3 +307,19 @@ coverage.xml
 docs/_build/
 docs/build/
 site/
+
+# TTS-specific files
+models/
+*.wav
+*.mp3
+*.flac
+*.opus
+cache/
+.cache/
+
+# Test results and temporary files
+temp/
+*_results.json
+*_validation.json
+*_test_results.json
+*_analysis.json
