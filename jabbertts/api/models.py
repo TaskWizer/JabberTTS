@@ -33,6 +33,7 @@ class ResponseFormatEnum(str, Enum):
 class ModelEnum(str, Enum):
     """Available TTS models."""
     OPENAUDIO_S1_MINI = "openaudio-s1-mini"
+    SPEECHT5 = "speecht5"
 
 
 class TTSRequest(BaseModel):
@@ -42,7 +43,7 @@ class TTSRequest(BaseModel):
     """
     
     model: ModelEnum = Field(
-        default=ModelEnum.OPENAUDIO_S1_MINI,
+        default=ModelEnum.SPEECHT5,
         description="The TTS model to use for generation"
     )
     
@@ -95,7 +96,7 @@ class TTSRequest(BaseModel):
     model_config = {
         "json_schema_extra": {
             "example": {
-                "model": "openaudio-s1-mini",
+                "model": "speecht5",
                 "input": "Hello, this is JabberTTS speaking! How can I help you today?",
                 "voice": "alloy",
                 "response_format": "mp3",

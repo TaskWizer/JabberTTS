@@ -16,6 +16,8 @@ from jabbertts.api.models import (
     VoiceListResponse,
     ErrorResponse
 )
+from jabbertts.inference.engine import get_inference_engine
+from jabbertts.audio.processor import get_audio_processor
 
 logger = logging.getLogger(__name__)
 
@@ -51,26 +53,26 @@ async def create_speech(request: TTSRequest) -> Response:
     """
     try:
         logger.info(f"Generating speech for text length: {len(request.input)}")
-        
-        # TODO: Implement actual TTS generation
-        # This is a placeholder that will be replaced with real implementation
-        
-        # Validate request
-        if not request.input.strip():
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Input text cannot be empty"
-            )
-        
-        if len(request.input) > 4096:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Input text exceeds maximum length of 4096 characters"
-            )
-        
-        # Placeholder response - return empty audio data
-        # In real implementation, this would call the inference engine
-        audio_data = b""  # Placeholder
+
+        # Get inference engine and audio processor
+        inference_engine = get_inference_engine()
+        audio_processor = get_audio_processor()
+
+        # Generate speech using the inference engine
+        result = await inference_engine.generate_speech(
+            text=request.input,
+            voice=request.voice,
+            speed=request.speed,
+            response_format=request.response_format
+        )
+
+        # Process audio to the requested format
+        audio_data = await audio_processor.process_audio(
+            audio_array=result["audio_data"],
+            sample_rate=result["sample_rate"],
+            output_format=request.response_format,
+            speed=request.speed
+        )
         
         # Determine content type based on format
         content_type_map = {

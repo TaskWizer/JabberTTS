@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     port: int = Field(default=8000, description="Server port")
     workers: int = Field(default=1, description="Number of worker processes")
     reload: bool = Field(default=False, description="Enable auto-reload for development")
+    auto_port: bool = Field(default=False, description="Automatically find available port if configured port is in use")
     
     # Logging Configuration
     log_level: str = Field(default="INFO", description="Logging level")
@@ -38,7 +39,7 @@ class Settings(BaseSettings):
     
     # Model Configuration
     model_path: Optional[str] = Field(default=None, description="Path to ONNX model file")
-    model_name: str = Field(default="openaudio-s1-mini", description="Model identifier")
+    model_name: str = Field(default="speecht5", description="Model identifier")
     max_text_length: int = Field(default=4096, description="Maximum input text length")
     
     # Performance Configuration

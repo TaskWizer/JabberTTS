@@ -145,6 +145,7 @@ JabberTTS can be configured via environment variables:
 export JABBERTTS_HOST=0.0.0.0
 export JABBERTTS_PORT=8000
 export JABBERTTS_WORKERS=1
+export JABBERTTS_AUTO_PORT=true  # Automatically find available port if configured port is in use
 
 # Model configuration
 export JABBERTTS_MODEL_PATH=/models/openaudio-s1-mini.onnx
