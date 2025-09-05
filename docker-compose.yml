@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  jabbertts:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    ports:
+      - "8000:8000"
+    environment:
+      - JABBERTTS_HOST=0.0.0.0
+      - JABBERTTS_PORT=8000
+      - JABBERTTS_LOG_LEVEL=INFO
+      - JABBERTTS_ENABLE_DOCS=true
+      - JABBERTTS_DEBUG=false
+    volumes:
+      - ./models:/app/models:ro
+      - ./voices:/app/voices
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Development service
+  jabbertts-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    ports:
+      - "8000:8000"
+    environment:
+      - JABBERTTS_HOST=0.0.0.0
+      - JABBERTTS_PORT=8000
+      - JABBERTTS_LOG_LEVEL=DEBUG
+      - JABBERTTS_ENABLE_DOCS=true
+      - JABBERTTS_DEBUG=true
+      - JABBERTTS_RELOAD=true
+    volumes:
+      - .:/app
+      - ./models:/app/models:ro
+      - ./voices:/app/voices
+      - ./logs:/app/logs
+    command: ["python", "app.py"]
+    profiles:
+      - dev

@@ -1,0 +1,169 @@
+Of course. Based on the search results and our previous deep dives, here is a comprehensive research document and development guide for building your optimized OpenAudio S1 TTS API system. This document covers reference libraries, optimization tidbits, methodology, and a phased action plan.
+
+## **Project Phoenix: OpenAudio TTS API - Technical Reference & Implementation Guide**
+
+### **Executive Summary**
+This document provides a comprehensive technical foundation for implementing a highly efficient, OpenAI-compatible TTS API using the **OpenAudio S1-mini** model. The focus is on achieving **CPU-only operation** with a **Real-Time Factor (RTF) < 0.5** on constrained hardware (4-core CPU, 4-8GB RAM) through advanced quantization, model optimization, and a streamlined serving architecture. The system will support voice cloning and integrate seamlessly with platforms like OpenWebUI.
+
+---
+
+### **1. Core Reference Libraries & Repositories**
+
+To build this system, you will interact with several key codebases and tools. Here is a structured overview:
+
+*Table: Essential Development Libraries and Tools*
+| **Library/Tool** | **Primary Purpose** | **Key Feature for Our Use Case** | **Source/Docs** |
+| :--- | :--- | :--- | :--- |
+| **Fish Audio SDK** | Official SDK for interacting with Fish Audio services. | Reference for API structure, WebSocket protocol, and `TTSRequest` object design. | [GitHub](https://github.com/fishaudio/fish-speech) or [PyPI](https://docs.fish.audio/text-to-speech/text-to-speech-ws) |
+| **Hugging Face `transformers`** | Model loading and inference. | Loading the original `openaudio-s1-mini` PyTorch model for initial optimization. | [Hugging Face](https://huggingface.co/fishaudio/openaudio-s1-mini) |
+| **ONNX Runtime** | High-performance inference engine. | **Core inference backend.** Enables CPU optimizations, graph fusion, and quantization. | [ONNX Runtime](https://onnxruntime.ai/) |
+| **FastAPI** | Modern, high-performance web framework. | Building the **OpenAI-compatible REST API** endpoint with async support. | [FastAPI](https://fastapi.tiangolo.com/) |
+| **websockets** & **ormsgpack** | Handling real-time communication. | Implementing the optional **WebSocket endpoint** using Fish Audio's protocol with MessagePack encoding. | `pip install websockets ormsgpack` |
+| **FFmpeg/ffmpeg-python** | Audio processing and encoding. | Converting generated audio to **96kbps MP3** for efficient streaming. | `pip install ffmpeg-python` |
+| **Unsloth** | Advanced model quantization. | **Inspiration** for implementing custom mixed-bit quantization (e.g., 2-bit for attention, 4-bit for embeddings). | [Unsloth Docs](https://docs.unsloth.ai/) |
+
+#### **1.1 Critical Code Snippets for Development**
+
+**1. FastAPI Server Skeleton (REST Endpoint):**
+```python
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import StreamingResponse
+import uvicorn
+from pydantic import BaseModel
+import io
+
+app = FastAPI(title="OpenAudio TTS API")
+
+class TTSRequest(BaseModel):
+    text: str
+    voice: Optional[str] = None  # Reference to a pre-uploaded voice model
+    model: str = "openaudio-s1-mini"
+    response_format: str = "mp3"
+
+@app.post("/v1/audio/speech")
+async def create_speech(request: TTSRequest):
+    # 1. Validate request
+    # 2. Load or reference voice model
+    # 3. Pass text to optimized inference engine (ONNX Runtime)
+    # 4. Encode audio to MP3 using FFmpeg
+    # 5. Stream the response
+    audio_buffer = await generate_audio_optimized(request.text, request.voice)
+    return StreamingResponse(io.BytesIO(audio_buffer), media_type="audio/mpeg")
+
+async def generate_audio_optimized(text: str, voice_reference: str) -> bytes:
+    # This function will contain the core ONNX Runtime inference logic.
+    pass
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+```
+
+**2. ONNX Runtime Inference Helper Class:**
+```python
+import onnxruntime as ort
+import numpy as np
+
+class OpenAudioONNXInference:
+    def __init__(self, model_path: str):
+        # Configure ONNX Runtime session for CPU
+        self.session = ort.InferenceSession(
+            model_path,
+            providers=['CPUExecutionProvider'],
+            sess_options=ort.SessionOptions()
+        )
+        # Get input/output names from the model
+        self.input_name = self.session.get_inputs()[0].name
+        self.output_name = self.session.get_outputs()[0].name
+
+    def preprocess_text(self, text: str) -> np.ndarray:
+        """Tokenize and preprocess input text into model inputs."""
+        # TODO: Implement tokenization logic matching the original model's training.
+        # This is a critical step for maintaining accuracy.
+        input_ids = ... # Convert text to token IDs
+        return np.array([input_ids], dtype=np.int64)
+
+    def generate(self, input_ids: np.ndarray) -> np.ndarray:
+        """Run inference on the preprocessed input."""
+        # Run the ONNX model
+        outputs = self.session.run(
+            [self.output_name],
+            {self.input_name: input_ids}
+        )
+        return outputs[0]
+
+    def postprocess_audio(self, generated_output: np.ndarray) -> bytes:
+        """Convert model output (e.g., codes, mel-spectrograms) to raw audio using the codec."""
+        # TODO: Integrate the VQGAN codec (codec.pth) in an optimized way.
+        # This might also be converted to ONNX for a full pipeline.
+        audio_data = ... # Decode the output
+        return audio_data
+```
+
+---
+
+### **2. Optimization Strategy & Methodology**
+
+The chosen strategy is a multi-stage optimization pipeline: **PyTorch -> Pruning -> Mixed-Bit Quantization -> ONNX Conversion -> ONNX Runtime Deployment**.
+
+#### **2.1 Phase 1: Model Analysis & Preparation (Pre-Quantization)**
+1.  **Profile the Model:** Use PyTorch hooks or profiling tools to identify computational bottlenecks and layer-wise memory consumption. This identifies candidates for pruning and quantization.
+2.  **Strategic Pruning:**
+    *   **Target:** Aim for a **10-15% parameter reduction**.
+    *   **Method:** Use `torch.nn.utils.prune.l1_unstructured` on linear layers with the smallest L1 norms. This removes weights with minimal impact on output.
+    *   **Context Window Reduction:** Modify the model's configuration to accept a smaller maximum sequence length. This drastically reduces memory usage for inference on CPU.
+3.  **Implement `espeak-ng` Pre-processing:** Integrate `espeak-ng` as a separate microservice or library call to normalize input text and improve phoneme handling *before* it reaches the neural model, potentially allowing for a more aggressive optimization of the TTS model itself.
+    ```bash
+    # Example bash command for text normalization with espeak-ng
+    espeak-ng -q -x "Hello world" # Outputs: hɛloʊ wɜrld
+    ```
+
+#### **2.2 Phase 2: Mixed-Bit Quantization (The Unsloth Inspiration)**
+Since ONNX Runtime's quantization tools are more rigid, we perform the most aggressive optimization *before* conversion.
+*   **Core Idea:** Don't use uniform 4-bit quantization. Instead, use a higher precision for sensitive layers.
+*   **Proposed Bit-Allocation:**
+    *   **2-3 bits:** Attention mechanism layers (often more robust to quantization).
+    *   **4 bits:** Most linear layers and embeddings.
+    *   **8 bits (FP16):** The final output layers and the VQGAN codec decoder. **Preserving quality here is critical for audio fidelity.**
+*   **Implementation:** This requires a custom script using a library like `bitsandbytes` or modifying the Unsloth code to work with the OpenAudio S1 architecture, then saving the quantized state dict before ONNX conversion.
+
+#### **2.3 Phase 3: ONNX Conversion & Optimization**
+1.  **Conversion:** Use `torch.onnx.export` with `dynamic_axes` defined for the input `{0: 'batch_size', 1: 'sequence_length'}` to ensure the model can handle variable-length text inputs.
+2.  **ONNX Runtime Quantization:** *After* conversion, use ONNX Runtime's **static quantization** (QLinearOps) on the already 4-bit layers for an additional performance boost. This requires a calibration dataset (e.g., a few hundred samples from your test phrases).
+
+#### **2.4 Phase 4: API & Streaming Efficiency**
+*   **Chunked Streaming:** Don't wait for the entire audio generation to finish. As the ONNX model generates audio in chunks, immediately encode them to MP3 and stream them to the client. This dramatically reduces perceived latency.
+*   **Smart Caching:** Cache the loaded ONNX model and inference session in memory. For voice cloning, cache the extracted speaker embeddings from reference audio to avoid recomputation for the same speaker.
+*   **Request Queuing:** Implement a simple in-memory queue (e.g., with `asyncio.Queue`) to gracefully handle concurrent requests on the CPU-bound inference engine, preventing system overload.
+
+---
+
+### **3. Best Practices & First Steps**
+
+#### **3.1 Development Methodology**
+1.  **Measure Everything:** Before any optimization, establish a rigorous benchmarking suite. Track RTF, RAM usage, CPU utilization, and audio quality (WER, MOS) for every change. **You can't improve what you don't measure.**
+2.  **Iterate and Validate:** Make one change at a time (e.g., just pruning, then just quantization). After each step, run your full benchmark to isolate the impact of that change on both performance and quality.
+3.  **Quality Assurance:** Implement an automated quality check pipeline. Use OpenAI's `whisper` (or `gpt-4o-transcribe`) to transcribe generated audio and calculate Word Error Rate (WER). Complement this with periodic manual MOS evaluations.
+4.  **Reproducibility:** Use Docker to containerize your development environment. Record the exact version of every library (PyTorch, ONNX Runtime, etc.) and the commands used for each optimization step.
+
+#### **3.2 Actionable First Steps (Next 72 Hours)**
+1.  **Day 1: Environment & Baseline**
+    *   [ ] Create a new project directory and Git repository.
+    *   [ ] Write a `Dockerfile` based on `ubuntu:22.04` that installs Python 3.10, PyTorch 2.4, ONNX Runtime, and `espeak-ng`.
+    *   [ ] Write a script to download the `fishaudio/openaudio-s1-mini` model from Hugging Face.
+    *   [ ] **Success:** Run the original model inside Docker and generate a test `wav` file.
+
+2.  **Day 2: Benchmarking Suite**
+    *   [ ] Create a `benchmark.py` script that:
+        *   Reads a set of 50 test phrases (varying lengths).
+        *   Measures inference time, CPU usage (`psutil`), and RAM usage for each.
+        *   Calculates the average RTF.
+        *   Optionally, uses `whisper` to transcribe the output and calculate WER.
+    *   [ ] **Success:** Run the benchmark on the vanilla model and save a `baseline_report.json`.
+
+3.  **Day 3: Exploration & Planning**
+    *   [ ] Use `print(model)` and PyTorch's `named_parameters()` to map out the model's architecture. Identify key layers.
+    *   [ ] Research and list the specific layers you will target for 2-bit and 4-bit quantization.
+    *   [ ] Draft a detailed, step-by-step plan for the custom quantization script based on your research.
+    *   [ ] **Success:** A documented model architecture analysis and a concrete quantization plan.
+
+By following this structured approach, leveraging the referenced libraries, and adhering to the best practices of measurement and iteration, you will build a robust and highly optimized TTS API that meets your ambitious performance goals.

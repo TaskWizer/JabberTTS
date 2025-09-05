@@ -1,0 +1,141 @@
+# Instructions
+
+## Initial Prompt:
+Read and review the docs, namely the PLAN.md, REFERENCE.md, and RESEARCH.md to get a solid understanding of the project development plan. This is the start of the project and versioning is being kept in GitHub. Please start by doing deep research, enhancing the documentation, plan and SPEC. Work through the planning systematically and create a comprehensive task list to follow and keep track of (create a TASKS.md file, CHANGELOG.md, and any other documents you see fit).
+
+Put documents in the ./docs/ folder. Do not clutter up the root. The only documents there should be the README.md (including links with summaries to all other docs with simple getting started instructions, etc.) and LICENSE (only because GitHub looks for it there). After you have a solid plan and all documentation, SPECS, PRD, etc. developed... then cleanup your list and start development, systematically testing and validating things as you go, developing and cleaning up task lists as you go, improve the code programatically while creating test coverage as you go.
+
+Follow a solid SDLC framework, best practices, and methodologies defined. Work on getting things to work, then adding features, then optimizations. Continiously improve the TTS system and add the requested features. Begin immediately by reading the existing documentation files to establish baseline understanding, then proceed systematically through each phase while maintaining detailed progress tracking.
+
+Setup priorities and phases to be completed. Analyze your work product and reflect on findings, lessions learned, etc. Keep track of useful research, memories, and etc. Continue the task list systematically until all are completed. Build a plan of action along with a comprehensive task list and work through it systematically until all tasks are completed.
+
+The single recommended command to run the API should be `uv run python app.py` (focus on using 'uv' runtime as the Python is managed on this system and it's best practice to use uv, which takes care of most things for you, like automatically installs dependancies, etc.).
+
+## Enhanced:
+Please conduct a comprehensive project analysis and planning phase for the JabberTTS project by following these specific steps:
+
+**Phase 1: Documentation Review and Analysis**
+1. Use the `view` tool to read and analyze existing documentation files in this priority order:
+   - PLAN.md (project scope and objectives)
+   - REFERENCE.md (technical specifications)
+   - RESEARCH.md (technology decisions)
+   - README.md files in root directory and any subdirectories
+   - Any other .md files in the project root
+
+2. Use the `codebase-retrieval` tool to gather information about:
+   - Current project structure, file organization, and directory layout
+   - Existing implementation patterns, code architecture, and code quality
+   - Dependencies, technology stack, and third-party libraries currently in use
+   - Configuration files and build systems
+
+3. Use the `git-commit-retrieval` tool to understand:
+   - Recent development activity, commit frequency, and development patterns
+   - Previous architectural decisions and their documented rationale
+   - Any abandoned approaches, refactoring history, or failed experiments
+   - Evolution of project goals and scope changes
+
+4. Document specific findings including:
+   - Gaps, inconsistencies, or outdated information in existing documentation
+   - Missing technical specifications, unclear requirements, or ambiguous goals
+   - Areas where current implementation differs from documented plans
+   - Identified technical debt or architectural concerns
+
+5. Use the `web-search` tool to research current industry standards:
+   - Modern TTS technology best practices and emerging trends
+   - Popular open-source TTS frameworks (e.g., Coqui TTS, Mozilla TTS, Tacotron) and their architectures
+   - Performance benchmarks, quality metrics, and evaluation criteria for TTS systems
+   - Integration patterns and deployment strategies for TTS applications
+
+**Phase 2: Enhanced Documentation Development**
+Create a structured `./docs/` directory with comprehensive documentation using the `save-file` tool:
+
+**Core Planning Documents:**
+- **PLAN.md**: Detailed development roadmap with specific milestones, realistic timeline estimates (in weeks), success criteria, and risk mitigation strategies
+- **SPEC.md**: Complete functional and technical specifications including performance requirements, input/output formats, API contracts, error handling, and system constraints
+- **PRD.md**: Product Requirements Document with detailed user personas, comprehensive use cases, measurable acceptance criteria, and quantifiable success metrics
+
+**Technical Documentation:**
+- **REFERENCE.md**: Technical architecture diagrams, complete API documentation, configuration options, integration guidelines, and troubleshooting guides
+- **RESEARCH.md**: Technology stack analysis with comparison matrices, architectural decision records (ADRs) with rationale, and evaluation of alternative approaches
+- **TESTING.md**: Comprehensive testing strategy including unit test plans, integration test scenarios, end-to-end test cases, performance testing criteria, and minimum coverage requirements (e.g., 80% code coverage)
+
+**Project Management:**
+- **TASKS.md**: Hierarchical task breakdown with clear dependencies, effort estimates in 20-minute units, priority levels (P0-P3), and assignee guidelines
+- **CHANGELOG.md**: Version history with semantic versioning, feature additions, bug fixes, and breaking changes
+- **CONTRIBUTING.md**: Development guidelines including code standards, commit message conventions, pull request process, and local development setup
+
+**Phase 3: Project Structure and Task Management**
+1. Use the `str-replace-editor` tool to update the root README.md with:
+   - Concise project description highlighting unique value proposition and key features
+   - Quick start guide with step-by-step installation instructions and basic usage examples
+   - Well-organized links to all documentation in ./docs/ with brief descriptions of each document's purpose
+   - Clear contribution guidelines and development environment setup instructions
+   - Badges for build status, test coverage, and version information
+
+2. Verify LICENSE file exists and ensure compliance requirements are documented
+
+3. Use task management tools in this specific sequence:
+   - First, use `add_tasks` to create initial task hierarchy based on the documented development plan
+   - Structure tasks with clear parent-child relationships and explicit dependencies
+   - Assign realistic effort estimates where each task represents approximately 20 minutes of focused development work
+   - Set priority levels (P0=Critical, P1=High, P2=Medium, P3=Low) aligned with MVP requirements and incremental development approach
+
+4. Establish Software Development Life Cycle (SDLC) framework with:
+   - Clear phase definitions: Planning → Development → Testing → Integration → Deployment
+   - Specific deliverables and quality gates for each phase with measurable criteria
+   - Review processes and approval workflows for each development stage
+
+**Phase 4: Development Execution Strategy**
+1. **MVP Implementation Focus**: Prioritize core TTS functionality
+   - Basic text input processing and validation
+   - Audio output generation with standard formats
+   - Essential configuration options and error handling
+
+2. **Incremental Development Approach**: Add features based on documented priorities
+   - Voice customization and personalization options
+   - Advanced audio processing and quality enhancement
+   - Performance optimizations and scalability improvements
+
+3. **Continuous Validation Process**: Use `launch-process` tool for:
+   - Automated test execution after each feature implementation
+   - Performance benchmarking against defined quality metrics
+   - Integration testing with external dependencies and services
+
+4. **Quality Assurance Standards**: Maintain consistent quality throughout development
+   - Code review processes with defined quality metrics and checklists
+   - Documentation updates synchronized with each feature addition
+   - Test coverage maintenance with automated reporting and improvement tracking
+
+**Execution Requirements:**
+- **Systematic Tool Usage**: Utilize all available tools methodically (view, codebase-retrieval, git-commit-retrieval, save-file, str-replace-editor, task management tools)
+- **Comprehensive Testing Strategy**: Implement thorough testing using `launch-process` for test execution at each development milestone
+- **Software Engineering Best Practices**: Follow established methodologies including clean code principles, SOLID design patterns, and maintainable architecture
+- **Progress Tracking**: Use `update_tasks` regularly to maintain accurate task states and provide project visibility
+- **Iterative Improvement**: Focus on measurable progress with regular validation against predefined success criteria and user feedback
+
+**Execution Sequence (Must Follow This Order):**
+1. **Discovery Phase**: Read all existing documentation using `view` tool to establish baseline understanding
+2. **Analysis Phase**: Use retrieval tools (codebase-retrieval, git-commit-retrieval) to understand current state and development history
+3. **Planning Phase**: Create comprehensive task structure using task management tools BEFORE beginning documentation development
+4. **Documentation Phase**: Complete Phase 2 documentation systematically, ensuring each document builds on previous analysis
+5. **Organization Phase**: Update project structure and refine task management based on documentation insights
+6. **Development Phase**: Begin Phase 4 implementation ONLY after comprehensive planning is complete and validated
+7. **Validation Phase**: Continuously test and update documentation throughout development lifecycle
+
+**Success Criteria (Measurable Outcomes):**
+- All existing documentation reviewed with documented gap analysis and improvement recommendations
+- Complete documentation suite created in ./docs/ folder with consistent formatting and cross-references
+- Task management system established with clear priorities, dependencies, and realistic effort estimates
+- Development strategy defined with specific milestones, timelines, and measurable success criteria
+- Project structure organized for efficient development execution and team collaboration
+
+**Memory and Learning Integration:**
+- Use the `remember` tool to capture key architectural decisions, technology evaluations, and lessons learned
+- Document research findings, technology comparisons, and evaluation criteria for future reference
+- Track successful development patterns and approaches for reuse in future project phases
+- Maintain comprehensive decision rationale for future team members and project evolution
+
+**Execution Instructions:**
+Begin immediately by reading existing documentation files to establish baseline understanding. Proceed systematically through each phase while maintaining detailed progress tracking using task management tools. Do not skip phases or rush through analysis - thorough planning will significantly improve development efficiency and code quality.
+
+Continue working through the task list systematically until all tasks are completed. Build a comprehensive plan of action with detailed task breakdown and work through it methodically, updating task states as progress is made.
