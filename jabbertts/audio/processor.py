@@ -9,6 +9,7 @@ import logging
 from typing import Optional, Dict, Any, Tuple
 import numpy as np
 from jabbertts.config import get_settings
+from jabbertts.audio.advanced_speed_control import get_speed_controller, TimeStretchAlgorithm
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +27,9 @@ class AudioProcessor:
         self.settings = get_settings()
         self._check_dependencies()
         self._setup_quality_presets()
+
+        # Initialize advanced speed controller
+        self.speed_controller = get_speed_controller(TimeStretchAlgorithm.LIBROSA_TIME_STRETCH)
     
     def _check_dependencies(self) -> None:
         """Check for required audio processing dependencies."""
@@ -139,8 +143,8 @@ class AudioProcessor:
                 audio_array = self._enhance_audio(audio_array, sample_rate)
 
             # Apply speed adjustment if needed (and different from 1.0)
-            if speed != 1.0 and self.has_librosa:
-                audio_array = self._adjust_speed(audio_array, speed)
+            if speed != 1.0:
+                audio_array = self._adjust_speed(audio_array, speed, sample_rate)
 
             # Resample if needed for quality preset
             target_sample_rate = self._get_target_sample_rate(output_format, sample_rate)
@@ -206,25 +210,38 @@ class AudioProcessor:
         
         return audio
     
-    def _adjust_speed(self, audio: np.ndarray, speed: float) -> np.ndarray:
-        """Adjust audio speed using librosa.
-        
+    def _adjust_speed(self, audio: np.ndarray, speed: float, sample_rate: int = 16000) -> np.ndarray:
+        """Adjust audio speed using advanced time-stretching algorithms.
+
         Args:
             audio: Input audio array
             speed: Speed multiplier
-            
+            sample_rate: Audio sample rate
+
         Returns:
-            Speed-adjusted audio
+            Speed-adjusted audio with preserved quality
         """
-        if not self.has_librosa:
-            logger.warning("librosa not available, speed adjustment skipped")
-            return audio
-        
         try:
-            import librosa
-            return librosa.effects.time_stretch(audio, rate=speed)
+            # Use advanced speed controller for high-quality time-stretching
+            return self.speed_controller.adjust_speed(
+                audio=audio,
+                speed_factor=speed,
+                sample_rate=sample_rate,
+                preserve_pitch=True
+            )
         except Exception as e:
-            logger.warning(f"Speed adjustment failed: {e}")
+            logger.warning(f"Advanced speed adjustment failed: {e}")
+
+            # Fallback to simple librosa method
+            if self.has_librosa:
+                try:
+                    import librosa
+                    return librosa.effects.time_stretch(audio, rate=speed)
+                except Exception as librosa_error:
+                    logger.warning(f"Librosa fallback failed: {librosa_error}")
+
+            # Final fallback: return original audio
+            logger.warning("All speed adjustment methods failed, returning original audio")
             return audio
 
     def _enhance_audio(self, audio: np.ndarray, sample_rate: int) -> np.ndarray:

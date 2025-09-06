@@ -238,26 +238,37 @@ class OpenAudioS1MiniModel(BaseTTSModel):
         return True
 
     def _adjust_speed(self, audio: np.ndarray, speed: float) -> np.ndarray:
-        """Adjust audio speed using time-stretching.
+        """Adjust audio speed using advanced time-stretching algorithms.
 
         Args:
             audio: Input audio array
             speed: Speed multiplier (>1.0 = faster, <1.0 = slower)
 
         Returns:
-            Speed-adjusted audio array
+            Speed-adjusted audio array with preserved quality
         """
         if speed == 1.0:
             return audio
 
         try:
-            import librosa
-            # Use librosa for high-quality time-stretching
-            stretched_audio = librosa.effects.time_stretch(audio, rate=speed)
+            from jabbertts.audio.advanced_speed_control import adjust_audio_speed
+            stretched_audio = adjust_audio_speed(
+                audio=audio,
+                speed_factor=speed,
+                sample_rate=self.get_sample_rate(),
+                preserve_pitch=True
+            )
             return stretched_audio.astype(np.float32)
         except ImportError:
-            logger.warning("librosa not available, using simple resampling for speed adjustment")
-            # Fallback: simple resampling (lower quality)
-            target_length = int(len(audio) / speed)
-            indices = np.linspace(0, len(audio) - 1, target_length)
-            return np.interp(indices, np.arange(len(audio)), audio).astype(np.float32)
+            logger.warning("Advanced speed control not available, using fallback")
+            try:
+                import librosa
+                # Use librosa for high-quality time-stretching
+                stretched_audio = librosa.effects.time_stretch(audio, rate=speed)
+                return stretched_audio.astype(np.float32)
+            except ImportError:
+                logger.warning("librosa not available, using simple resampling for speed adjustment")
+                # Fallback: simple resampling (lower quality)
+                target_length = int(len(audio) / speed)
+                indices = np.linspace(0, len(audio) - 1, target_length)
+                return np.interp(indices, np.arange(len(audio)), audio).astype(np.float32)

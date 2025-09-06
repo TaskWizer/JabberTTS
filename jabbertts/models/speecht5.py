@@ -352,22 +352,31 @@ class SpeechT5Model(BaseTTSModel):
         return voice_embeddings
 
     def _adjust_speed(self, audio: np.ndarray, speed: float) -> np.ndarray:
-        """Adjust audio speed using simple resampling.
-        
+        """Adjust audio speed using advanced time-stretching algorithms.
+
         Args:
             audio: Input audio array
             speed: Speed multiplier
-            
+
         Returns:
-            Speed-adjusted audio array
+            Speed-adjusted audio array with preserved quality
         """
         try:
-            import librosa
-            # Use librosa for time stretching
-            return librosa.effects.time_stretch(audio, rate=speed)
+            from jabbertts.audio.advanced_speed_control import adjust_audio_speed
+            return adjust_audio_speed(
+                audio=audio,
+                speed_factor=speed,
+                sample_rate=self.get_sample_rate(),
+                preserve_pitch=True
+            )
         except ImportError:
-            logger.warning("librosa not available, speed adjustment disabled")
-            return audio
+            logger.warning("Advanced speed control not available, using fallback")
+            try:
+                import librosa
+                return librosa.effects.time_stretch(audio, rate=speed)
+            except ImportError:
+                logger.warning("librosa not available, speed adjustment disabled")
+                return audio
         except Exception as e:
             logger.warning(f"Speed adjustment failed: {e}")
             return audio

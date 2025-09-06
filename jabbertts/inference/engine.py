@@ -13,6 +13,7 @@ import numpy as np
 from jabbertts.config import get_settings
 from jabbertts.models.manager import get_model_manager
 from .preprocessing import TextPreprocessor
+from jabbertts.preprocessing.enhanced_text_processor import get_enhanced_text_processor, PreprocessingConfig, ModelType
 from jabbertts.metrics import get_metrics_collector
 
 logger = logging.getLogger(__name__)
@@ -30,6 +31,10 @@ class InferenceEngine:
         self.settings = get_settings()
         self.model_manager = get_model_manager()
         self.preprocessor = TextPreprocessor(use_phonemizer=True)
+
+        # Initialize enhanced text processor
+        self.enhanced_processor = get_enhanced_text_processor()
+
         self.performance_stats = {
             "total_requests": 0,
             "total_inference_time": 0.0,
@@ -163,27 +168,48 @@ class InferenceEngine:
         )
     
     async def _preprocess_text(self, text: str, model=None) -> str:
-        """Preprocess text asynchronously based on model requirements.
+        """Preprocess text asynchronously with enhanced model-specific optimization.
 
         Args:
             text: Input text
             model: TTS model instance (to determine preprocessing requirements)
 
         Returns:
-            Preprocessed text
+            Preprocessed text optimized for the target model
         """
-        # CRITICAL FIX: SpeechT5 requires raw text, not phonemes
-        # Disable phonemization for SpeechT5 models
+        # Determine model type for enhanced preprocessing
+        model_type = ModelType.UNKNOWN
         if model and hasattr(model, '__class__'):
-            model_name = model.__class__.__name__
-            if 'SpeechT5' in model_name:
-                logger.debug("Disabling phonemization for SpeechT5 model")
-                # Save original setting
+            model_name = model.__class__.__name__.lower()
+            if 'speecht5' in model_name:
+                model_type = ModelType.SPEECHT5
+            elif 'openaudio' in model_name:
+                model_type = ModelType.OPENAUDIO
+            elif 'coqui' in model_name or 'vits' in model_name:
+                model_type = ModelType.COQUI_VITS
+
+        logger.debug(f"Using enhanced preprocessing for model type: {model_type.value}")
+
+        # Use enhanced text processor with model-specific configuration
+        try:
+            loop = asyncio.get_event_loop()
+            result = await loop.run_in_executor(
+                None,
+                self.enhanced_processor.process_text,
+                text,
+                model_type,
+                "en"  # Default language, could be made configurable
+            )
+            return result
+        except Exception as e:
+            logger.warning(f"Enhanced preprocessing failed: {e}, falling back to basic preprocessing")
+
+            # Fallback to original preprocessing logic
+            if model_type == ModelType.SPEECHT5:
+                logger.debug("Using fallback preprocessing for SpeechT5 (no phonemization)")
                 original_use_phonemizer = self.preprocessor.use_phonemizer
-                # Temporarily disable phonemization
                 self.preprocessor.use_phonemizer = False
                 try:
-                    # Run preprocessing without phonemization
                     loop = asyncio.get_event_loop()
                     result = await loop.run_in_executor(
                         None,
@@ -191,7 +217,6 @@ class InferenceEngine:
                         text
                     )
                 finally:
-                    # Restore original setting
                     self.preprocessor.use_phonemizer = original_use_phonemizer
                 return result
 

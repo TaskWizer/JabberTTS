@@ -1,0 +1,256 @@
+{
+  "audit_timestamp": "2025-09-05T22:20:46.936125",
+  "system_info": {
+    "cpu": {
+      "cpu_count": 20,
+      "cpu_count_logical": 20,
+      "cpu_freq": {
+        "current": 3688.4882,
+        "min": 800.0,
+        "max": 4620.0
+      },
+      "cpu_percent": 8.3
+    },
+    "memory": {
+      "total_gb": 31.10576629638672,
+      "available_gb": 7.724510192871094,
+      "used_gb": 21.920127868652344,
+      "percent": 75.2
+    },
+    "gpu": {
+      "available": false
+    },
+    "python_version": "7.0.0"
+  },
+  "pipeline_analysis": {
+    "initialization": {
+      "times": {
+        "inference_engine": 1.0719866752624512,
+        "audio_processor": 0.011530160903930664,
+        "model_manager": 8.606910705566406e-05,
+        "model_loading": 3.093513250350952,
+        "model_warm_start": 1.0967254638671875e-05
+      },
+      "total_cold_start": 4.177127122879028,
+      "model_info": {
+        "class": "SpeechT5Model",
+        "sample_rate": 16000,
+        "is_loaded": true
+      }
+    },
+    "stage_timing": {
+      "short": {
+        "text_length": 11,
+        "audio_duration": 0.48,
+        "stage_times": {
+          "preprocessing": 0.0030586719512939453,
+          "model_inference": 10.179298400878906,
+          "audio_processing": 0.0007302761077880859,
+          "total": 10.183095932006836
+        },
+        "rtf": 21.214783191680908,
+        "memory_usage": {
+          "current_mb": 48.723450660705566,
+          "peak_mb": 54.948426246643066
+        },
+        "performance_target_met": false
+      },
+      "medium": {
+        "text_length": 57,
+        "audio_duration": 2.336,
+        "stage_times": {
+          "preprocessing": 0.0021772384643554688,
+          "model_inference": 4.899606466293335,
+          "audio_processing": 0.0006856918334960938,
+          "total": 4.90247368812561
+        },
+        "rtf": 2.098661681560621,
+        "memory_usage": {
+          "current_mb": 6.995171546936035,
+          "peak_mb": 16.320762634277344
+        },
+        "performance_target_met": false
+      },
+      "long": {
+        "text_length": 192,
+        "audio_duration": 8.512,
+        "stage_times": {
+          "preprocessing": 0.002052783966064453,
+          "model_inference": 5.100756883621216,
+          "audio_processing": 0.0014564990997314453,
+          "total": 5.104269742965698
+        },
+        "rtf": 0.5996557498784889,
+        "memory_usage": {
+          "current_mb": 0.3009986877441406,
+          "peak_mb": 1.601210594177246
+        },
+        "performance_target_met": false
+      },
+      "complex": {
+        "text_length": 126,
+        "audio_duration": 7.2,
+        "stage_times": {
+          "preprocessing": 0.0016455650329589844,
+          "model_inference": 4.348443984985352,
+          "audio_processing": 0.0019719600677490234,
+          "total": 4.352065563201904
+        },
+        "rtf": 0.6044535504447089,
+        "memory_usage": {
+          "current_mb": 0.24727439880371094,
+          "peak_mb": 1.3474235534667969
+        },
+        "performance_target_met": false
+      }
+    }
+  },
+  "performance_bottlenecks": {
+    "per_test_case": [
+      {
+        "test_case": "short",
+        "rtf": 21.214783191680908,
+        "target_met": false,
+        "biggest_bottleneck": {
+          "stage": "model_inference",
+          "percentage": 99.96270749923907,
+          "time_seconds": 10.179298400878906
+        },
+        "stage_breakdown": {
+          "preprocessing": 0.030036758680433612,
+          "model_inference": 99.96270749923907,
+          "audio_processing": 0.007171454660391936
+        }
+      },
+      {
+        "test_case": "medium",
+        "rtf": 2.098661681560621,
+        "target_met": false,
+        "biggest_bottleneck": {
+          "stage": "model_inference",
+          "percentage": 99.94151479406773,
+          "time_seconds": 4.899606466293335
+        },
+        "stage_breakdown": {
+          "preprocessing": 0.04441101784246198,
+          "model_inference": 99.94151479406773,
+          "audio_processing": 0.013986649946881369
+        }
+      },
+      {
+        "test_case": "long",
+        "rtf": 0.5996557498784889,
+        "target_met": false,
+        "biggest_bottleneck": {
+          "stage": "model_inference",
+          "percentage": 99.93117802307914,
+          "time_seconds": 5.100756883621216
+        },
+        "stage_breakdown": {
+          "preprocessing": 0.0402169961509859,
+          "model_inference": 99.93117802307914,
+          "audio_processing": 0.028534916316651903
+        }
+      },
+      {
+        "test_case": "complex",
+        "rtf": 0.6044535504447089,
+        "target_met": false,
+        "biggest_bottleneck": {
+          "stage": "model_inference",
+          "percentage": 99.91678484241658,
+          "time_seconds": 4.348443984985352
+        },
+        "stage_breakdown": {
+          "preprocessing": 0.03781112690196488,
+          "model_inference": 99.91678484241658,
+          "audio_processing": 0.045310899827028614
+        }
+      }
+    ],
+    "overall_bottleneck": {
+      "stage": "model_inference",
+      "average_time": 6.132026433944702
+    },
+    "average_stage_times": {
+      "preprocessing": 0.002233564853668213,
+      "model_inference": 6.132026433944702,
+      "audio_processing": 0.0012111067771911621
+    }
+  },
+  "memory_analysis": {
+    "short": {
+      "memory_before_mb": 23334.546875,
+      "memory_after_mb": 23345.8515625,
+      "memory_delta_mb": 11.3046875,
+      "potential_leak": false
+    },
+    "medium": {
+      "memory_before_mb": 23345.8515625,
+      "memory_after_mb": 23479.91015625,
+      "memory_delta_mb": 134.05859375,
+      "potential_leak": true
+    },
+    "long": {
+      "memory_before_mb": 23479.91015625,
+      "memory_after_mb": 23131.41015625,
+      "memory_delta_mb": -348.5,
+      "potential_leak": false
+    },
+    "complex": {
+      "memory_before_mb": 23131.41015625,
+      "memory_after_mb": 23237.3828125,
+      "memory_delta_mb": 105.97265625,
+      "potential_leak": true
+    }
+  },
+  "optimization_effectiveness": {
+    "caching": {
+      "first_request_time": 0.8819258213043213,
+      "second_request_time": 0.9826815128326416,
+      "cache_speedup": 0.8974686200843591,
+      "cache_effective": false
+    },
+    "hardware_utilization": {
+      "cpu_usage": {
+        "average": 33.63,
+        "maximum": 51.7,
+        "underutilized": true
+      },
+      "memory_usage": {
+        "average": 77.77,
+        "maximum": 78.1
+      }
+    }
+  },
+  "recommendations": [
+    {
+      "priority": "HIGH",
+      "category": "Performance",
+      "issue": "RTF target not met for 4/4 test cases",
+      "recommendation": "Focus on optimizing the primary bottleneck stage identified in analysis",
+      "expected_impact": "50% RTF improvement"
+    },
+    {
+      "priority": "HIGH",
+      "category": "Model Optimization",
+      "issue": "Model inference is the primary bottleneck",
+      "recommendation": "Implement ONNX Runtime optimization, model quantization, and torch.compile",
+      "expected_impact": "30-50% inference speedup"
+    },
+    {
+      "priority": "MEDIUM",
+      "category": "Memory Management",
+      "issue": "Potential memory leaks detected in 2 test cases",
+      "recommendation": "Implement proper memory cleanup and garbage collection optimization",
+      "expected_impact": "Improved stability and reduced memory usage"
+    },
+    {
+      "priority": "LOW",
+      "category": "Hardware Utilization",
+      "issue": "CPU is underutilized during generation",
+      "recommendation": "Implement parallel processing and increase thread pool size",
+      "expected_impact": "Better resource utilization"
+    }
+  ]
+}
