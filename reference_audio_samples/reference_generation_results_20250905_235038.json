@@ -1,0 +1,222 @@
+{
+  "generation_timestamp": "2025-09-05T23:49:22.844454",
+  "samples": [
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "Hello world.",
+      "voice": "alloy",
+      "stage": "raw_model"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "Hello world.",
+      "voice": "alloy",
+      "stage": "minimal_processing"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "Hello world.",
+      "voice": "alloy",
+      "stage": "no_enhancement"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "Hello world.",
+      "voice": "alloy",
+      "stage": "standard_processing"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "Hello world.",
+      "voice": "alloy",
+      "stage": "high_quality_processing"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "Hello world.",
+      "voice": "echo",
+      "stage": "raw_model"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "Hello world.",
+      "voice": "echo",
+      "stage": "minimal_processing"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "Hello world.",
+      "voice": "echo",
+      "stage": "no_enhancement"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "Hello world.",
+      "voice": "echo",
+      "stage": "standard_processing"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "Hello world.",
+      "voice": "echo",
+      "stage": "high_quality_processing"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "alloy",
+      "stage": "raw_model"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "alloy",
+      "stage": "minimal_processing"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "alloy",
+      "stage": "no_enhancement"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "alloy",
+      "stage": "standard_processing"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "alloy",
+      "stage": "high_quality_processing"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "echo",
+      "stage": "raw_model"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "echo",
+      "stage": "minimal_processing"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "echo",
+      "stage": "no_enhancement"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "echo",
+      "stage": "standard_processing"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "echo",
+      "stage": "high_quality_processing"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "alloy",
+      "stage": "raw_model"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "alloy",
+      "stage": "minimal_processing"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "alloy",
+      "stage": "no_enhancement"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "alloy",
+      "stage": "standard_processing"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "alloy",
+      "stage": "high_quality_processing"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "echo",
+      "stage": "raw_model"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "echo",
+      "stage": "minimal_processing"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "echo",
+      "stage": "no_enhancement"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "echo",
+      "stage": "standard_processing"
+    },
+    {
+      "success": false,
+      "error": "'AudioQualityValidator' object has no attribute 'analyze_audio_quality'",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "echo",
+      "stage": "high_quality_processing"
+    }
+  ],
+  "summary": {
+    "total_samples": 30,
+    "successful_samples": 0,
+    "success_rate": 0.0,
+    "output_directory": "reference_audio_samples"
+  },
+  "baseline_metrics": {}
+}

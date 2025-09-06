@@ -1,0 +1,1104 @@
+{
+  "generation_timestamp": "2025-09-05T23:53:28.125869",
+  "samples": [
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_raw_model_alloy_simple_20250905_235336.wav",
+      "text": "Hello world.",
+      "voice": "alloy",
+      "stage": "raw_model",
+      "complexity": "simple",
+      "generation_time": 9.960428237915039,
+      "tts_metrics": {
+        "rtf": 15.59858550043667,
+        "inference_time": 8.485630512237549,
+        "duration": 0.544
+      },
+      "processing_metadata": {
+        "processing": "raw_model_output",
+        "sample_rate": 16000,
+        "enhancement": false
+      },
+      "quality_metrics": {
+        "rms_level": 0.05834824964404106,
+        "peak_level": 0.34186387062072754,
+        "dynamic_range": 15.35650634765625,
+        "spectral_centroid": 1652.4481228493153,
+        "overall_quality": 96.7113265991211,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_minimal_processing_alloy_simple_20250905_235338.wav",
+      "text": "Hello world.",
+      "voice": "alloy",
+      "stage": "minimal_processing",
+      "complexity": "simple",
+      "generation_time": 1.133254051208496,
+      "tts_metrics": {
+        "rtf": 0.8280430646503673,
+        "inference_time": 0.4504554271697998,
+        "duration": 0.544
+      },
+      "processing_metadata": {
+        "processing": "minimal_normalization_only",
+        "sample_rate": 16000,
+        "enhancement": false
+      },
+      "quality_metrics": {
+        "rms_level": 0.050874702632427216,
+        "peak_level": 0.37912726402282715,
+        "dynamic_range": 17.445659637451172,
+        "spectral_centroid": 1667.7152817437418,
+        "overall_quality": 97.2591323852539,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_no_enhancement_alloy_simple_20250905_235339.wav",
+      "text": "Hello world.",
+      "voice": "alloy",
+      "stage": "no_enhancement",
+      "complexity": "simple",
+      "generation_time": 0.8024494647979736,
+      "tts_metrics": {
+        "rtf": 0.5427739199470071,
+        "inference_time": 0.2952690124511719,
+        "duration": 0.544
+      },
+      "processing_metadata": {
+        "original_duration": 0.544,
+        "processed_duration": 0.544,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": false,
+        "processing": "no_enhancement"
+      },
+      "quality_metrics": {
+        "rms_level": 0.046601472056823565,
+        "peak_level": 0.311614990234375,
+        "dynamic_range": 16.50437225099365,
+        "spectral_centroid": 1556.0378890745415,
+        "overall_quality": 98.29960831136563,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_standard_processing_alloy_simple_20250905_235340.wav",
+      "text": "Hello world.",
+      "voice": "alloy",
+      "stage": "standard_processing",
+      "complexity": "simple",
+      "generation_time": 0.9476072788238525,
+      "tts_metrics": {
+        "rtf": 0.6198931266279781,
+        "inference_time": 0.3372218608856201,
+        "duration": 0.544
+      },
+      "processing_metadata": {
+        "original_duration": 0.544,
+        "processed_duration": 0.544,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true,
+        "processing": "standard"
+      },
+      "quality_metrics": {
+        "rms_level": 0.12136878713358122,
+        "peak_level": 0.8499755859375,
+        "dynamic_range": 16.9059880760766,
+        "spectral_centroid": 1529.1161851698466,
+        "overall_quality": 99.40700366705063,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_high_quality_processing_alloy_simple_20250905_235341.wav",
+      "text": "Hello world.",
+      "voice": "alloy",
+      "stage": "high_quality_processing",
+      "complexity": "simple",
+      "generation_time": 0.8171358108520508,
+      "tts_metrics": {
+        "rtf": 0.5232384976218728,
+        "inference_time": 0.28464174270629883,
+        "duration": 0.544
+      },
+      "processing_metadata": {
+        "original_duration": 0.544,
+        "processed_duration": 0.544,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true,
+        "processing": "high_quality"
+      },
+      "quality_metrics": {
+        "rms_level": 0.1296499263410717,
+        "peak_level": 0.8499755859375,
+        "dynamic_range": 16.332682873594088,
+        "spectral_centroid": 1673.3998349992387,
+        "overall_quality": 98.38941383113955,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_raw_model_echo_simple_20250905_235343.wav",
+      "text": "Hello world.",
+      "voice": "echo",
+      "stage": "raw_model",
+      "complexity": "simple",
+      "generation_time": 1.785597801208496,
+      "tts_metrics": {
+        "rtf": 2.2502591212590537,
+        "inference_time": 1.2961492538452148,
+        "duration": 0.576
+      },
+      "processing_metadata": {
+        "processing": "raw_model_output",
+        "sample_rate": 16000,
+        "enhancement": false
+      },
+      "quality_metrics": {
+        "rms_level": 0.025019604712724686,
+        "peak_level": 0.2151605635881424,
+        "dynamic_range": 18.689640045166016,
+        "spectral_centroid": 2255.3790217176443,
+        "overall_quality": 94.35091400146484,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_minimal_processing_echo_simple_20250905_235344.wav",
+      "text": "Hello world.",
+      "voice": "echo",
+      "stage": "minimal_processing",
+      "complexity": "simple",
+      "generation_time": 1.025404453277588,
+      "tts_metrics": {
+        "rtf": 0.7483777072694567,
+        "inference_time": 0.43106555938720703,
+        "duration": 0.576
+      },
+      "processing_metadata": {
+        "processing": "minimal_normalization_only",
+        "sample_rate": 16000,
+        "enhancement": false
+      },
+      "quality_metrics": {
+        "rms_level": 0.026851244270801544,
+        "peak_level": 0.2185724824666977,
+        "dynamic_range": 18.21261978149414,
+        "spectral_centroid": 2176.2720938634097,
+        "overall_quality": 93.55320739746094,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_no_enhancement_echo_simple_20250905_235344.wav",
+      "text": "Hello world.",
+      "voice": "echo",
+      "stage": "no_enhancement",
+      "complexity": "simple",
+      "generation_time": 1.8676676750183105,
+      "tts_metrics": {
+        "rtf": 0.5567189719941882,
+        "inference_time": 0.32067012786865234,
+        "duration": 0.576
+      },
+      "processing_metadata": {
+        "original_duration": 0.576,
+        "processed_duration": 0.576,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": false,
+        "processing": "no_enhancement"
+      },
+      "quality_metrics": {
+        "rms_level": 0.025498684028954395,
+        "peak_level": 0.21551513671875,
+        "dynamic_range": 18.539196811995915,
+        "spectral_centroid": 2201.0586347629196,
+        "overall_quality": 95.62148254920692,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_standard_processing_echo_simple_20250905_235346.wav",
+      "text": "Hello world.",
+      "voice": "echo",
+      "stage": "standard_processing",
+      "complexity": "simple",
+      "generation_time": 0.8194708824157715,
+      "tts_metrics": {
+        "rtf": 0.623039487335417,
+        "inference_time": 0.3588707447052002,
+        "duration": 0.576
+      },
+      "processing_metadata": {
+        "original_duration": 0.576,
+        "processed_duration": 0.576,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true,
+        "processing": "standard"
+      },
+      "quality_metrics": {
+        "rms_level": 0.09822813033644028,
+        "peak_level": 0.850006103515625,
+        "dynamic_range": 18.74372244353253,
+        "spectral_centroid": 2032.6335795014816,
+        "overall_quality": 95.70377305094074,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_high_quality_processing_echo_simple_20250905_235347.wav",
+      "text": "Hello world.",
+      "voice": "echo",
+      "stage": "high_quality_processing",
+      "complexity": "simple",
+      "generation_time": 0.7675065994262695,
+      "tts_metrics": {
+        "rtf": 0.5698841479089526,
+        "inference_time": 0.32825326919555664,
+        "duration": 0.576
+      },
+      "processing_metadata": {
+        "original_duration": 0.576,
+        "processed_duration": 0.576,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true,
+        "processing": "high_quality"
+      },
+      "quality_metrics": {
+        "rms_level": 0.11219657886753284,
+        "peak_level": 0.8499755859375,
+        "dynamic_range": 17.58853596707747,
+        "spectral_centroid": 2090.891762229909,
+        "overall_quality": 95.15890198429936,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_raw_model_alloy_medium_20250905_235349.wav",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "alloy",
+      "stage": "raw_model",
+      "complexity": "medium",
+      "generation_time": 2.000150442123413,
+      "tts_metrics": {
+        "rtf": 0.5667772801483378,
+        "inference_time": 1.2333073616027832,
+        "duration": 2.176
+      },
+      "processing_metadata": {
+        "processing": "raw_model_output",
+        "sample_rate": 16000,
+        "enhancement": false
+      },
+      "quality_metrics": {
+        "rms_level": 0.04779244586825371,
+        "peak_level": 0.634629487991333,
+        "dynamic_range": 22.46321678161621,
+        "spectral_centroid": 1584.7497331157158,
+        "overall_quality": 97.43312072753906,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_minimal_processing_alloy_medium_20250905_235352.wav",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "alloy",
+      "stage": "minimal_processing",
+      "complexity": "medium",
+      "generation_time": 2.729753017425537,
+      "tts_metrics": {
+        "rtf": 0.9172925914543262,
+        "inference_time": 2.0253820419311523,
+        "duration": 2.208
+      },
+      "processing_metadata": {
+        "processing": "minimal_normalization_only",
+        "sample_rate": 16000,
+        "enhancement": false
+      },
+      "quality_metrics": {
+        "rms_level": 0.04759112745523453,
+        "peak_level": 0.47340425848960876,
+        "dynamic_range": 19.954120635986328,
+        "spectral_centroid": 1542.4022081420967,
+        "overall_quality": 97.25372314453125,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_no_enhancement_alloy_medium_20250905_235354.wav",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "alloy",
+      "stage": "no_enhancement",
+      "complexity": "medium",
+      "generation_time": 1.9207146167755127,
+      "tts_metrics": {
+        "rtf": 0.5803840125308317,
+        "inference_time": 1.2629156112670898,
+        "duration": 2.176
+      },
+      "processing_metadata": {
+        "original_duration": 2.176,
+        "processed_duration": 2.176,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": false,
+        "processing": "no_enhancement"
+      },
+      "quality_metrics": {
+        "rms_level": 0.045830973606165976,
+        "peak_level": 0.505615234375,
+        "dynamic_range": 20.85321945854199,
+        "spectral_centroid": 1530.0007624101013,
+        "overall_quality": 97.48063654050182,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_standard_processing_alloy_medium_20250905_235355.wav",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "alloy",
+      "stage": "standard_processing",
+      "complexity": "medium",
+      "generation_time": 1.6035830974578857,
+      "tts_metrics": {
+        "rtf": 0.5018351518589517,
+        "inference_time": 1.1080520153045654,
+        "duration": 2.208
+      },
+      "processing_metadata": {
+        "original_duration": 2.208,
+        "processed_duration": 2.208,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true,
+        "processing": "standard"
+      },
+      "quality_metrics": {
+        "rms_level": 0.07653486178845911,
+        "peak_level": 0.850006103515625,
+        "dynamic_range": 20.911253703930587,
+        "spectral_centroid": 1529.3743293847192,
+        "overall_quality": 97.3144524447496,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_high_quality_processing_alloy_medium_20250905_235357.wav",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "alloy",
+      "stage": "high_quality_processing",
+      "complexity": "medium",
+      "generation_time": 1.986748456954956,
+      "tts_metrics": {
+        "rtf": 0.6728687268846175,
+        "inference_time": 1.4641623497009277,
+        "duration": 2.176
+      },
+      "processing_metadata": {
+        "original_duration": 2.176,
+        "processed_duration": 2.176,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true,
+        "processing": "high_quality"
+      },
+      "quality_metrics": {
+        "rms_level": 0.07980813476141611,
+        "peak_level": 0.8499755859375,
+        "dynamic_range": 20.547184726558932,
+        "spectral_centroid": 1517.1351339184882,
+        "overall_quality": 96.52873113254098,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_raw_model_echo_medium_20250905_235359.wav",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "echo",
+      "stage": "raw_model",
+      "complexity": "medium",
+      "generation_time": 1.9647793769836426,
+      "tts_metrics": {
+        "rtf": 0.626859487965703,
+        "inference_time": 1.2838082313537598,
+        "duration": 2.048
+      },
+      "processing_metadata": {
+        "processing": "raw_model_output",
+        "sample_rate": 16000,
+        "enhancement": false
+      },
+      "quality_metrics": {
+        "rms_level": 0.025111865252256393,
+        "peak_level": 0.2524751126766205,
+        "dynamic_range": 20.046789169311523,
+        "spectral_centroid": 1696.507553050844,
+        "overall_quality": 94.19944763183594,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_minimal_processing_echo_medium_20250905_235401.wav",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "echo",
+      "stage": "minimal_processing",
+      "complexity": "medium",
+      "generation_time": 2.1142704486846924,
+      "tts_metrics": {
+        "rtf": 0.5425948363084059,
+        "inference_time": 1.1285972595214844,
+        "duration": 2.08
+      },
+      "processing_metadata": {
+        "processing": "minimal_normalization_only",
+        "sample_rate": 16000,
+        "enhancement": false
+      },
+      "quality_metrics": {
+        "rms_level": 0.020367011427879333,
+        "peak_level": 0.25906312465667725,
+        "dynamic_range": 22.089561462402344,
+        "spectral_centroid": 1839.657823766089,
+        "overall_quality": 93.57171630859375,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_no_enhancement_echo_medium_20250905_235403.wav",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "echo",
+      "stage": "no_enhancement",
+      "complexity": "medium",
+      "generation_time": 2.0715465545654297,
+      "tts_metrics": {
+        "rtf": 0.7707597687840462,
+        "inference_time": 1.5785160064697266,
+        "duration": 2.048
+      },
+      "processing_metadata": {
+        "original_duration": 2.048,
+        "processed_duration": 2.048,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": false,
+        "processing": "no_enhancement"
+      },
+      "quality_metrics": {
+        "rms_level": 0.021397500223886746,
+        "peak_level": 0.263641357421875,
+        "dynamic_range": 21.813005929742516,
+        "spectral_centroid": 2125.624084840861,
+        "overall_quality": 92.5,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_standard_processing_echo_medium_20250905_235405.wav",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "echo",
+      "stage": "standard_processing",
+      "complexity": "medium",
+      "generation_time": 1.764526605606079,
+      "tts_metrics": {
+        "rtf": 0.6126543650260339,
+        "inference_time": 1.2743210792541504,
+        "duration": 2.08
+      },
+      "processing_metadata": {
+        "original_duration": 2.08,
+        "processed_duration": 2.08,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true,
+        "processing": "standard"
+      },
+      "quality_metrics": {
+        "rms_level": 0.06831971664470764,
+        "peak_level": 0.850006103515625,
+        "dynamic_range": 21.89751848359997,
+        "spectral_centroid": 1979.4754167749522,
+        "overall_quality": 92.5,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_high_quality_processing_echo_medium_20250905_235407.wav",
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "voice": "echo",
+      "stage": "high_quality_processing",
+      "complexity": "medium",
+      "generation_time": 1.7724030017852783,
+      "tts_metrics": {
+        "rtf": 0.5183794507474611,
+        "inference_time": 1.0948173999786377,
+        "duration": 2.112
+      },
+      "processing_metadata": {
+        "original_duration": 2.112,
+        "processed_duration": 2.112,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true,
+        "processing": "high_quality"
+      },
+      "quality_metrics": {
+        "rms_level": 0.06823149171781001,
+        "peak_level": 0.8499755859375,
+        "dynamic_range": 21.908430434068883,
+        "spectral_centroid": 1978.8160231661902,
+        "overall_quality": 92.5,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_raw_model_alloy_complex_20250905_235411.wav",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "alloy",
+      "stage": "raw_model",
+      "complexity": "complex",
+      "generation_time": 4.172183036804199,
+      "tts_metrics": {
+        "rtf": 0.5845718006504342,
+        "inference_time": 3.5167839527130127,
+        "duration": 6.016
+      },
+      "processing_metadata": {
+        "processing": "raw_model_output",
+        "sample_rate": 16000,
+        "enhancement": false
+      },
+      "quality_metrics": {
+        "rms_level": 0.09156927466392517,
+        "peak_level": 0.6361159086227417,
+        "dynamic_range": 16.835729598999023,
+        "spectral_centroid": 1461.50777603795,
+        "overall_quality": 98.32119750976562,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_minimal_processing_alloy_complex_20250905_235415.wav",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "alloy",
+      "stage": "minimal_processing",
+      "complexity": "complex",
+      "generation_time": 4.567273139953613,
+      "tts_metrics": {
+        "rtf": 0.5724072456359863,
+        "inference_time": 3.2970657348632812,
+        "duration": 5.76
+      },
+      "processing_metadata": {
+        "processing": "minimal_normalization_only",
+        "sample_rate": 16000,
+        "enhancement": false
+      },
+      "quality_metrics": {
+        "rms_level": 0.07918236404657364,
+        "peak_level": 0.5996081829071045,
+        "dynamic_range": 17.584781646728516,
+        "spectral_centroid": 1560.1349981061012,
+        "overall_quality": 98.17671966552734,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_no_enhancement_alloy_complex_20250905_235420.wav",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "alloy",
+      "stage": "no_enhancement",
+      "complexity": "complex",
+      "generation_time": 4.514368295669556,
+      "tts_metrics": {
+        "rtf": 0.6596518073292728,
+        "inference_time": 3.8207032680511475,
+        "duration": 5.792
+      },
+      "processing_metadata": {
+        "original_duration": 5.792,
+        "processed_duration": 5.792,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": false,
+        "processing": "no_enhancement"
+      },
+      "quality_metrics": {
+        "rms_level": 0.09344887920428203,
+        "peak_level": 0.6553955078125,
+        "dynamic_range": 16.918586337986554,
+        "spectral_centroid": 1496.0791516500276,
+        "overall_quality": 98.15267574127691,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_standard_processing_alloy_complex_20250905_235425.wav",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "alloy",
+      "stage": "standard_processing",
+      "complexity": "complex",
+      "generation_time": 5.100919008255005,
+      "tts_metrics": {
+        "rtf": 0.6970169616269541,
+        "inference_time": 4.059426784515381,
+        "duration": 5.824
+      },
+      "processing_metadata": {
+        "original_duration": 5.824,
+        "processed_duration": 5.824,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true,
+        "processing": "standard"
+      },
+      "quality_metrics": {
+        "rms_level": 0.125219262529097,
+        "peak_level": 0.850006103515625,
+        "dynamic_range": 16.63501735622756,
+        "spectral_centroid": 1472.8589250437453,
+        "overall_quality": 98.4855541961814,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_high_quality_processing_alloy_complex_20250905_235430.wav",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "alloy",
+      "stage": "high_quality_processing",
+      "complexity": "complex",
+      "generation_time": 5.032482862472534,
+      "tts_metrics": {
+        "rtf": 0.6693917844030592,
+        "inference_time": 3.855696678161621,
+        "duration": 5.76
+      },
+      "processing_metadata": {
+        "original_duration": 5.76,
+        "processed_duration": 5.76,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true,
+        "processing": "high_quality"
+      },
+      "quality_metrics": {
+        "rms_level": 0.12288634894127812,
+        "peak_level": 0.850006103515625,
+        "dynamic_range": 16.7983673540892,
+        "spectral_centroid": 1476.5082375476115,
+        "overall_quality": 98.50444727577474,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_raw_model_echo_complex_20250905_235434.wav",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "echo",
+      "stage": "raw_model",
+      "complexity": "complex",
+      "generation_time": 3.916032075881958,
+      "tts_metrics": {
+        "rtf": 0.622698524966836,
+        "inference_time": 3.1882164478302,
+        "duration": 5.12
+      },
+      "processing_metadata": {
+        "processing": "raw_model_output",
+        "sample_rate": 16000,
+        "enhancement": false
+      },
+      "quality_metrics": {
+        "rms_level": 0.011429301463067532,
+        "peak_level": 0.17337366938591003,
+        "dynamic_range": 23.619260787963867,
+        "spectral_centroid": 2331.8646644920414,
+        "overall_quality": 97.16670989990234,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_minimal_processing_echo_complex_20250905_235438.wav",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "echo",
+      "stage": "minimal_processing",
+      "complexity": "complex",
+      "generation_time": 3.784419298171997,
+      "tts_metrics": {
+        "rtf": 0.5395550323628832,
+        "inference_time": 3.004242420196533,
+        "duration": 5.568
+      },
+      "processing_metadata": {
+        "processing": "minimal_normalization_only",
+        "sample_rate": 16000,
+        "enhancement": false
+      },
+      "quality_metrics": {
+        "rms_level": 0.010977662168443203,
+        "peak_level": 0.10598202049732208,
+        "dynamic_range": 19.694438934326172,
+        "spectral_centroid": 2012.44803001279,
+        "overall_quality": 96.68891906738281,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_no_enhancement_echo_complex_20250905_235442.wav",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "echo",
+      "stage": "no_enhancement",
+      "complexity": "complex",
+      "generation_time": 4.65947961807251,
+      "tts_metrics": {
+        "rtf": 0.6225383814486711,
+        "inference_time": 3.5658998489379883,
+        "duration": 5.728
+      },
+      "processing_metadata": {
+        "original_duration": 5.728,
+        "processed_duration": 5.728,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": false,
+        "processing": "no_enhancement"
+      },
+      "quality_metrics": {
+        "rms_level": 0.01222358937735982,
+        "peak_level": 0.133941650390625,
+        "dynamic_range": 20.794330764298458,
+        "spectral_centroid": 2445.233723636338,
+        "overall_quality": 96.04279316848263,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_standard_processing_echo_complex_20250905_235448.wav",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "echo",
+      "stage": "standard_processing",
+      "complexity": "complex",
+      "generation_time": 5.024513244628906,
+      "tts_metrics": {
+        "rtf": 0.7633674429373795,
+        "inference_time": 4.3481409549713135,
+        "duration": 5.696
+      },
+      "processing_metadata": {
+        "original_duration": 5.696,
+        "processed_duration": 5.696,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true,
+        "processing": "standard"
+      },
+      "quality_metrics": {
+        "rms_level": 0.09732065044442931,
+        "peak_level": 0.850006103515625,
+        "dynamic_range": 18.82433993383717,
+        "spectral_centroid": 2195.6727755564516,
+        "overall_quality": 96.01836680096366,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    },
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_high_quality_processing_echo_complex_20250905_235451.wav",
+      "text": "The sophisticated text-to-speech system demonstrates remarkable capabilities in generating human-like vocalizations.",
+      "voice": "echo",
+      "stage": "high_quality_processing",
+      "complexity": "complex",
+      "generation_time": 3.631200075149536,
+      "tts_metrics": {
+        "rtf": 0.5223196460289902,
+        "inference_time": 2.975132703781128,
+        "duration": 5.696
+      },
+      "processing_metadata": {
+        "original_duration": 5.696,
+        "processed_duration": 5.696,
+        "original_sample_rate": 16000,
+        "final_sample_rate": 16000,
+        "speed_applied": 1.0,
+        "enhancement_applied": true,
+        "processing": "high_quality"
+      },
+      "quality_metrics": {
+        "rms_level": 0.06388858180145052,
+        "peak_level": 0.8499755859375,
+        "dynamic_range": 22.4796627159092,
+        "spectral_centroid": 2391.8574239270633,
+        "overall_quality": 96.6437270174275,
+        "naturalness_score": 100.0,
+        "clarity_score": 100.0
+      },
+      "whisper_validation": {
+        "transcription_accuracy": 0.0,
+        "transcribed_text": "",
+        "character_accuracy": 0.0,
+        "word_accuracy": 0.0
+      }
+    }
+  ],
+  "summary": {
+    "total_samples": 30,
+    "successful_samples": 30,
+    "success_rate": 1.0,
+    "output_directory": "reference_audio_samples"
+  },
+  "baseline_metrics": {}
+}

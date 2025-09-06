@@ -1,0 +1,23 @@
+{
+  "generation_timestamp": "2025-09-05T23:51:19.472844",
+  "samples": [
+    {
+      "success": true,
+      "filepath": "reference_audio_samples/ref_raw_model_alloy_simple_20250905_235128.wav",
+      "text": "Hello world.",
+      "voice": "alloy",
+      "stage": "raw_model",
+      "complexity": "simple",
+      "generation_time": 10.616362810134888,
+      "tts_metrics": {
+        "rtf": 17.542203422635794,
+        "inference_time": 8.981608152389526,
+        "duration": 0.512
+      },
+      "processing_metadata": {
+        "processing": "raw_model_output",
+        "sample_rate": 16000,
+        "enhancement": false
+      },
+      "quality_metrics": {
+        "rms_level": 
